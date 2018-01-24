@@ -2,6 +2,7 @@ var myApp = angular.module('myApp', []);
 myApp.controller('AppCtrl', ['$scope', '$http',function($scope, $http,$route,$window) {
     console.log("Hello World from controller");
  //all global variables declared here
+  $scope.usernamedetails = window.sessionStorage.getItem("username")
  $scope.test = 'display'
  var duplicat = [];
  var  forupdate = null;

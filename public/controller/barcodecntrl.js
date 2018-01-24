@@ -6,6 +6,7 @@ console.log("welcome barcode")
 console.log(this);
 
 //hotkey usage
+ $scope.usernamedetails = window.sessionStorage.getItem("username")
 $scope.hotkeyButton = false;
 hotkeys.bindTo($scope).add({
     combo: ['ctrl+b'],
@@ -21,7 +22,8 @@ hotkeys.bindTo($scope).add({
     }
   });
  $scope.test = 'display'
- //$scope.test=='update1'
+ // $scope.bitem= '';
+ // $scope.bitem.count2= "86";
 var fixdec= 0;
 $scope.irate=[];
 //disable of buttons
@@ -48,7 +50,7 @@ $http.get('/getinventorygroupvaluenotationlast').success(function(response){
 
 var batch=function()
 {
-   console.log($scope.userit[0].count)
+   console.log($scope.userit[0].count);
     console.log($scope.userit[0].tags)
    // alert($scope.userit[0].tags)
          $http.get('/batchdata',{params:{"count":$scope.userit[0].count,"tags":$scope.userit[0].tags}}).success(function(response){  
@@ -404,33 +406,31 @@ $scope.saveBatchGeneration = function(){
       
             console.log($scope.userit);
             console.log($scope.userit[0].barcode);
-            $http.post('/prn',$scope.userit[0]).success(function(response){
-                   // alert("saved successfully");
-                   console.log("in save button");
-                   console.log(response);
+            
+//  $http.post('/prn',$scope.userit[0]);
+            //  .success(function(response){
+            //          // alert("saved successfully");
+            //          console.log("in save button");
+            //          console.log(response);
                 
-                })
+            // })
         
             $scope.userit[0].color = "grey"
             $scope.userit[0]._id = null;
              console.log(" $scope.userit[0].date "+ $scope.userit[0].date)
     
-            $http.post('/batchdata1',$scope.userit[0]).success(function(response){
-                    // alert("saved successfully");
-                      console.log("in save button");
-                      console.log(response);
-                   //   console.log(response[0].barcode);
-                  //  batch()   
-                })
-     
-            // $http.put('/tagdeleted1/'+tagdetails._id).success(function(response)
-            //       {      
-         
-            //       });
-             $http.delete('/tagdeleted12/'+tagdetails._id).success(function(response)
-                  {      
-         
-                  });
+            // $http.post('/batchdata1',$scope.userit[0]).success(function(response){
+            //         // alert("saved successfully");
+            //           console.log("in save button");
+            //           console.log(response);
+            //        //   console.log(response[0].barcode);
+            //       //  batch()   
+            // })
+             $http.post('/batchdata1',$scope.userit[0]);
+
+            
+            $http.delete('/tagdeleted12/'+tagdetails._id);
+
 
            $scope.list()
     
@@ -484,18 +484,21 @@ $scope.saveBatchGeneration = function(){
                                       }//for j
                                       // $scope.userit[j].barcode  = $scope.userit[0].barcode ;
                                       console.log($scope.userit[p])
-                                      $http.post('/transactionstock',$scope.userit[p]).success(function(response){  
-                                            console.log("i got replay")
+                                      // $http.post('/transactionstock',$scope.userit[p]).success(function(response){  
+                                      //       console.log("i got replay")
                                            
-                                       });
+                                      //  });
+                                      $http.post('/transactionstock',$scope.userit[p]);
+
 
                                         console.log( $scope.userit[0].StockPoint);
 
-                                        $http.post('/transactionstockInward',$scope.userit[p]).success(function(response){  
-                                                   console.log("i got replay")
-                                                   console.log(response);
+                                        // $http.post('/transactionstockInward',$scope.userit[p]).success(function(response){  
+                                        //            console.log("i got replay")
+                                        //            console.log(response);
                                          
-                                        })
+                                        // })
+                                         $http.post('/transactionstockInward',$scope.userit[p]);
 
                               }else{ // if($scope.userit[p].gwt != undefined)
                                       break;
@@ -542,10 +545,10 @@ $scope.saveBatchGeneration = function(){
                        }
 
                     }
+           colorCodeFun(icount)
+           })//getInv
 
-           })
-
-colorCodeFun(icount)    
+//colorCodeFun(icount)    
 
 
    }// else closer !edit

@@ -1,3 +1,3 @@
 @echo off
 
-copy C:\Users\DnD\Desktop\code\code306\sample\prnfile.prn \\DND-PC\Barcode
+copy C:\Users\user\Desktop\Code\code20118\Data\PrnFiles\prnfile.prn \\DND-PC\Barcode
