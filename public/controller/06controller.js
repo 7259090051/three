@@ -1,5 +1,5 @@
 var myApp=angular.module('myApp',[]);
-  myApp.controller('FirstCntrl',['$scope','$http','$window','$timeout','$filter','$q',"ControllerService",
+  myApp.controller('orderCntrl',['$scope','$http','$window','$timeout','$filter','$q',"ControllerService",
 function($scope,$http,$window,$filter,$timeout,$q,ControllerService){
     $scope.ordmat="";
     $scope.schmat="";

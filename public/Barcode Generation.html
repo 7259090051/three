@@ -668,7 +668,7 @@ width: 8%;
       <tr ng-repeat="item in userit">
        
        <td>
-        <select   ng-model="item.itemName" ng-change="itemSelect(item.itemName,$index)" ng-disabled="$index == 0">
+        <select   ng-model="item.itemName" ng-change="itemSelect(item.itemName,$index)" >
         <option ng-repeat="itemname in items" >{{itemname.Name}}</option >
         </select>
          

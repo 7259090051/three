@@ -1,0 +1,439 @@
+<!DOCTYPE>
+<html ng-app="myApp">
+<head>
+  
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<title>Orders</title>
+</head>
+
+ 
+   <script src="//code.jquery.com/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/0.10.0/lodash.min.js"></script>
+    <!-- for -is -->
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/0.10.0/lodash.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+<script type="text/javascript" src="controller/orderStatus.js"></script>
+<script type="text/javascript" src="Services/ControllerService.js"></script>
+<link href="tax.css" rel="stylesheet">
+<style>
+.center {
+    margin:auto;
+    width: 20%;
+    
+    
+}
+  /* .selectpic {
+  
+    width: 230%;
+    
+    
+}*/
+      ul.dark_menu {
+list-style: none;
+padding: 5px 1px;
+font-family: 'Segoe UI Light', 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
+font-weight: 200;
+font-size: 16px;
+letter-spacing: 0.01em;
+font-smooth: always;
+color: #000000;
+line-height: 15px;
+margin: auto;
+/*width: 1018px;*/
+position: relative;
+background: #2B5797;
+}/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu:after {
+content: "";
+clear: both;
+display: block;
+overflow: hidden;
+visibility: hidden;
+width: 0;
+height: 0;}
+ul.dark_menu li {
+float: left;
+position: relative;
+margin: 1px;}
+/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu li a, ul.dark_menu li a:link {
+color: #fafafa;
+text-decoration: none;
+display: block;
+padding: 8px 26px;
+-webkit-transition: all 0.2s ease;
+-moz-transition: all 0.2s ease;
+-o-transition: all 0.2s ease;
+-ms-transition: all 0.2s ease;
+transition: all 0.2s ease;
+}/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu li a:hover {
+color: #fafafa;
+-webkit-transition: all 0.5s ease;
+-moz-transition: all 0.5s ease;
+-o-transition: all 0.5s ease;
+transition: all 0.5s ease;
+}/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu li a.selected {
+border-right: 1px solid #ddd;
+text-transform: uppercase;
+margin-left: 10px;
+}
+ul.dark_menu li a.selected, ul.dark_menu li a:active {
+color: #fafafa;
+-webkit-transition: all 0.5s ease;
+-moz-transition: all 0.5s ease;
+-o-transition: all 0.5s ease;
+transition: all 0.5s ease;}
+ul.dark_menu li ul {
+display: none;
+}/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu li ul:before {
+content: " ";
+position: absolute;
+display: block;
+z-index: 1500;
+left: 0;
+top: -10px;
+height: 10px;
+width: 100%;}
+ul.dark_menu li ul {-webkit-transition: all 0.5s ease;
+-moz-transition: all 0.5s ease;
+-o-transition: all 0.5s ease;
+transition: all 0.5s ease;top:55px;}
+ul.dark_menu li:hover ul {
+position: absolute;
+display: block;
+z-index: 1000;
+box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+left: 0;border-radius: 0px 0px 5px 5px;
+top: 37px;
+padding: 5px 0;
+list-style: none;
+background: #fff;
+}/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu li ul li {
+float: none;
+margin:0px;}
+ul.dark_menu li ul li:first-child {
+margin:0px;
+border-top: 0 none;}
+ul.dark_menu li ul li:last-child {
+border-bottom: 0 none;
+}/* Blog johanes djogzs.blogspot.com */
+ul.dark_menu [data-role="dropdown"] > a::before {
+position: absolute;
+content: "^";
+display: block;
+font-size: 15px;
+left: 100%;
+margin-left: -20px;
+top: 10px;
+-webkit-transform: rotate(180deg);
+-moz-transform: rotate(180deg);
+-ms-transform: rotate(180deg);
+-o-transform: rotate(180deg);
+transform: rotate(180deg);
+}
+ul.dark_menu li ul li a, ul.dark_menu li ul li a:link {
+color: #222;
+display: block;
+background: transparent none;
+padding: 10px 25px 10px 25px;
+white-space: nowrap;}
+ul.dark_menu li ul li a:hover {
+background:#2D89EF;-moz-transition: all 0.1s ease-in-out;color:#fff;
+-webkit-transition: all 0.1s ease-in-out;
+}/* Blog johanes djogzs.blogspot.com */
+.menujohanes{position:relative;}
+#search input[type="text"]:hover {width:848px;}
+#search input[type="text"] {
+background: #fff url("http://3.bp.blogspot.com/-uYZni0pIn-E/T-xY2vVu_-I/AAAAAAAACUY/ZMfR3_BvRFE/s1600/SEARCH_32x32-32.png")no-repeat center left;
+font-size: 13px;
+color: #222;
+width: 0px;
+padding: 10px 0px 11px 35px;
+z-index: 9;
+border: 1px solid #fff;
+-webkit-transition: all 0.5s ease-in-out;
+-moz-transition: all 0.5s ease-in-out;
+margin-bottom: -1px;
+position: absolute;
+top: 0px;
+right:27px;}
+
+ li#sub ul {
+    display:none;
+  position: absolute; left: 100%; top:0;
+}
+li#sub:hover ul{
+display: block;
+}
+#table-wrapper {
+  position:relative;
+}
+#tscroll {
+  height:90%;
+  overflow:auto;  
+  margin-top:5%;
+}
+
+
+#tax > thead, tbody {
+  
+    text-align: left;
+    padding: 0px;
+  }
+  #tax > tbody {
+  height: 80%;
+}
+#buttonwidth{
+  width:80px;
+}
+#widthadjust{
+  width: 10%;
+}
+li#name1 {
+    right: -400px;
+    font-size: 27px;
+    font-style: italic;
+} 
+#his{
+ margin-left:1150px;
+  margin-top:-90px;
+  color:blue;
+  position:fixed;
+}
+#spac{
+  width:200px;
+}
+#party{
+  width:110px;
+}
+.selected {
+  background-color: blue;
+}
+
+ #selectrow1:focus {
+    background-color: blue;
+}
+
+</style>
+
+
+<body style="background-color:FFE4B5;" ng-controller="orderStatus">
+  <div class='menujohanes'>
+        <ul class='dark_menu'>
+          
+<li >
+            <a>
+              Transaction &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               
+            </a>
+            <ul>
+              <li>
+                <a href="Transaction.html">
+                  New
+                </a>
+              </li>
+                  <li>
+                <a href="orders.html">
+                  Orders
+                </a>
+              </li>
+               <li>
+                <a href="list.html">
+                  List
+                </a>
+              </li>
+                <li>
+                <a href="Phistory.html">
+                  Party History
+                </a>
+              </li>
+            </ul>
+          
+          </li>
+
+       <li >
+
+            <a href='#'>
+              Inventory &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </a>
+            <ul>
+                 <li id='sub'>
+                    <a href='#'>
+                    Barcoding
+                    </a>
+                     <ul>
+                         <li>
+            <a href='Barcode Summary.html'>
+              Barcode Summary
+                             </a></li><li>
+            <a href='Barcode Generation.html'>
+              Barcode Generation
+                             </a></li>
+                             <li>
+            <a href='stockverification.html'>
+              Stock Verification
+                             </a></li>
+                     </ul>
+                         
+                </li>
+
+               <li>
+                <a href="item.html">
+                  Item
+                </a>
+              </li>
+             
+             
+            </ul>
+          </li>
+          
+          
+          <li >
+            <a href='#'>
+              Report &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </a>
+            <ul>
+               <li>
+                <a href="ClosingStockBookByGroupItem.html">
+                
+                  Closing Stock Book By Group Item
+                </a>
+              </li>
+                
+
+               <li>
+                <a href="DailyClosingStock.html">
+                  
+                  Daily Closing Stock
+                </a>
+              </li>
+              <li>
+                <a href="GroupWise.html">
+                  Group Wise
+                </a>
+              </li>
+             
+              
+            </ul>
+          </li>
+          <li >
+            <a href="Tax Configuration.html">
+              Tax configuration
+            </a>
+           
+          </li>
+            
+        
+          </li>
+          <li  id="name1">
+            <a>
+             {{usernamedetails}}
+               
+            </a>
+          
+          </li>
+          <li id="name1">
+            <a href="loginPage.html" >
+              Sign Out
+               
+            </a>
+          
+          </li>
+          
+        </ul>
+
+     
+        
+      </div>
+
+ <div  class="center" ng-cloak>
+  <h3 >Order Status</h3>
+
+   
+  </div> <br>
+<div class="container">
+<nav class="navbar navbar-inverse">
+  
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="orders.html">Order Status</a></li>
+      <li><a href="orderCustomer.html">Order Detail</a></li>
+      <li><a href="orderMaking.html">Order Management</a></li>
+    </ul>
+  
+</nav>
+
+<div class="col-sm-4">
+          <!--  <div > -->
+              
+                Order Type<!-- <form > -->
+                    <select id="party" ng-model="typeorder"  >
+                      
+<!--  ng-init=" transaction = 'Regular Sale'"  -->
+                        <option ng-repeat="order in ordertype">{{order.ordertype}}</option></select>
+                      
+
+                  <!--   </select> -->
+          <!--     </form> -->
+            <!-- </div> -->
+        </div>
+        <div class="col-sm-8" >    
+From <input type="date" ng-model="datefrom" id="dates" />
+To  <input type="date" ng-model="dateto" id="dates" />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button ng-click="getorder(typeorder,datefrom,dateto)" class="btn btn-primary">List</button>
+           </div><br><br>
+           <div class="row">
+
+<div class="container">
+<div class="col-sm-12">
+<div class="panel panel-default" id="panel">
+<table class="table "  id="to-pdf" >
+    <thead  class="thead-default">
+
+      <tr >
+      <!-- <th id="spac">SLNO </th> -->
+      <th id="spac">Order No</th>
+      <th id="spac">Date</th>
+        
+        <th id="spac"> Party</th>
+        <th id="spac">Item</th>
+        <th id="spac">Due Date</th>
+      <!--   <th >Vendor</th> -->
+
+      </tr>
+    </thead>
+    <tbody>
+     <tr ng-repeat="data in results" ng-click="rowSelect(data,$index)" id="selectrow1" ng-class="{selected : data === idSelected}" ng-model="getdata">
+      
+     <!--  <td style="padding-right:80px">{{}}</td> -->
+       <td id="spac" >{{data.orderNO}}</td>
+       <td id="spac" style="padding-right:140px" >{{data.date | date : "dd.MM.y"}}</td>
+      
+       <td id="spac" >{{data.partyNames}}</td>
+       <td id="spac" >{{data.itemName}}</td>
+       <td id="spac">{{data.usedate | date : "dd.MM.y"}}</td>
+   
+      </tr>
+      
+       </tbody>
+       </table>
+       </div>
+       </div>
+     </div>
+     
+       <div class="col-sm-3" > 
+    </div>
+        <div class="col-sm-1" >
+        <a ng-href="{{orderpage}}"> <button id="spac" id="spac"  class="btn btn-warning" ng-click="gotoorders()">Edit</button></a></div>
+      <!--   <div class="col-sm-3" >  <button id="spac" ng-click="valuationPrint()"  class="btn btn-success">Print</button></div> -->
+        <!--   <div  > <button id="spac">Close</button>
+           </div> -->
+</body>
+</html>

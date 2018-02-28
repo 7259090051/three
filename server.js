@@ -25,6 +25,69 @@ var Promise = require('es6-promise').Promise;
 
 app.use(express.static('public'));
 app.use(bodyParser.json());
+app.get('/bringPartyName/:orde',function(req,res){
+    //var compositeRef = req.query.compositeRef;
+    //var compositenum = req.query.compositenum;
+   oName=req.params.orde
+    console.log(oName+"rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+   
+    db.transactiondetail.find({"orderNo":oName},function(err,doc1){
+       // console.log(doc1.compositenum);
+        res.json(doc1);
+    })
+})
+
+
+app.get('/ordNum/:orderNum',function(req,res){
+    var ordeenum = req.params.orderNum;
+    //var compositenum = req.query.compositenum;
+    db.orders.aggregate([
+{$match:{"orderNO":ordeenum,"initial":"Completed"}},
+
+{"$lookup":
+    {"from":"transactiondetail",
+      "localField":"orderNO",
+        "foreignField":"orderNo",
+         "as":"totalorder"
+     }
+ },
+//    {$project:{"orderNo":1,"chgunt":1}},
+],function(err,doc){
+  res.json(doc);
+})
+})
+
+
+
+
+
+// app.get('/ordNum/:orderNum',function(req,res){
+//     //var compositeRef = req.query.compositeRef;
+//     //var compositenum = req.query.compositenum;
+//    oNum=req.params.orderNum
+//     console.log(oNum+"rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+   
+//     db.orders.find({"initial":"Completed","orderNO":oNum},function(err,doc1){
+//        // console.log(doc1.compositenum);
+//         res.json(doc1);
+//     })
+// })
+app.get('/jjpurityget:pname',function(req,res)
+{
+ 
+   var str=req.params.pname;
+   // console.log(str);
+    var str_array=str.split(",");
+    var a =str_array[0];
+    //console.log("status is"+status);
+    var c=str_array[1]
+ console.log(a+c+"jjjjjjjjjjjjjjjjjjjggggggggggggggggggggg")
+   db.orders.find({"itemName": a,"purity":c},function(err,doc){     
+      
+        res.json(doc);
+
+})
+ })
 app.get('/getPartyName:taxx',function(req,res)
 {
    // console.log("i received a get request from count");
@@ -33,6 +96,18 @@ app.get('/getPartyName:taxx',function(req,res)
   
    // db.transactiondetail.find({"barcode": tax1},function(err,doc){     
      db.subscribers.find({"subscriber": taxnamee},function(err,doc){     
+      
+        res.json(doc);
+})
+})
+app.get('/dataorder:dorder',function(req,res)
+{
+  console.log("uuuuuuuuuuuuuuuuwwwwwwwwwwwwwwwwwwww");
+    var dord= req.params.dorder;
+   //var taxnamee=(taxxx);
+  
+   // db.transactiondetail.find({"barcode": tax1},function(err,doc){     
+     db.orders.find({"partyNames": dord},function(err,doc){     
       
         res.json(doc);
 })
@@ -56,7 +131,20 @@ app.get('/countdata',function(req,res)
   //       console.log(doc)
   //    }))
   })
-console.log("data is today update")
+//console.log("data is today update")
+app.get('/goorders',function(req,res)
+{
+  //console.log(id+"lllllllllllllllllllllllllllll444444444444444444")
+  //var idnum=req.params.id
+  var id=req.query.id
+ console.log(id+"jjjjjjjjjjjj5555555555577777777700000000000")
+ //db.barcodesumm.count(function(err,doc){
+    db.orders.find({_id:mongojs.ObjectId(id)} ,(function(err,doc)
+    {
+        res.json(doc);
+        //console.log(doc);
+    }))
+    })
 //for tags count
 app.get('/gettags',function(req,res)
 {
@@ -291,55 +379,139 @@ app.post('/prn',function(req,res){
   });
 });//db salec
 });
-// app.post('/print',function(req,res)
-// {
-// var http = require('http');
-// fs = require('fs')
-// fs.readFile('sample/BC_Silver - Copy.txt', 'utf8', function (err,data) {
-//   if (err) {
-//     return console.log(err);
-    
-//    }
-//    else
-//    {
-//     console.log("File reading successful----------------")
-//     console.log(data)
-//    }
-
-//    var Printer = require('node-printer');
-//    console.log(Printer.list());
-   
-
-//  console.log(data);
+app.post('/orderPrn',function(req,res){
   
-//   console.log(req.body.chgunt);
+//   var ItemName =req.body.itemName;
+//   // console.log(" req.body.SaleCategory req.body.SaleCategory "+req.body.SaleCategory); 
+//   // var str = req.body.SaleCategory;
+//   //    str = str.trim();
+//   //   console.log(str.trim());
+//   //   db.salescategorymaster.find({"SaleCategoryType" :str},function(err,doc){
+    
+//   //       console.log(" req.body.SaleCategory "+req.body.SaleCategory); //db.barcodesumm.find({status:"completed"})
+//   //       res.json(doc);
+//         console.log("doc.PrnFileName "+doc[0].PrnFileName)
+//         console.log("doc.PrnTemplate "+doc[0].PrnTemplateName)
+
+//    var a = doc[0].PrnFileName;
+  
+
+//    var path = 'Data/PrnFiles/Templates/'+a;
+   
+//     var path1 = 'Data/PrnFiles/prnfile.prn';
+ 
+  
+
+//   var http = require('http');
+//   fs = require('fs')
+//   fs.readFile(path, 'utf8', function (err,data) {
+//       if (err) {
+//          return console.log(err);
+//       }
+//     // var ItemName =req.body.itemName;
+//     // var barcode = req.body.barcode;
+//     // var result = data.replace(/Item NameOrCategory/g, ItemName);
+//     // var result1 =result.replace(/12345678/g, barcode);
+//     //  console.log(req.body.chgunt);
 //   console.log(req.body.barcode);
-//   console.log(req.body.iname);
-//   var ItemName =req.body.iname;
+//   //console.log(req.body.iname);
+//   var ItemName =req.body.itemName;
 //   var barcode = req.body.barcode;
 //   var Charge1Total =req.body.taxval1;
 //   var GrossQty =req.body.gwt;
 //   var ChargableUnits =req.body.chgunt;
+//   if (req.body.desc == undefined) {
+//       //console.log(" iam undfhdf desc "+req.body.desc);
+//       req.body.desc = '';
+//   };
+//   if (req.body.size == undefined) {
+//       //console.log(" iam undfhdf desc "+req.body.desc);
+//       req.body.size = '';
+//   };
+//   if (req.body.stwt == undefined) {
+//       req.body.stwt = '';
+//   };
+//   if (req.body.pctcal == undefined) {
+//       req.body.pctcal = '';
+//   };
+//   if (req.body.wastage == undefined) {
+//       req.body.wastage = '';
+//   };
+//   if (req.body.matadj == undefined) {
+//       req.body.matadj = '';
+//   };
+//   if (req.body.mrp == undefined) {
+//       req.body.mrp = '';
+//   };
+//   if (req.body.rate == undefined) {
+//       req.body.rate = '';
+//   };
+//   if (req.body.labcal == undefined) {
+//       req.body.labcal = '';
+//   };
+//   if (req.body.labamt == undefined) {
+//       req.body.labamt = '';
+//   };
+//   if (req.body.labval == undefined) {
+//       req.body.labval = '';
+//   };
+//   if (req.body.stonecal == undefined) {
+//       req.body.stonecal = '';
+//   };
+//   if (req.body.stchg == undefined) {
+//       req.body.stchg = '';
+//   };
+//   if (req.body.stval == undefined) {
+//       req.body.stval = '';
+//   };
 
-//    var result = data.replace(/batch.ItemName/g, ItemName);
-//    var result1 =result.replace(/batch.Barcode/g, barcode);
-//    var result2 = result1.replace(/StockBookDetail.Charge1Total/g, Charge1Total);
-//    var result3 = result2.replace(/StockBookDetail.GrossQty/g, GrossQty );
-//    var result4 = result3.replace(/StockBookDetail.ChargeableUnits/g, ChargableUnits);
-//     var result5 =result4.replace(/StockBookDetail.Barcode/g, barcode);
-    
-//   fs.writeFile('sample/sample.prn', result5, 'utf8', function (err) {
-//      if (err) return console.log(err);
+//     var result = data.replace(/StockBookDetail.itemName/g, req.body.itemName);
+//     var result1 =result.replace(/StockBookDetail.barcode/g, req.body.barcode);
+//     var result2 =result1.replace(/StockBookDetail.barcode/g, req.body.barcode);
+//     var result3 =result2.replace(/StockBookDetail.desc/g, req.body.desc);
+//     var result4 =result3.replace(/StockBookDetail.size/g, req.body.size);
+//     var result5 =result4.replace(/StockBookDetail.purity/g, req.body.purity);
+//     var result6 =result5.replace(/StockBookDetail.gwt/g, req.body.gwt);
+//     var result7 =result6.replace(/StockBookDetail.gpcs/g, req.body.gpcs);
+//     var result8 =result7.replace(/StockBookDetail.stwt/g, req.body.stwt);
+//     var result9 =result8.replace(/StockBookDetail.uom/g, req.body.uom);
+//     var result10 =result9.replace(/StockBookDetail.ntwt/g, req.body.ntwt);
+//     var result11 =result10.replace(/StockBookDetail.pctcal/g, req.body.pctcal);
+//     var result12 =result11.replace(/StockBookDetail.wastage/g, req.body.wastage);
+//     var result13 =result12.replace(/StockBookDetail.matadj/g, req.body.matadj);
+//     var result14 =result13.replace(/StockBookDetail.chgunt/g, req.body.chgunt);
+//     var result15 =result14.replace(/StockBookDetail.mrp/g, req.body.mrp);
+//     var result16 =result15.replace(/StockBookDetail.rate/g, req.body.rate);
+//     var result17 =result16.replace(/StockBookDetail.labcal/g, req.body.labcal);
+//     var result18 =result17.replace(/StockBookDetail.labamt/g, req.body.labamt);
+//     var result19 =result18.replace(/StockBookDetail.labval/g, req.body.labval);
+//     var result20 =result19.replace(/StockBookDetail.stonecal/g, req.body.stonecal);
+//     var result21 =result20.replace(/StockBookDetail.stchg/g, req.body.stchg);
+//     var result22 =result21.replace(/StockBookDetail.stval/g, req.body.stval);
+//     var result23 =result22.replace(/StockBookDetail.taxval/g, req.body.taxval);  
+
+
+//       fs.writeFile(path1, result23, 'utf8', function (err) {
+//            if (err) return console.log(err);
+
+//      //this for batch file and print command
+//              // require('child_process').exec(__dirname + "/batchfile.bat", function (err, stdout, stderr) {
+//               require('child_process').exec(__dirname + "/batchfile.bat", function (err, stdout, stderr) {
+  
+//                    if (err) {
+//                      return console.log(err);
+//                     }
+//                     setTimeout(deleteFileCall, 2000);
+//                     function deleteFileCall(){
+//                       fs.unlink('Data/PrnFiles/prnfile.prn');
+                 
+//                     }
+//                   //  console.log(stdout);
+//              });//require
+//       });
 //   });
-// });
-// });
-//getting tax value in index page
-// app.get('/gettaxvalue',function(req,res)
-// {
-//     db.itemrate.find(function(err,doc){
-//         res.json(doc);
-// })
-// })
+// });//db salec
+});
 
 
 // 916 rs 2999 data 
@@ -863,6 +1035,391 @@ app.post('/userdata/:updat',function(req,res){
     
 })
 })
+app.post('/savingdata',function(req,res) {
+//console.log("oooooooooooooooooo")
+  db.orders.insert(req.body,function(err,doc){
+console.log("5gggggggggggggggggggggggg")
+        res.json(doc);
+        console.log(res)
+      })
+//    db.orderManage.insert(req.body,function(err,doc){
+// console.log("5gggggggggggggggggggggggg")
+//         //res.json(doc);
+//         console.log(res)
+//       })
+})
+
+
+app.get('/orders:name1',function(req,res) {
+   var name12=req.params.name1;
+  db.orders.find({"partyNames":name12},function(err,doc){
+console.log("iiiiiiiiiiiiiiiiiiiiiiiii")
+        res.json(doc);
+        console.log(res)
+      })
+})
+
+// app.get('/allDataOrders:name1',function(req,res) {
+//    var name12=req.params.name1;
+//   db.orders.find({"orderNo":name12},function(err,doc){
+// console.log("iiiiiiiiiiiiiiiiiiiiiiiii")
+//         res.json(doc);
+//         console.log(res)
+//       })
+// })
+
+app.get('/oname:name1',function(req,res) {
+   var name12=req.params.name1;
+  db.orders.find({"initial":name12},function(err,doc){
+console.log("iiiiiiiiiiiiiiiiiiiiiiiii")
+        res.json(doc);
+        console.log(res)
+      })
+}) 
+app.get('/getvendorname:name1',function(req,res) {
+   var name12=req.params.name1;
+  db.orders.find({"allocate":name12},function(err,doc){
+console.log("iiiiiiiiiiiiiiiiiiiiiiiii")
+        res.json(doc);
+        console.log(res)
+      })
+})
+app.get('/getven:name1',function(req,res) {
+  console.log("jjjjjjj2222")
+   var name12=req.params.name1;
+   var dates_array=name12.split(",");
+   var datefrom=dates_array[0];
+    var dateto=dates_array[1];
+    console.log(datefrom+""+dateto+"jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj22222")
+  db.orders.find({"partyNames":dateto,"allocate":datefrom},function(err,doc){
+console.log("iiiiiiiiiiiiiiiiiiiiiiiii")
+        res.json(doc);
+        console.log(res)
+      })
+})
+app.get('/getpname:name1',function(req,res) {
+  console.log("jjjjjjj2222")
+   var name12=req.params.name1;
+   var dates_array=name12.split(",");
+   var datefrom=dates_array[0];
+    var dateto=dates_array[1];
+    console.log(datefrom+""+dateto+"jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj22222")
+  db.orders.find({"initial":dateto,"allocate":datefrom},function(err,doc){
+console.log("iiiiiiiiiiiiiiiiiiiiiiiii")
+        res.json(doc);
+        console.log(res)
+      })
+})
+app.get('/partpname:name1',function(req,res) {
+  console.log("jjjjjjj2222")
+   var name12=req.params.name1;
+   var dates_array=name12.split(",");
+   var part=dates_array[0];
+    var pname=dates_array[1];
+    //console.log(datefrom+""+dateto+"jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj22222")
+  db.orders.find({"partyNames":part,"initial":pname},function(err,doc){
+console.log("iiiiiiiiiiiiiiiiiiiiiiiii")
+        res.json(doc);
+        console.log(res)
+      })
+})
+app.get('/getwww:name1',function(req,res) {
+   var dates=req.params.name1;
+   var dates_array=dates.split(",");
+   var datefrom=dates_array[0];
+    var dateto=dates_array[1];
+    console.log(dateto+"kkkkkkkkkkkk2222222222222222222222")
+
+   
+     // date:{$gt:date1, $lt:date}
+     //{date:{$gt:date1, $lt:date2}}
+  db.orders.find({"date":{$gt:datefrom, $lt:dateto}},function(err,doc){
+console.log("iiiiiiiiiiiiiiiiiiiiiiiii99999999999999999999999999")
+        res.json(doc);
+        console.log(res)
+      })
+})
+app.get('/getBothDates:name1',function(req,res) {
+   var dates=req.params.name1;
+   var dates_array=dates.split(",");
+   var datefrom=dates_array[0];
+    var dateto=dates_array[1];
+    console.log(dateto+"kkkkkkkkkkkk2222222222222222222222")
+
+   
+     // date:{$gt:date1, $lt:date}
+     //{date:{$gt:date1, $lt:date2}}
+  db.orders.find({"date":{$gt:datefrom, $lt:dateto}},function(err,doc){
+console.log("iiiiiiiiiiiiiiiiiiiiiiiii99999999999999999999999999")
+        res.json(doc);
+        console.log(res)
+      })
+})
+app.get('/DatesOrders:name1',function(req,res) {
+  console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj2222222222222222")
+   var dates=req.params.name1;
+   var dates_array=dates.split(",");
+   var datefrom=dates_array[0];
+    var dateto=dates_array[1];
+     var manage=dates_array[2];
+    console.log(datefrom+dateto+manage+"kkkkkkkkkkkk2222222222222222222222")
+
+   
+     // date:{$gt:date1, $lt:date}
+     //{date:{$gt:date1, $lt:date2}}
+  db.orders.find({"date":{$gt:datefrom, $lt:dateto},"initial":manage},function(err,doc){
+console.log("iiiiiiiiiiiiiiiiiiiiiiiii99999999999999999999999999")
+        res.json(doc);
+        console.log(res)
+      })
+})
+app.get('/getordername:name1',function(req,res) {
+   var dates=req.params.name1;
+   var dates_array=dates.split(",");
+   var datefrom=dates_array[0];
+    var dateto=dates_array[1];
+     var pname=dates_array[2];
+    console.log(pname+datefrom+dateto+"kkkkkkkkkkkk2222222222222222222222")
+
+   
+     // date:{$gt:date1, $lt:date}
+     //{date:{$gt:date1, $lt:date2}}
+  db.orders.find({"date":{$gt:datefrom, $lt:dateto},"initial":pname},function(err,doc){
+//console.log("iiiiiiiiiiiiiiiiiiiiiiiii99999999999999999999999999")
+        res.json(doc);
+        console.log(res)
+      })
+})
+app.get('/chaopop:name1',function(req,res) {
+  console.log("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb22222222222222222222222222222")
+   var dates=req.params.name1;
+   var dates_array=dates.split(",");
+   var datefrom=dates_array[0];
+    var dateto=dates_array[1];
+     var vend=dates_array[2];
+      var pname=dates_array[3];
+    console.log(pname+datefrom+dateto+vend+"kkkkkkkkkkkk2222222222222222222222")
+
+   
+     // date:{$gt:date1, $lt:date}
+     //{date:{$gt:date1, $lt:date2}}
+  db.orders.find({"date":{$gt:datefrom, $lt:dateto},"initial":pname,"allocate":vend},function(err,doc){
+//console.log("iiiiiiiiiiiiiiiiiiiiiiiii99999999999999999999999999")
+        res.json(doc);
+        console.log(res)
+      })
+})
+app.get('/pratop:name1',function(req,res) {
+  console.log("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb22222222222222222222222222222")
+   var dates=req.params.name1;
+   var dates_array=dates.split(",");
+   var datefrom=dates_array[0];
+    var dateto=dates_array[1];
+     var vend=dates_array[2];
+      var pname=dates_array[3];
+      var part=dates_array[4];
+    //console.log(pname+datefrom+dateto+vend+"kkkkkkkkkkkk2222222222222222222222")
+
+   
+     // date:{$gt:date1, $lt:date}
+     //{date:{$gt:date1, $lt:date2}}
+  db.orders.find({"date":{$gt:datefrom, $lt:dateto},"initial":pname,"allocate":vend,"partyNames":part},function(err,doc){
+//console.log("iiiiiiiiiiiiiiiiiiiiiiiii99999999999999999999999999")
+        res.json(doc);
+        console.log(res)
+      })
+})
+app.get('/datevendor:name1',function(req,res) {
+  console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaa22222222222222222222222222222")
+   var dates=req.params.name1;
+   var dates_array=dates.split(",");
+   var datefrom=dates_array[0];
+    var dateto=dates_array[1];
+     var part=dates_array[2];
+      var pname=dates_array[3];
+    console.log(pname+datefrom+dateto+part+"kkkkkkkkkkkk2222222222222222222222")
+
+   
+     // date:{$gt:date1, $lt:date}
+     //{date:{$gt:date1, $lt:date2}}
+  db.orders.find({"date":{$gt:datefrom, $lt:dateto},"initial":pname,"partyNames":part},function(err,doc){
+//console.log("iiiiiiiiiiiiiiiiiiiiiiiii99999999999999999999999999")
+        res.json(doc);
+        console.log(res)
+      })
+})
+app.get('/partyvendor:name1',function(req,res) {
+   var dates=req.params.name1;
+   var dates_array=dates.split(",");
+   var part=dates_array[0];
+    var pname=dates_array[1];
+     var vend=dates_array[2];
+    //console.log(pname+datefrom+dateto+"kkkkkkkkkkkk2222222222222222222222")
+
+   
+     // date:{$gt:date1, $lt:date}
+     //{date:{$gt:date1, $lt:date2}}
+  db.orders.find({"partyNames":part,"allocate":vend,"initial":pname},function(err,doc){
+//console.log("iiiiiiiiiiiiiiiiiiiiiiiii99999999999999999999999999")
+        res.json(doc);
+        console.log(res)
+      })
+})
+app.get('/getpartname:name1',function(req,res) {
+   var dates=req.params.name1;
+   var dates_array=dates.split(",");
+   var datefrom=dates_array[0];
+    var dateto=dates_array[1];
+     var part=dates_array[2];
+    console.log(part+datefrom+dateto+"kkkkkkkkkkkk2222222222222222222222")
+
+   
+     // date:{$gt:date1, $lt:date}
+     //{date:{$gt:date1, $lt:date2}}
+  db.orders.find({"date":{$gt:datefrom, $lt:dateto},"partyNames":part},function(err,doc){
+//console.log("iiiiiiiiiiiiiiiiiiiiiiiii99999999999999999999999999")
+        res.json(doc);
+        console.log(res)
+      })
+})
+app.get('/venddate:name1',function(req,res) {
+  console.log("ddddddddddd45454554454545454545455454545455555555555555555555")
+   var dates=req.params.name1;
+   var dates_array=dates.split(",");
+   var datefrom=dates_array[0];
+    var dateto=dates_array[1];
+     var vend=dates_array[2];
+    console.log(vend+datefrom+dateto+"kkkkkkkkkkkk2222222222222222222222")
+
+   
+     // date:{$gt:date1, $lt:date}
+     //{date:{$gt:date1, $lt:date2}}
+  db.orders.find({"date":{$gt:datefrom, $lt:dateto},"allocate":vend},function(err,doc){
+//console.log("iiiiiiiiiiiiiiiiiiiiiiiii99999999999999999999999999")
+        res.json(doc);
+        console.log(res)
+      })
+})
+
+
+
+// app.get('/vendornam:nam',function(req,res) {
+//    var nam=req.params.nam;
+//   db.ordermanage.find({"allocate":nam},function(err,doc){
+// //console.log("iiiiiiiiiiiiiiiiiiiiiiiiikkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
+//         res.json(doc);
+//         console.log(res+"22222222222222222222222222222222222222222")
+//       })
+// })
+app.get('/ordername:name1',function(req,res) {
+   var names=req.params.name1;
+   // var names_array=names.split(",");
+   // var pname=names_array[0];
+   // var d1=names_array[1];
+   // var d2=names_array[2];
+   console.log(names+"kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
+  //  if(names!=undefined)
+  // {   
+
+db.orders.find({"partyNames":names},function(err,doc){
+console.log("iiiiiiiiiiiiiiiiiiiiiiiii")
+        res.json(doc);
+        console.log(res)
+      })
+  // }
+//   else if(dfrom !=undefined && dto!=undefined){
+    
+//    db.ordermanage.find({"usedate":d1,"date":d2},function(err,doc){
+// console.log("iiiiiiiiiiiiiiiiiiiiiiiii")
+//         res.json(doc);
+//         console.log(res)
+//       })
+//   }
+// else{
+  
+// db.ordermanage.find({"initial":name12,"usedate":d1,"date":d2},function(err,doc){
+// console.log("iiiiiiiiiiiiiiiiiiiiiiiii")
+//         res.json(doc);
+//         console.log(res)
+//       })
+// }
+//   db.ordermanage.find({"initial":name12},function(err,doc){
+// console.log("iiiiiiiiiiiiiiiiiiiiiiiii")
+//         res.json(doc);
+//         console.log(res)
+//       })
+})
+app.get('/ordername:name1',function(req,res) {
+   var names=req.params.name1;
+   
+   
+    
+
+db.orders.find({"allocate":names},function(err,doc){
+console.log("iiiiiiiiiiiiiiiiiiiiiiiii")
+        res.json(doc);
+        console.log(res)
+      })
+
+})
+
+
+
+app.get('/ordertype',function(req,res) {
+  
+  db.ordeType.find(function(err,doc){
+ 
+        res.json(doc);
+         
+      })
+})
+app.get('/getmanage',function(req,res) {
+  
+  db.orders.find(function(err,doc){
+ 
+        res.json(doc);
+         
+      })
+})
+app.get('/detailsManage',function(req,res) {
+  
+  db.orderManage.find(function(err,doc){
+ 
+        res.json(doc);
+         
+      })
+})
+// app.get('/managedetails',function(req,res) {
+//   console.log("")
+//   db.ordermanage.find(function(err,doc){
+ 
+//         res.json(doc);
+         
+//       })
+// })
+app.get('/orderName',function(req,res) {
+  
+  db.ordeType.find(function(err,doc){
+ 
+        res.json(doc);
+         
+      })
+})
+
+
+
+
+
+
+
+app.post('/storeNames',function(req,res) {
+//console.log("oooooooooooooooooo")
+  db.orders.insert(req.body,function(err,doc){
+console.log("iiiiiiiiiiiiiiiiiiiiiiiii")
+        res.json(doc);
+        console.log(res)
+      })
+})
 app.get('/compos:barcodenum',function(req,res) {
   var barcoded = req.params.barcodenum;
    barcoded=parseInt(barcoded);
@@ -985,6 +1542,10 @@ app.post('/savedata1/:update',function(req,res){
             var InvGroupName = str_array[44]
             var SaleCategory = str_array[45]
             var id = str_array[46]
+             var pp = str_array[47]
+             var uu= str_array[48]
+             var orderNO = str_array[49]
+             console.log(orderNO+"ppppppppppppppppppppppppppppppppppppppppppppppp")
           //  mrp = parseFloat(mrp)
         
 
@@ -1066,7 +1627,7 @@ app.post('/savedata1/:update',function(req,res){
                 "stonecal":stonecal,"RefId":refid,'salesPerson':salesPerson,'AccNo':AccNo,'labourTaxValue':labourTaxValue,'labamt':labamt,"urdAdjustment":urdAdjustment,'stchg':stchg,'comboItem':comboItem,'mrp':mrp,"billType":billType,"taxSelection":taxSelection,"stockPoint":stockPoint,
 // =======
                 // "billType":billType,"taxSelection":taxSelection,"stockPoint":stockPoint,"stonecal":stonecal,"RefId":refid,'salesPerson':salesPerson,'AccNo':AccNo,'labourTaxValue':labourTaxValue,'labamt':labamt,"urdAdjustment":urdAdjustment,'stchg':stchg,'comboItem':comboItem,'mrp':mrp,},function(err,doc){
-                "InvGroupName":InvGroupName,"SaleCategory":SaleCategory},function(err,doc){
+                "InvGroupName":InvGroupName,"SaleCategory":SaleCategory,"orderNo":orderNO},function(err,doc){
 // >>>>>>> fee1f0c78ec863e1379d888ee1ecfcda651c8fe5
                 res.json(doc);
                  console.log("else insert when id is null look here")
@@ -1181,6 +1742,25 @@ app.get('/dateBatchFind/:date',function(req,res)
 
     })
 })
+app.get('/dateBatchFind/:date',function(req,res)
+{
+  //  console.log("i got the date")
+    var str=req.params.date;
+    //console.log(str);
+    var str_array=str.split(",");
+    var fdate=str_array[0];
+  //  var frdate=new Date(fdate)
+    //console.log(frdate)
+    var tdate=str_array[1];
+    //var todate=new Date(tdate)
+    //console.log(todate);
+   
+    db.orders.find({date: { $gt:(fdate), $lt: (tdate) }}).sort({_id:-1},function(err,doc){
+     console.log(doc +"jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
+      res.json(doc);
+
+    })
+})
 
  
 // barcode serach in barcodechange html
@@ -1196,6 +1776,7 @@ app.get('/dateBatchFind/:date',function(req,res)
 
     })
 })
+
 app.get('/itemsdata',function(req,res)
 {
    // console.log("i received a get request from index");
@@ -1453,6 +2034,70 @@ app.get('/userPartyNames',function(req,res){
         res.json(doc);
     })
 })
+app.get('/vendorNames',function(req,res){
+     // var party_type_id = "4";
+   // db.user.find(function(err,doc){
+    db.subscribers.find({"data.party_type.id":"4"},function(err,doc){
+
+        
+        res.json(doc);
+    })
+})
+app.get('/partyNames',function(req,res){
+    
+   // db.user.find(function(err,doc){
+    db.subscribers.find({},function(err,doc){
+
+        
+        res.json(doc);
+    })
+})
+app.get('/saleNames',function(req,res){
+     
+   // db.user.find(function(err,doc){
+    db.salesPerson.find({},function(err,doc){
+
+        
+        res.json(doc);
+    })
+})
+app.get('/itemSelect',function(req,res){
+     
+   // db.user.find(function(err,doc){
+    db.items.find({},function(err,doc){
+
+        
+        res.json(doc);
+    })
+})
+app.get('/uom',function(req,res){
+     
+   // db.user.find(function(err,doc){
+    db.uom.find({},function(err,doc){
+
+        
+        res.json(doc);
+    })
+})
+app.get('/ddpctOrder',function(req,res){
+     
+   // db.user.find(function(err,doc){
+    db.pct.find({"type" : "Sale"},function(err,doc){
+
+        
+        res.json(doc);
+    })
+})
+app.get('/lab',function(req,res){
+     
+   // db.user.find(function(err,doc){
+    db.labcal.find({},function(err,doc){
+
+        
+        res.json(doc);
+    })
+})
+
 
 //get sales person names
 app.get('/getSalesPerson',function(req,res)
@@ -1527,6 +2172,7 @@ app.put('/urdstatus/:data',function(req,res)
        });
 }
 })
+
 // Transaction rd
 app.put('/RD',function(req,res)
 { 
@@ -1876,6 +2522,12 @@ app.get('/getTranDetails',function(req,res){
     res.json(doc);
   });
 })
+app.get('/stonecalc',function(req,res){
+  console.log("sssssssssssssssssssssssssssssssssssss");
+  db.labcal.find({},function(err,doc){
+    res.json(doc);
+  });
+})
 //alltarnsactions
   app.get('/AllTransaction/:pdata',function(req,res){
     console.log("vvvvvvvvvvvvvvvvvvvvvv");
@@ -1887,6 +2539,21 @@ app.get('/getTranDetails',function(req,res){
       console.log(partyname+" "+date1+" "+date2);
       // db.transactiondetail.find({"partyname":partyname,"created_on": {"$gt": date1, "$lt": date2}},function(err,doc){
         db.transactiondetail.find({date:{$gt:date1, $lt:date2},"partyname":partyname},function(err,doc){
+          console.log("dddddddddddddd");
+            res.json(doc);
+            console.log(doc);
+      })
+  })
+  app.get('/dateFind/:pdata',function(req,res){
+    console.log("vvvvvvvvvvvvvvvvvvvvvv");
+    var pstr=req.params.pdata;
+    var pstr_array=pstr.split(",");
+    // var partyname=pstr_array[0];
+    var date1=pstr_array[0];
+    var date2=pstr_array[1];
+      console.log(date1+" "+date2);
+      // db.transactiondetail.find({"partyname":partyname,"created_on": {"$gt": date1, "$lt": date2}},function(err,doc){
+        db.orders.find({date:{$gt:date1, $lt:date2}},function(err,doc){
           console.log("dddddddddddddd");
             res.json(doc);
             console.log(doc);
@@ -1990,6 +2657,36 @@ app.post('/combotransactiondetail',function(req,res)
       });
 })
 
+//receipt no
+app.get('/getprefixs',function(req,res ){
+  // var tran=req.params.tra;
+db.transactionSeriesInvoice.find({"TransactionType":'Order Detail'},function(err,doc){
+    console.log(doc);
+    res.json(doc);
+});
+});
+//for inserting billNo to transactionInvoice
+app.put('/insertbill:values',function(req,res){
+  var dataz=req.params.values;
+  console.log(dataz+"1111111111111111111111111111");
+  var dataz_array=dataz.split(",");
+  var pre=dataz_array[0];
+  console.log(pre+"222222222222222222222222222222");
+  var no=dataz_array[1];
+  console.log(no+"3333333333333333333333333333333333");
+  db.transactionInvoice.insert({"prefix":pre,"typeno":no},function(err,doc){
+    console.log(doc);
+    res.json(doc);
+  })
+})
+
+//for getting totalcount
+app.get('/gettotalcount',function(req,res){
+  db.transactionInvoice.count({"prefix":'OD'},function(err,doc){
+    console.log(doc);
+    res.json(doc);
+  });
+});
 
 app.get('/useritfind/:update',function(req,res)
 { 
@@ -2561,6 +3258,84 @@ app.put('/updateSaveData/:update',function(req,res){
      
         
 });
+app.put('/anydata/:thh',function(req,res){
+  console.log("ttttttttttttttttyyyyyyyyyyyyyyyyyyyyy233333333345555555")
+var str=req.params.thh;
+  
+     var str_array=str.split(",");
+    var date=str_array[0];
+ 
+   var usedate=str_array[1];
+    
+
+    var saleNames=str_array[2]
+    var orderNo=str_array[3]
+    var partyNames=str_array[4]
+    var desc=str_array[5]
+     var size=str_array[6]
+    var gpcs=str_array[7]
+    gpcs = parseFloat(gpcs)
+   
+    var gwt=str_array[8]
+    gwt = parseFloat(gwt)
+    var iname=str_array[9]
+    var ntwt=str_array[10]
+    ntwt = parseFloat(ntwt)
+    var purity=str_array[11]
+    // var size=str_array[11]
+    var taxval1=str_array[12]
+    taxval1 = parseInt(taxval1);
+    var taxamt1=str_array[13]
+    var wt=str_array[14]
+
+      
+    var wastage=str_array[15] //
+     
+    
+    var stval=str_array[16] //
+     
+    
+    var uom=str_array[17] //
+    var id=str_array[18]
+  
+
+     var pctcal=str_array[19]
+  
+      var chgunt=str_array[20]
+    
+         var outofstateigst =str_array[21]
+          var mrp =str_array[22]     
+           var stchg =str_array[23] 
+            var stonecal =str_array[24] 
+             var  labamt=str_array[25] 
+              var  taxSelection=str_array[26] 
+               var  withinstatecgst=str_array[27] 
+                var  withinstatesgst=str_array[28] 
+                 var  final=str_array[29] 
+                  var  rate=str_array[30] 
+                   var  labval=str_array[31] 
+                    var  totalVal=str_array[32] 
+                    var  remarks=str_array[33]
+      
+   
+     db.orders.update({_id:mongojs.ObjectId(id)},{$set:{"orderNo":orderNo,"date":date,"usedate":usedate,
+     
+    "chgunt":chgunt,"usedate":usedate,"desc":desc,"gpcs":gpcs,"gwt":gwt,
+    "itemName":iname,"ntwt":ntwt,"partyNames":partyNames,"saleNames":saleNames,"size":size,"taxval":taxval1,"taxamt":taxamt1,"stwt":wt,"wastage":wastage,"stval":stval,
+
+      "outofstateigst":outofstateigst,"mrp":mrp,"stchg":stchg,"stonecal":stonecal,"labamt ":labamt , "purity":purity,"uom":uom,"pctcal":pctcal,
+      "taxSelection":taxSelection,"withinstatecgst":withinstatecgst,"withinstatesgst":withinstatesgst,"final":final,"rate":rate,"labval":labval,"totalVal":totalVal,"remarks":remarks
+       }},function(err,doc){
+                res.json(doc);
+
+        }); 
+     
+   // db.orders.update({_id:mongojs.ObjectId(id)},{$set:{"gwt":gswt,"orderNo":id}},function(err,doc){
+   //               res.json(doc);
+
+   //     });     
+});
+
 
 
 app.put('/editSavedData/:update',function(req,res){
@@ -3173,7 +3948,18 @@ app.get('/voucherNoGetDetails',function(req,res){
        // console.log(doc);
     });
 });
-
+// app.get('/rityName',function(req,res){
+//  // console.log("getsaleinvoice_id getsaleinvoice_id getsaleinvoice_id ");
+// console.log("pppppppppppppppppppppppppppppppppppppppppppppppp")
+//   var id=req.params.purName;
+//   console.log(id+"kkkggjjjjjjjjjjjjjjjjjjjjjjjjjjjjj")
+  
+//   db.orders.find({"itemName":id},function(err,doc){
+  
+//         res.json(doc);
+      
+//     });
+// });
 app.get('/voucherNoGetDetailsSaleInvoice/:data',function(req,res){
   //console.log("I received request for details by id+++++++++------");
   var voucher=req.params.data;
@@ -3483,6 +4269,14 @@ app.delete('/historydelete/:udelete',function(req,res)
     var id=req.params.udelete;
     //console.log(id);
     db.history.remove({_id: mongojs.ObjectId(id)}, function(err, docs) {
+})
+})
+app.delete('/ordersdelete/:udelete',function(req,res)
+{
+    console.log("i got the delete request");
+    var id=req.params.udelete;
+    //console.log(id);
+    db.orders.remove({_id: mongojs.ObjectId(id)}, function(err, docs) {
 })
 })
 // delete of barcodesummarydelete
@@ -4005,6 +4799,22 @@ app.get('/getinventorygroupmaster',function(req,res)
         res.json(doc);
 })
 })
+app.get('/getord:name1',function(req,res)
+{
+   var name12=req.params.name1;
+    db.orders.find({"initial":name12},function(err,doc){
+        res.json(doc);
+        console.log(doc+"7777777777777777777777777")
+})
+})
+// app.get('/orders:name1',function(req,res) {
+//    var name12=req.params.name1;
+//   db.orders.find({"partyNames":name12},function(err,doc){
+// console.log("iiiiiiiiiiiiiiiiiiiiiiiii")
+//         res.json(doc);
+//         console.log(res)
+//       })
+// })
 //for item html get details
 app.get('/getitemtype',function(req,res)
 {
@@ -4097,6 +4907,27 @@ app.delete('/itemdelete/:udelete',function(req,res)
       res.json(docs)
 })
 })
+app.delete('/removeItem/:udelete',function(req,res)
+{
+   // console.log("i got the delete request");
+    var id=req.params.udelete;
+   
+    db.orders.remove({_id: mongojs.ObjectId(id)}, function(err, docs) {
+      res.json(docs)
+})
+})
+app.delete('/removeOrder',function(req,res)
+{
+   // console.log("i got the delete request");
+    var part=req.query.orderNO
+    //part=parseInt(part)
+    console.log(part+"zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz")
+   
+    db.orders.remove({ "orderNO" : part}, function(err, docs) {
+      res.json(docs)
+})
+})
+
 // for edit item 
 app.put('/editeditem',function(req,res){
 
@@ -4116,11 +4947,158 @@ app.put('/editeditem',function(req,res){
 
         });
 })
+app.put('/changesta',function(req,res){
+  console.log("hhhhhhhhhhhhhhhhhhhhhhhhh2222222222222222")
+// var dates=req.params.nam;
+//    var dates_array=dates.split(",");
+//    var datefrom=dates_array[0];
+//     var dateto=dates_array[1];
+     // datefrom=req.body.datefrom
+     // dateto=req.body.dateto
+     
+  //console.log("entered into put request $scope.item1[i]._id!=null");
+       var id = req.body._id
+console.log(id+req.body.allocate+"jjjjjjjjjjjjjjj222222222222228888888")
 
+
+       //var inven=req.body.InvGroupName;
+       //console.log(inven+"vvvvvvvvvvvvvvvvvvvvvv");
+      //  var name=req.body.Name;
+      //  console.log(name+"1111111111111111111111111111111"){"_id":mongojs.ObjectId(id)};
+     db.orders.update({_id : mongojs.ObjectId(id)},{$set:{"allocate":req.body.allocate,"initial":req.body.initial }},function(err,doc)
+        {
+          // console.log(doc.name+"aaaaaaaaaaaaaaaaaaaaaaaa");
+         // console.log(doc); "SalesTax":req.body.salesTax,
+            res.json(doc);
+
+        });
+     // db.orderManage.update({_id : mongojs.ObjectId(id)},{$set:{"allocate":req.body.allocate,"initial":req.body.initial }},function(err,doc)
+     //    {
+     //      // console.log(doc.name+"aaaaaaaaaaaaaaaaaaaaaaaa");
+     //     // console.log(doc); "SalesTax":req.body.salesTax,
+     //        //res.json(doc);
+
+     //    });
+})
+app.put('/manageChange/:ssam',function(req,res){
+  console.log("11111111111111111111111112222222222222222")
+var dates=req.params.ssam; 
+var dates_array=dates.split(",");   
+   var fromid=dates_array[0];
+    var toid2=dates_array[1];
+    var allocate=dates_array[2];
+    var initial=dates_array[3];
+ 
+console.log(fromid+toid2+allocate+initial+"jjjjjjjjjjjjjjj222222222222228888888")
+   delete (fromid)
+console.log(fromid+toid2+allocate+initial+"jjjjjjjjjjjjjjj222222222222228888888")
+
+       //var inven=req.body.InvGroupName;
+       //console.log(inven+"vvvvvvvvvvvvvvvvvvvvvv");
+      //  var name=req.body.Name;
+      //  console.log(name+"1111111111111111111111111111111"){"_id":mongojs.ObjectId(id)};
+     // db.orderManage.update({_id : mongojs.ObjectId(id)},{$set:{"allocate":req.body.allocate,"initial":req.body.initial }},function(err,doc)
+     //    {
+     //      // console.log(doc.name+"aaaaaaaaaaaaaaaaaaaaaaaa");
+     //     // console.log(doc); "SalesTax":req.body.salesTax,
+     //        res.json(doc);
+
+     //    });
+     db.orderManage.update({_id : mongojs.ObjectId(toid2)},{$set:{"allocate":allocate,"initial":initial }},function(err,doc)
+        {
+          // console.log(doc.name+"aaaaaaaaaaaaaaaaaaaaaaaa");
+         // console.log(doc); "SalesTax":req.body.salesTax,
+            res.json(doc);
+
+        });
+})
+app.put('/someChange',function(req,res){
+  console.log("xxxxxxxxxxxxxxxxxxxxxxxxx12222222222222222")
+
+       var id=req.body._id;
+       //console.log(inven+"vvvvvvvvvvvvvvvvvvvvvv");
+      //  var name=req.body.Name;
+      //  console.log(name+"1111111111111111111111111111111"){"_id":mongojs.ObjectId(id)};
+     db.orderManage.update({_id : mongojs.ObjectId(id)},{$set:{"allocate":req.body.allocate,"initial":req.body.initial }},function(err,doc)
+        {
+          // console.log(doc.name+"aaaaaaaaaaaaaaaaaaaaaaaa");
+         // console.log(doc); "SalesTax":req.body.salesTax,
+            res.json(doc);
+
+        });
+  
+})
+app.post('/sschange',function(req,res){
+  console.log("hhhhhhhhhhhhhhhhhhhhhhhhh4444444444444442222222222222222")
+// var dates=req.params.nam;
+//    var dates_array=dates.split(",");
+//    var datefrom=dates_array[0];
+//     var dateto=dates_array[1];
+     // datefrom=req.body.datefrom
+     // dateto=req.body.dateto
+     // var id = req.body._id
+     // _id = mongojs.ObjectId(id)
+     // console.log(_id+"llllllllllllllllll133333333333333333")
+  //console.log("entered into put request $scope.item1[i]._id!=null");
+//        var id = req.body._id
+// console.log(id+"jjjjjjjjjjjjjjj222222222222228888888")
+ db.orderManage.insert(req.body,function(err,doc){
+//console.log("5gggggggggggggggggggggggg")
+        res.json(doc);
+        console.log(res)
+      })
+  
+       //var inven=req.body.InvGroupName;
+       //console.log(inven+"vvvvvvvvvvvvvvvvvvvvvv");
+      //  var name=req.body.Name;
+      //  console.log(name+"1111111111111111111111111111111"){"_id":mongojs.ObjectId(id)};
+     // db.orderManage.insert({_id : mongojs.ObjectId(id)},{$set:{"allocate":req.body.allocate,"initial":req.body.initial }},function(err,doc)
+     //    {
+     //      // console.log(doc.name+"aaaaaaaaaaaaaaaaaaaaaaaa");
+     //     // console.log(doc); "SalesTax":req.body.salesTax,
+     //        //res.json(doc);
+
+     //    });
+     // db.orders.insert({_id : mongojs.ObjectId(id)},{$set:{"allocate":req.body.allocate,"initial":req.body.initial }},function(err,doc)
+     //    {
+     //      // console.log(doc.name+"aaaaaaaaaaaaaaaaaaaaaaaa");
+     //     // console.log(doc); "SalesTax":req.body.salesTax,
+     //        res.json(doc);
+
+     //    });
+})
+app.post('/recieveChange',function(req,res){
+  console.log("hhhhhhhhhhhhhhhhhhhhhhhhh4444444444444442222222222222222")
+delete req.body._id
+ db.orderManage.insert(req.body,function(err,doc){
+
+//console.log("5gggggggggggggggggggggggg")
+        res.json(doc);
+        console.log(res)
+      })
+  
+   
+})
 //for tax with in state in index1.html
 
 
+// app.put('/updateAllocate',function(req,res){
 
+//   //console.log();
+//        var id = req.body._id
+//        console.log(id+"kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkssssss2222")
+//        //var inven=req.body.InvGroupName;
+//        //console.log(inven+"vvvvvvvvvvvvvvvvvvvvvv");
+//       //  var name=req.body.Name;
+//       //  console.log(name+"1111111111111111111111111111111"){"_id":mongojs.ObjectId(id)};
+//      db.items.update({_id : mongojs.ObjectId(id)},{$set:{"allocate":req.body.allocate,"initial":req.body.initial }},function(err,doc)
+//         {
+//           // console.log(doc.name+"aaaaaaaaaaaaaaaaaaaaaaaa");
+//          // console.log(doc); "SalesTax":req.body.salesTax,
+//             res.json(doc);
+
+//         });
+// })
 // in item page with in state
 app.get('/apigettaxwithinstate', function (req, res) {
   console.log(" api/gettaxwithinstate api/gettaxwithinstate api/gettaxwithinstateapi/gettaxwithinstate")
@@ -4650,24 +5628,27 @@ app.get('/getpartydetails:name',function(req,res)
         res.json(doc);
 })
 })
+app.get('/rateDetails:name',function(req,res)
+{
+  console.log("lllllllllllllllllllllllllloooooooooooooooooooo")
+     db.orders.find({ "partyNames" : req.params.name},function(err,doc){
+     
+        res.json(doc);
+})
+})
+
 // in mainpgae getinventorygroupvaluenotation
 app.get('/getinventorygroupvaluenotation/:data',function(req,res)
 {
   
-//    var date = new Date();
-//   date.setDate(date.getDate() - 1)
-//   date.toISOString()
-// console.log("date is here "+date.toISOString())
-   // var currentdate   = new Date(((new Date(new Date()).toISOString().slice(0, 23))+"-05:30")).toISOString();
-   // currentdate.setDate(currentdate .getDate() - 1);
-   //{count:b},
+
    var str=req.params.data;
    
     var str_array=str.split(",");
      var currentdate=str_array[0];
 
     db.inventorygroupvaluenotationdaily.find({date:currentdate},function(err,doc){
-        //console.log(doc);
+    
         res.json(doc);
 })
 })
@@ -6447,7 +7428,182 @@ app.get('/printCompositeItems',function(req,res){
         res.json(doc1);
     })
 })
+app.get('/ordNoFromOrders/:partyname',function(req,res){
+  
+   pname=req.params.partyname
+    console.log(pname+"rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+    db.orders.aggregate([{$match:{"initial":"Completed","partyNames":pname}},
+      {$group:{_id:{orderNO:"$orderNO"}}}],function(err,doc){
+      console.log(doc+"ppppppppppppppppppppppppppppppppppppppp")  
+          res.json(doc);
+      });
+    // db.orders.find({"initial":"Completed","partyNames":pname},function(err,doc1){
+    //    // console.log(doc1.compositenum);
+    //     res.json(doc1);
+    // })
+})
 
+app.put('/vendorSave/:thh',function(req,res){
+  console.log("mmmmmmmmmmmmmmmmmmmmmmmmm000000000000000042222222222222222")
+
+//  db.orders.insert(req.body,function(err,doc){
+// //console.log("5gggggggggggggggggggggggg")
+//         res.json(doc);
+//         console.log(res)
+//       })
+      //var id = req.body._id
+
+var str=req.params.thh;
+  
+     var str_array=str.split(",");
+    var id=str_array[0];
+ 
+   var vendor=str_array[1];
+   var status=str_array[2];
+   console.log(id+vendor+"pppppppppppppppppppppppppppppp222222222222228888888")
+
+       //var inven=req.body.InvGroupName;
+       //console.log(inven+"vvvvvvvvvvvvvvvvvvvvvv");
+      //  var name=req.body.Name;
+      //  console.log(name+"1111111111111111111111111111111"){"_id":mongojs.ObjectId(id)};
+     db.orders.update({_id : mongojs.ObjectId(id)},{$set:{"allocate":vendor,"initial":status }},function(err,doc)
+        {
+          // console.log(doc.name+"aaaaaaaaaaaaaaaaaaaaaaaa");
+         // console.log(doc); "SalesTax":req.body.salesTax,
+            res.json(doc);
+
+        });
+  
+   
+})
+app.put('/initialSaveIssueVocher/:thh',function(req,res){
+  console.log("ppppppppppppppppppppp000000000000000042222222222222222")
+
+//  db.orders.insert(req.body,function(err,doc){
+// //console.log("5gggggggggggggggggggggggg")
+//         res.json(doc);
+//         console.log(res)
+//       })
+      //var id = req.body._id
+
+var str=req.params.thh;
+  
+     var str_array=str.split(",");
+   var id=str_array[0];
+ 
+    var allocate=str_array[1];
+    //var status=str_array[2];
+   console.log(id+"pppppppppppppppppppppppppppppp222222222222228888888")
+
+       //var inven=req.body.InvGroupName;
+       //console.log(inven+"vvvvvvvvvvvvvvvvvvvvvv");
+      //  var name=req.body.Name;
+      //  console.log(name+"1111111111111111111111111111111"){"_id":mongojs.ObjectId(id)};
+     db.orders.update({_id : mongojs.ObjectId(id)},{$set:{"initial":"Allocated","allocate":allocate }},function(err,doc)
+        {
+          // console.log(doc.name+"aaaaaaaaaaaaaaaaaaaaaaaa");
+         // console.log(doc); "SalesTax":req.body.salesTax,
+            res.json(doc);
+
+        });
+  
+   
+})
+
+
+app.get('/getInventoryGroupMaster:name',function(req,res)
+{
+   // console.log("i received a get request from index");
+  
+
+      db.items.aggregate([
+{$match:{ "Name" : req.params.name}},
+ { "$lookup": { 
+        "from": "inventorygroupmaster", 
+        "localField": "InvGroupName", 
+        "foreignField": "InvGroupName", 
+        "as": "collection2_doc"
+    }}, 
+   { "$unwind": "$collection2_doc" },
+    { "$redact": { 
+        "$cond": [
+            { "$eq": [ "$InvGroupName", "$collection2_doc.InvGroupName" ] }, 
+            "$$KEEP", 
+            "$$PRUNE"
+        ]
+    }}
+    ],
+
+      function(err,doc){
+        //console.log(doc);
+        res.json(doc);
+})
+})
+app.put('/putDeliverd/:thh',function(req,res){
+  console.log("ppppppppppppppppppppp000000000000000042222222222222222")
+var id=req.params.thh;
+  
+   console.log(id+"pppppppppppppppppppppppppppppp222222222222228888888")
+
+    db.orders.update({"orderNO" :id,"initial":"Completed"},{$set:{"initial":"Delivered" }},function(err,doc)
+        {
+          // console.log(doc.name+"aaaaaaaaaaaaaaaaaaaaaaaa");
+         // console.log(doc); "SalesTax":req.body.salesTax,
+            res.json(doc);
+
+        });
+  
+   
+})
+// app.delete('/deleteDeliverd/:thh',function(req,res){
+//   console.log("ppppppppppppppppppppp000000000000000042222222222222222")
+// var id=req.params.thh;
+  
+//    console.log(id+"pppppppppppppppppppppppppppppp222222222222228888888")
+
+//     db.orders.remove({_id : mongojs.ObjectId(id)},function(err,doc)
+//         {
+//           // console.log(doc.name+"aaaaaaaaaaaaaaaaaaaaaaaa");
+//          // console.log(doc); "SalesTax":req.body.salesTax,
+//             res.json(doc);
+
+//         });
+  
+   
+// })
+app.put('/initialSaveReceiptVocher/:thh',function(req,res){
+  console.log("ppppppppppppppppppppp000000000000000042222222222222222")
+
+//  db.orders.insert(req.body,function(err,doc){
+// //console.log("5gggggggggggggggggggggggg")
+//         res.json(doc);
+//         console.log(res)
+//       })
+      //var id = req.body._id
+
+var str=req.params.thh;
+  
+     var str_array=str.split(",");
+   var id=str_array[0];
+ 
+    var allocate=str_array[1];
+    //var status=str_array[2];
+   console.log(id+"pppppppppppppppppppppppppppppp222222222222228888888")
+
+       //var inven=req.body.InvGroupName;
+       //console.log(inven+"vvvvvvvvvvvvvvvvvvvvvv");
+      //  var name=req.body.Name;
+      //  console.log(name+"1111111111111111111111111111111"){"_id":mongojs.ObjectId(id)};
+     db.orders.update({_id : mongojs.ObjectId(id)},{$set:{"initial":"Received","allocate":allocate }},function(err,doc)
+        {
+          // console.log(doc.name+"aaaaaaaaaaaaaaaaaaaaaaaa");
+         // console.log(doc); "SalesTax":req.body.salesTax,
+            res.json(doc);
+
+        });
+  
+   
+})
 app.get('/getGroupWisePreview',function(req,res){
 
   console.log(" getGroupWisePreview   req.query.fromdate "+ req.query.fromdate)
@@ -6643,7 +7799,7 @@ mongoose.connect(db1.url, function(err, db) {
   console.log("Connected to Database");
 });
 
-
+ // db.orders12.insertOne({"name":NumberDecimal("12.34")})
 
 
 app.use(bodyParser.json({limit: '20mb'})); // parse application/json
@@ -6667,9 +7823,9 @@ require('./app/routes')(app); // pass our application into our routes
 // //console.log('Listening on port ' + port);       // shoutout to the user
 // console.log("server running on port 555");
 // =======
-app.listen(8100); 
+app.listen(8990); 
 //console.log('Listening on port ' + port);       // shoutout to the user
-console.log("server running on port 8100");
+console.log("server running on port 8990");
 // >>>>>>> 8b85df3ecb8f882c338247563e8f1846dcd8aef6
 
 exports = module.exports = app;

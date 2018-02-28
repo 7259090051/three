@@ -150,8 +150,8 @@
                 onClickKYC();
             } else if(identifier == "Back"){
                 onClickBack();
-            }else {
-
+            }else if(identifier == "orders"){
+                onClickOrders();
             }
         }
 
@@ -246,6 +246,7 @@
         PRIVATE METHODS
          */
         var nameDetails = null;
+          var orderDetails = null;
         var onClickSave = function (){
             var subscriberData = angular.copy(ctrl.dynamicModelValues.formParams);
             subscriberData.image_data = [];
@@ -258,7 +259,7 @@
 
             subscriber = JSON.stringify(subscriber);
             nameDetails = ctrl.dynamicModelValues.formParams.name;
-            
+              orderDetails = ctrl.dynamicModelValues.formParams.name;
             
             if(ctrl.isNewClicked){
                 ManageSubscriberService.addSubscriber(subscriber)
@@ -329,10 +330,17 @@
         }
 
         var onClickBack = function(){
-             // alert("subscribe name back "+nameDetails);
+          
             
              window.location = "Transaction.html";
              window.sessionStorage.setItem("name",nameDetails);
+        }
+
+        var onClickOrders = function(){
+         
+            
+             window.location = "orderCustomer.html";
+             window.sessionStorage.setItem("orderName",nameDetails);
         }
            var onClickClose = function(){
              // alert("subscribe name back "+nameDetails);

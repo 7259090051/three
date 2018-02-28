@@ -84,7 +84,7 @@ else{
  var printChgWt=null;
     //configurations for urd weight gross wt or nett wt
     $http.get('/configuration').success(function(response){
-          
+          console.log(response)
           $scope.urdweight = response[0].Urd_Weight;
           $scope.LabourTaxCheck = response[0].LabourTax;
            $scope.printconfiguration = response[0].printconfiguration;
@@ -95,6 +95,7 @@ else{
              printWastage = $scope.printWastage;
                $scope.printChgWt = response[0].printChgWt;
              printChgWt = $scope.printChgWt;
+              
             //alert(printWastage)
             
           //alert(response[0].printconfiguration)
@@ -102,7 +103,7 @@ else{
     })
     // merchant details 
     $http.get('/getmerchantdetails').success(function(response){
-       //console.log(response);
+       console.log(response);
        $scope.Landmark =response[0].Address[0].Landmark;
        $scope.Street =response[0].Address[1].Street;
        $scope.Place =response[0].Address[2].Place;
@@ -110,7 +111,7 @@ else{
        $scope.Mobile =response[0].Address[4].Mobile;
        $scope.email =response[0].Address[5].email;
 
-       $scope.ShopName =response[0].ShopName;
+        $scope.ShopName =response[0].ShopName;
 
     })
 
@@ -507,7 +508,7 @@ if($scope.trans == "Urd Purchase"||$scope.trans == "Sale Return"||$scope.trans =
           }//if k<=
         //})(k)
         }//incremental 
-    incrementCall12(0)
+     incrementCall12(0)
   //}//for loop
    
 } // if regular sale

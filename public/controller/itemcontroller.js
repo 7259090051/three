@@ -14,7 +14,7 @@ function($scope,$http,$window){
   //$scope.item1.filter="All "
 //alert( $scope.item1.filter)
  //validation
-
+//$scope.date=new Date()
  $scope.test = 'display'
   $http.get('/getinventorygroupmaster').success(function(response){
       // console.log(response);
@@ -188,10 +188,11 @@ $scope.selectrow();
  //         $scope.itemdetails = response 
  //         console.log(response)
  //     })
-      //console.log($scope.item1)
-
+      console.log($scope.item1)
+//alert($scope.item1)
      $http.put('/editeditem',$scope.item1).success(function(response)
                 {
+                  console.log(response)
                  //alert("edit call")
 //console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkk")
                       //itemdatafetch();

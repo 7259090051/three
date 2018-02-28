@@ -166,23 +166,14 @@ $http.get('/batchrecords/'+list3).success(function(response)
     })
  $scope.nu=function(){
 $scope.batch=""
+
+//$scope.tags=""
+//colorCodeFun()
+//window.location.reload();
  }
 
   $scope.dateSearch=function(){
-    $scope.tags=null;
-
-    //$scope.res =""
-    //$scope.list();
-    //refresh()
-
-    //$scope.res!="";
-
-    // if($scope.batch==null){
-    //   alert("No Matches Found")
-    // }
-    // for barcode search
-//alert("kkk")
-     // alert("barCodeSearch "+$scope.barCodeSearch);
+   
     if ($scope.barCodeSearch != null || $scope.barCodeSearch != undefined  ) {
       //alert("jj")
         
@@ -407,7 +398,7 @@ $scope.saveBatchGeneration = function(){
             console.log($scope.userit);
             console.log($scope.userit[0].barcode);
             
-//  $http.post('/prn',$scope.userit[0]);
+  //$http.post('/prn',$scope.userit[0]);
             //  .success(function(response){
             //          // alert("saved successfully");
             //          console.log("in save button");
@@ -531,7 +522,7 @@ $scope.saveBatchGeneration = function(){
                       $http.post('/transactionstockInward',$scope.userit[0]).success(function(response){  
                              console.log("i got replay")
                              console.log(response);
-                            // alert(" transactionstockInward i got replay")
+                           
                                  
 
                            
@@ -545,14 +536,15 @@ $scope.saveBatchGeneration = function(){
                        }
 
                     }
-           colorCodeFun(icount)
+           // colorCodeFun(icount)
+            $scope.userit= $scope.userit.slice(0, 0);
            })//getInv
 
-//colorCodeFun(icount)    
+   
 
 
    }// else closer !edit
-
+//colorCodeFun(icount) 
  }//else closer after validation
 }// function closer
 
@@ -1495,7 +1487,7 @@ var icomposite = null;
   console.log(tag)
    tagdetails = tag;
    edit1 = null;
-   // console.log("this is row id"+id);
+ 
   console.log("u clicked on row 1");
   $scope.idSelectedVote = tag;
  // console.log(tag);
@@ -1515,7 +1507,7 @@ var icomposite = null;
   icount = tag.count;
   tagno = tag.itemno;
   icomposite = tag.composite; 
-  isplit = tag.split; //not necessary
+  isplit = tag.split; 
   iinvGroupName = tag.invGroupName;
   
    console.log("the items is " +item1);
