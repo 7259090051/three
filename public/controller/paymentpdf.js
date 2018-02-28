@@ -10,31 +10,46 @@ myApp.controller('billpdfCntrl',['$scope','$http','$window',
  // alert("data111111111111111"+$scope.datarp);
  // $scope.dates=window.sessionStorage.getItem("date");
  $scope.dates=new Date();
+ $scope.usernamedetails = window.sessionStorage.getItem("username")
+ 
  // alert("date"+$scope.dates);
  $scope.billnum=window.sessionStorage.getItem("billnumber");
  // alert("billnumber"+$scope.billnum);
 //for getting receipt data
 $http.get('/getStoredPayment'+$scope.billnum).success(function(response){
   console.log(response);
+  console.log(response[0]);
+  //voucherNo
   if(response.length != 0){
   $scope.rpamt=response;
-  $scope.voucherId=response[0].vocherNo;
+ // $scope.voucherId=response[0].vocherNo;
+   $scope.voucherId = response[0].voucherNo
+  //alert(response.vocherNo)
   receivableAmount(response[0].partyname)
   numberwords(response[0].PaidAmount.$numberDecimal);
   $scope.finalAmount=response[0].PaidAmount.$numberDecimal;
- 
+  //receipetCreationCall (response[0].vocherNo)
+  paymentsCreationCall(response[0].vocherNo)
   }
 })
 
   function receivableAmount (name) {
     //alert(name)
     $http.get('/getpaymentReceivableAmount'+name).success(function(response){
+           $scope.netReceivable = parseFloat(response).toFixed(2);
+       
         //console.log(response.Due.$numberDecimal);
-         console.log(response[0].Due.$numberDecimal);
-        numberwords(response[0].Due.$numberDecimal)
+        //  console.log(response[0].Due.$numberDecimal);
+        // numberwords(response[0].Due.$numberDecimal)
     })
 
   }//receivableAmount
+  function paymentsCreationCall (voucher) {
+      //alert("receipetCreationCall ");
+      //alert("details "+$scope.usernamedetails);
+      $http.get('/api/paymentsCreation',{params:{"BillNo":$scope.billnum,"voucherNo": voucher,"userId":$scope.usernamedetails}}).success(function(response){
+      })
+  }//receipetCreationCall
 
     $http.get('/getmerchantdetails').success(function(response){
        //console.log(response);

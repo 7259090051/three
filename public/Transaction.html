@@ -1229,7 +1229,8 @@ display: inline-block;
        <!--  <td><select  class="selectpicker">
         <option value="{{itemname.name}}">1%</option>
         </select></td> tax -->
-       <td ng-if = "transaction != 'Urd Purchase'"> <select ng-model="item.taxSelection" ng-change="taxSelectionCall($index,item.taxSelection)" ng-disabled="transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'" readonly >
+       <td ng-if = "transaction != 'Urd Purchase'"> 
+        <select ng-model="item.taxSelection" ng-change="taxSelectionCall($index,item.taxSelection)" ng-disabled="transaction=='Sale Return'||transaction=='Purchase Return'||transaction=='Approval Sale'||transaction=='Approval Return'" readonly >
        <option ng-repeat="tax in withinstat" ng-value="{{tax.taxname}}">{{tax.taxname}}</option>
        </select></td>
 

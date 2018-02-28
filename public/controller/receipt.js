@@ -43,11 +43,7 @@ myApp.controller('billCntrl',['$scope','$http','$window',
          })
          if($scope.customer==null){
            // alert("hiiiiiiiiiiiiiiiiiiiiiiiiii");
-<<<<<<< HEAD
          $http.get('/partynames'+$scope.trans).success(function(response){
-=======
-         $http.get('/partynames').success(function(response){
->>>>>>> 9074c479f16d5b6039606c25f14ca1837c12f419
           $scope.partynames=response;
          });
           }
@@ -126,7 +122,6 @@ $scope.row3 = function(rowno){
    console.log(rowno);
    editrow3 = rowno;
    // var editrow3=null;
-<<<<<<< HEAD
 }
 
 var editrow4=null;
@@ -137,18 +132,6 @@ $scope.row4 = function(rowno){
   editrow4=rowno;
 }
 
-=======
-}
-
-var editrow4=null;
-$scope.row4 = function(rowno){
-  console.log("this is row id"+rowno);
-  $scope.idSelectedVotes = rowno;
-  console.log(rowno);
-  editrow4=rowno;
-}
-
->>>>>>> 9074c479f16d5b6039606c25f14ca1837c12f419
 //function for saving voucherno
 $scope.storeVoucher=function(index,voucher,net){
   // alert(index+"bbbbbbbbbb"+voucher);
@@ -198,8 +181,19 @@ $scope.clear=function(){
   // $scope.ctype="";
   // $scope.cardnos="";
   // $scope.chequeno1=null;
-    $scope.rpamt=[];
-    $scope.totals="";
+    // $scope.rpamt=[];
+    // $scope.totals="";
+      if($scope.rpamt.length == 0){
+      if($scope.printreceipt==1){
+      window.location.href="pdf.html";
+      }
+      else{
+        alert("only if navigated through transaction page");
+      }
+    }
+    else{
+      alert("remove all mode you have entered");
+    }
 }
 //for total amount Calculation
  $scope.total1=0;
@@ -339,14 +333,18 @@ console.log($scope.paymode+","+$scope.amount+","+$scope.bank+","+$scope.chequeno
           if(i==$scope.rpamt.length-1){
             if( $scope.selectedAmount == $scope.totals){
               alert("complete amount is paid");
+               $scope.voucherStatus = 'completed';
               postVoucherStatus();
             }
             else if( $scope.totals>$scope.selectedAmount){
                alert(($scope.totals - $scope.selectedAmount)+"  amount is paid more than the invoiceamount");
+                $scope.voucherStatus = 'completed';
                postVoucherStatus();
+
             }
             else{
                alert(($scope.selectedAmount - $scope.totals)+"  amount is paid less then the invoiceamount");
+                $scope.voucherStatus = 'InProgress';
             }
            setTimeout($scope.insertReceipt(),2000);
           }
@@ -372,7 +370,7 @@ console.log($scope.rpamt.paymode+","+$scope.rpamt.amount+","+$scope.rpamt.bank+"
    //for inserting data to db
    $scope.insertReceipt=function(){
      // alert("clicked on save"+$scope.printreceipt);
-      $scope.voucherStatus = 'InProgress';
+      //$scope.voucherStatus = 'InProgress';
       for(i=0;i<=$scope.rpamt.length-1;i++){
 
       $scope.rdata=$scope.rpamt[i].paymode+","+$scope.rpamt[i].amount+","+$scope.rpamt[i].bank+","+$scope.rpamt[i].chequeno+","+$scope.rpamt[i].date+","+$scope.rpamt[i].cardnos+","+$scope.rpamt[i].ctype+","+$scope.rpamt[i].appno+","+$scope.partyname+","+$scope.billDate+","+$scope.billNo+
@@ -396,13 +394,8 @@ console.log($scope.rpamt.paymode+","+$scope.rpamt.amount+","+$scope.rpamt.bank+"
              else{
                // alert("through transaction page"+$scope.printreceipt);
               // window.sessionStorage.setItem("typebill",$scope.billtype);
-              //window.sessionStorage.setItem("rprint",0);
               window.sessionStorage.setItem("billnumber",$scope.billNo);
-<<<<<<< HEAD
              window.location.href = 'pdf.html';
-=======
-              window.location.href = 'pdf.html';
->>>>>>> 9074c479f16d5b6039606c25f14ca1837c12f419
              }
             }
           })
@@ -562,6 +555,7 @@ myApp.controller('billreprintCntrl',['$scope','$http','$window',
     // console.log($scope.xdate12);
     $scope.reprintBillNo = $scope.resdata[0].BillNo;
     console.log($scope.reprintBillNo);
+    $scope.respectiveVoucherno = $scope.resdata[0].voucherNo;
     $scope.reprintdate = $scope.resdata[0].BilledDate;
     console.log($scope.reprintdate);
     $scope.totalAmts = $scope.resdata[0].PaidAmount;

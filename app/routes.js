@@ -279,7 +279,9 @@ module.exports = function (app) {
 		switch (party_type) {
 			case "1": // Cash party
 				//do not create any ledger account
-				ledgerObj = {};
+				ledgerObj = {
+					accountName: subscriber, groupID: "SG11", alias: "", remarks: "", yearOpBalance: 0.00, opBalanceType: DEBIT,accountIds:ledgerAccountCount
+				};
 				break;
 			case "2": // Subscriber
 				ledgerObj = {

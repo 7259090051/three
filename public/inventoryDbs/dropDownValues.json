@@ -344,8 +344,8 @@
                                 },
                                 {
                                    "TransactionSeriesId" : "13",
-                                    "TransactionClass" : "Payment",
-                                    "TransactionType" : "Payment",
+                                    "TransactionClass" : "Payments",
+                                    "TransactionType" : "Payments",
                                     "POSID" : "1",
                                     "TransactionPrefix" : "PA",
                                     "StartingTransactionClassNo" : 1,
@@ -1228,6 +1228,51 @@
     "grpId" : "MG12",
     "alias" : "",
     "remark" : "Diamond purchase"
+},
+{
+   
+    "accountIds" : "Lc11",
+    "accountName" : "Cash from card",
+    "sortOrder" : 1,
+    "grpId" : "MG2",
+    "alias" : "",
+    "remark" : "Cash from card"
+},
+{
+   "accountIds" : "Lq11",
+    "accountName" : "Cash from cheque",
+    "sortOrder" : 1,
+    "grpId" : "MG2",
+    "alias" : "",
+    "remark" : "Cash from cheque"
+},
+{
+     "accountIds" : "Lca1",
+    "accountName" : "Cash Paid",
+    "sortOrder" : 1,
+    "grpId" : "MG2",
+    "alias" : "",
+    "remark" : "Cash "
+},
+{
+     "accountIds" : "Lcd1",
+    "accountName" : "Cash paid from card",
+    "sortOrder" : 1,
+    "grpId" : "MG2",
+    "alias" : "",
+    "remark" : "Cash from card"
+
+    
+
+},
+{
+    "accountIds" : "Lcq1",
+    "accountName" : "Cash paid from cheque",
+    "sortOrder" : 1,
+    "grpId" : "MG2",
+    "alias" : "",
+    "remark" : "Cash from cheque"
+
 }
 
     

@@ -400,9 +400,8 @@ thead tr th {
 
 </head>
 <body ng-controller='billCntrl' style="background-color: FFE4B5;">
- <div class='menujohanes'  style="position:sticky;top:0;z-index:1;">
-        
-       <ul class='dark_menu' >
+  <div class='menujohanes'  style="position:sticky;top:0;z-index:1;">
+        <ul class='dark_menu' >
           
 <li  >
             <a>
@@ -518,11 +517,7 @@ thead tr th {
             
         
           </li>
-<<<<<<< HEAD
                <li >
-=======
-          <li >
->>>>>>> 9074c479f16d5b6039606c25f14ca1837c12f419
               <a href="dailyRates.html">
               Daily Rates 
             </a>
@@ -572,14 +567,12 @@ thead tr th {
           
         </ul>
 
-        
+        <!-- <form action='/search' id='search' method='get'>
+          <input name='q' placeholder='Search Somethings..' size='40' type='text'/>
+        </form> -->
         
       </div> 
-<<<<<<< HEAD
   <div style="margin-top:0px;font-size:25px;text-align:center;">RECEIPT
-=======
-       <div style="margin-top:0px;font-size:25px;text-align:center;">RECEIPT
->>>>>>> 9074c479f16d5b6039606c25f14ca1837c12f419
       <div class="title2">
         <!-- {{name}} -->
             <div class="first1">
@@ -587,7 +580,7 @@ thead tr th {
                   <!-- <form class="col-sm-1"> -->
                   <div class="row">
                   <div class="col-sm-4" id="party">
-                  partyname:<input list="partyname" ng-model="partyname" ng-change="getVouchers(partyname)">
+                  PartyName:<input list="partyname" ng-model="partyname" ng-change="getVouchers(partyname)">
                   <datalist id="partyname" >
                   <select id="myid"   >
                   <!-- <option></option> -->
@@ -739,18 +732,19 @@ thead tr th {
 <!-- <div class="col-md-2"> -->
 </div>
 <!-- <br> -->
-  <button class="btn btn-primary" style="width:70px;margin-left:100px;" ng-model="delete" ng-click="removeSelectedRows($index)"
+  <button class="btn btn-info" style="margin-left:400px;" ng-model="delete" ng-click="removeSelectedRows($index)"
   >Delete</button>
   
-  <button class="btn btn-danger" style="width:70px;margin-left:150px;" ng-click="clear()">Cancel</button>
-  
+  <!-- <button class="btn btn-danger" style="width:70px;margin-left:150px;" ng-click="clear()">Cancel</button>
+   -->
   <!-- <a href = "receiptpdf.html"><button class="btn btn-success" style="width:70px;margin-left:130px;" ng-click="save()">Save</button></a> -->
-  <button class="btn btn-success" style="width:70px;margin-left:130px;" ng-click="save()">Save</button>
+  <!-- <button class="btn btn-success" style="width:70px;margin-left:130px;" ng-click="save()">Save</button> -->
   
   <!-- </div> -->
   
-<button id="add_new" class="btn btn-primary" style="margin-left:230px" ng-click="newRow()">Add New</button>
+<button id="add_new" class="btn btn-primary" style="margin-left:50px" ng-click="newRow()">Add New</button>
 <br>
+
     <div class="row" style="color:black">
   <div class="col-sm-12" style="margin-left:10px">
      <span style="font-size:20px;">Narration:</span>
@@ -760,6 +754,11 @@ thead tr th {
     <span style="font-size:20px;color:black;margin-left:200px;width:20px">Total:</span>
     <input type="Numbers" id="input1" ng-model="totals"  style="font-size:20px;">
         </div>
+        <div>
+          <br>
+        <button class="btn btn-danger" style="margin-left:400px;" ng-click="clear()">Cancel</button>
+        <button class="btn btn-success" style="margin-left:50px;" ng-click="save()">Save</button>
+          </div>
     </div>
 
 </div>

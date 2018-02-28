@@ -3,7 +3,7 @@ var express=require('express');
 var app=express();
 var mongojs=require('mongojs');
 var mongoose  = require('mongoose');
-var db=mongojs('inventory',['user','tags','transaction','saleInvoice','mode','transactionDetail','batch','bank',
+var db=mongojs('inventory200',['user','tags','transaction','saleInvoice','mode','transactionDetail','batch','bank',
   'transactionSeriesInvoice','itemrate','item','menu','order','useritem','purity','uom','pct','labcal','useradj',
   'barCodeSummary','stockPointMaster','configurations','inventoryGroupMaster','salesCategoryMaster','itemType','taxrate',
   'items','tax','taxation','inventoryGroupValueNotationDaily','salesPerson','loginDetails',
@@ -24,903 +24,6 @@ var Promise = require('es6-promise').Promise;
 var Decimal128 = require('mongodb').Decimal128;
 app.use(express.static('public'));
 app.use(bodyParser.json());
-
-app.get('/valpct',function(req,res){
-     
-   // db.user.find(function(err,doc){
-    db.pct.find({},function(err,doc){
-
-        
-        res.json(doc);
-    })
-})
-
-app.get('/stonecalc',function(req,res){
-  console.log("sssssssssssssssssssssssssssssssssssss");
-  db.labcal.find({},function(err,doc){
-    res.json(doc);
-  });
-})
-app.get('/itemSelect',function(req,res){
-     
-   // db.user.find(function(err,doc){
-    db.items.find({},function(err,doc){
-
-        
-        res.json(doc);
-    })
-})
-app.get('/vendorNames',function(req,res){
-     // var party_type_id = "4";
-   // db.user.find(function(err,doc){
-    db.subscribers.find({"data.party_type.id":"4"},function(err,doc){
-
-        
-        res.json(doc);
-    })
-})
-app.get('/partyNames',function(req,res){
-    
-   // db.user.find(function(err,doc){
-    db.subscribers.find({},function(err,doc){
-
-        
-        res.json(doc);
-    })
-})
-app.get('/saleNames',function(req,res){
-     
-   // db.user.find(function(err,doc){
-    db.salesPerson.find({},function(err,doc){
-
-        console.log(doc)
-        res.json(doc);
-        console.log("iiiiiiiiiiiiiiiiiiiiioooooooooooooooooooooooooo"+doc)
-    })
-})
-app.get('/ordNum/:orderNum',function(req,res){
-    //var compositeRef = req.query.compositeRef;
-    //var compositenum = req.query.compositenum;
-   oNum=req.params.orderNum
-    console.log(oNum+"rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
-   
-    db.orders.find({"initial":"Completed","orderNO":oNum},function(err,doc1){
-       // console.log(doc1.compositenum);
-        res.json(doc1);
-    })
-})
-app.get('/jjpurityget:pname',function(req,res)
-{
- 
-   var str=req.params.pname;
-   // console.log(str);
-    var str_array=str.split(",");
-    var a =str_array[0];
-    //console.log("status is"+status);
-    var c=str_array[1]
- console.log(a+c+"jjjjjjjjjjjjjjjjjjjggggggggggggggggggggg")
-   db.orders.find({"itemName": a,"purity":c},function(err,doc){     
-      
-        res.json(doc);
-
-})
- })
-app.get('/goorders',function(req,res)
-{
-  //console.log(id+"lllllllllllllllllllllllllllll444444444444444444")
-  //var idnum=req.params.id
-  var id=req.query.id
- console.log(id+"jjjjjjjjjjjj5555555555577777777700000000000")
- //db.barcodesumm.count(function(err,doc){
-    db.orders.find({_id:mongojs.ObjectId(id)} ,(function(err,doc)
-    {
-        res.json(doc);
-        //console.log(doc);
-    }))
-    })
-app.post('/savingdata',function(req,res) {
-//console.log("oooooooooooooooooo")
-  db.orders.insert(req.body,function(err,doc){
-console.log("5gggggggggggggggggggggggg")
-        res.json(doc);
-        console.log(res)
-      })
-//    db.orderManage.insert(req.body,function(err,doc){
-// console.log("5gggggggggggggggggggggggg")
-//         //res.json(doc);
-//         console.log(res)
-//       })
-})
-
-
-app.get('/orders:name1',function(req,res) {
-   var name12=req.params.name1;
-  db.orders.find({"partyNames":name12},function(err,doc){
-console.log("iiiiiiiiiiiiiiiiiiiiiiiii")
-        res.json(doc);
-        console.log(res)
-      })
-})
-
-// app.get('/allDataOrders:name1',function(req,res) {
-//    var name12=req.params.name1;
-//   db.orders.find({"orderNo":name12},function(err,doc){
-// console.log("iiiiiiiiiiiiiiiiiiiiiiiii")
-//         res.json(doc);
-//         console.log(res)
-//       })
-// })
-
-app.get('/oname:name1',function(req,res) {
-   var name12=req.params.name1;
-  db.orders.find({"initial":name12},function(err,doc){
-console.log("iiiiiiiiiiiiiiiiiiiiiiiii")
-        res.json(doc);
-        console.log(res)
-      })
-}) 
-app.get('/getvendorname:name1',function(req,res) {
-   var name12=req.params.name1;
-  db.orders.find({"allocate":name12},function(err,doc){
-console.log("iiiiiiiiiiiiiiiiiiiiiiiii")
-        res.json(doc);
-        console.log(res)
-      })
-})
-app.get('/getven:name1',function(req,res) {
-  console.log("jjjjjjj2222")
-   var name12=req.params.name1;
-   var dates_array=name12.split(",");
-   var datefrom=dates_array[0];
-    var dateto=dates_array[1];
-    console.log(datefrom+""+dateto+"jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj22222")
-  db.orders.find({"partyNames":dateto,"allocate":datefrom},function(err,doc){
-console.log("iiiiiiiiiiiiiiiiiiiiiiiii")
-        res.json(doc);
-        console.log(res)
-      })
-})
-app.get('/getpname:name1',function(req,res) {
-  console.log("jjjjjjj2222")
-   var name12=req.params.name1;
-   var dates_array=name12.split(",");
-   var datefrom=dates_array[0];
-    var dateto=dates_array[1];
-    console.log(datefrom+""+dateto+"jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj22222")
-  db.orders.find({"initial":dateto,"allocate":datefrom},function(err,doc){
-console.log("iiiiiiiiiiiiiiiiiiiiiiiii")
-        res.json(doc);
-        console.log(res)
-      })
-})
-app.get('/partpname:name1',function(req,res) {
-  console.log("jjjjjjj2222")
-   var name12=req.params.name1;
-   var dates_array=name12.split(",");
-   var part=dates_array[0];
-    var pname=dates_array[1];
-    //console.log(datefrom+""+dateto+"jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj22222")
-  db.orders.find({"partyNames":part,"initial":pname},function(err,doc){
-console.log("iiiiiiiiiiiiiiiiiiiiiiiii")
-        res.json(doc);
-        console.log(res)
-      })
-})
-app.get('/getwww:name1',function(req,res) {
-   var dates=req.params.name1;
-   var dates_array=dates.split(",");
-   var datefrom=dates_array[0];
-    var dateto=dates_array[1];
-    console.log(dateto+"kkkkkkkkkkkk2222222222222222222222")
-
-   
-     // date:{$gt:date1, $lt:date}
-     //{date:{$gt:date1, $lt:date2}}
-  db.orders.find({"date":{$gt:datefrom, $lt:dateto}},function(err,doc){
-console.log("iiiiiiiiiiiiiiiiiiiiiiiii99999999999999999999999999")
-        res.json(doc);
-        console.log(res)
-      })
-})
-app.get('/getBothDates:name1',function(req,res) {
-   var dates=req.params.name1;
-   var dates_array=dates.split(",");
-   var datefrom=dates_array[0];
-    var dateto=dates_array[1];
-    console.log(dateto+"kkkkkkkkkkkk2222222222222222222222")
-
-   
-     // date:{$gt:date1, $lt:date}
-     //{date:{$gt:date1, $lt:date2}}
-  db.orders.find({"date":{$gt:datefrom, $lt:dateto}},function(err,doc){
-console.log("iiiiiiiiiiiiiiiiiiiiiiiii99999999999999999999999999")
-        res.json(doc);
-        console.log(res)
-      })
-})
-app.get('/DatesOrders:name1',function(req,res) {
-  console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj2222222222222222")
-   var dates=req.params.name1;
-   var dates_array=dates.split(",");
-   var datefrom=dates_array[0];
-    var dateto=dates_array[1];
-     var manage=dates_array[2];
-    console.log(datefrom+dateto+manage+"kkkkkkkkkkkk2222222222222222222222")
-
-   
-     // date:{$gt:date1, $lt:date}
-     //{date:{$gt:date1, $lt:date2}}
-  db.orders.find({"date":{$gt:datefrom, $lt:dateto},"initial":manage},function(err,doc){
-console.log("iiiiiiiiiiiiiiiiiiiiiiiii99999999999999999999999999")
-        res.json(doc);
-        console.log(res)
-      })
-})
-app.get('/getordername:name1',function(req,res) {
-   var dates=req.params.name1;
-   var dates_array=dates.split(",");
-   var datefrom=dates_array[0];
-    var dateto=dates_array[1];
-     var pname=dates_array[2];
-    console.log(pname+datefrom+dateto+"kkkkkkkkkkkk2222222222222222222222")
-
-   
-     // date:{$gt:date1, $lt:date}
-     //{date:{$gt:date1, $lt:date2}}
-  db.orders.find({"date":{$gt:datefrom, $lt:dateto},"initial":pname},function(err,doc){
-//console.log("iiiiiiiiiiiiiiiiiiiiiiiii99999999999999999999999999")
-        res.json(doc);
-        console.log(res)
-      })
-})
-app.get('/chaopop:name1',function(req,res) {
-  console.log("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb22222222222222222222222222222")
-   var dates=req.params.name1;
-   var dates_array=dates.split(",");
-   var datefrom=dates_array[0];
-    var dateto=dates_array[1];
-     var vend=dates_array[2];
-      var pname=dates_array[3];
-    console.log(pname+datefrom+dateto+vend+"kkkkkkkkkkkk2222222222222222222222")
-
-   
-     // date:{$gt:date1, $lt:date}
-     //{date:{$gt:date1, $lt:date2}}
-  db.orders.find({"date":{$gt:datefrom, $lt:dateto},"initial":pname,"allocate":vend},function(err,doc){
-//console.log("iiiiiiiiiiiiiiiiiiiiiiiii99999999999999999999999999")
-        res.json(doc);
-        console.log(res)
-      })
-})
-app.get('/pratop:name1',function(req,res) {
-  console.log("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb22222222222222222222222222222")
-   var dates=req.params.name1;
-   var dates_array=dates.split(",");
-   var datefrom=dates_array[0];
-    var dateto=dates_array[1];
-     var vend=dates_array[2];
-      var pname=dates_array[3];
-      var part=dates_array[4];
-    //console.log(pname+datefrom+dateto+vend+"kkkkkkkkkkkk2222222222222222222222")
-
-   
-     // date:{$gt:date1, $lt:date}
-     //{date:{$gt:date1, $lt:date2}}
-  db.orders.find({"date":{$gt:datefrom, $lt:dateto},"initial":pname,"allocate":vend,"partyNames":part},function(err,doc){
-//console.log("iiiiiiiiiiiiiiiiiiiiiiiii99999999999999999999999999")
-        res.json(doc);
-        console.log(res)
-      })
-})
-app.get('/datevendor:name1',function(req,res) {
-  console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaa22222222222222222222222222222")
-   var dates=req.params.name1;
-   var dates_array=dates.split(",");
-   var datefrom=dates_array[0];
-    var dateto=dates_array[1];
-     var part=dates_array[2];
-      var pname=dates_array[3];
-    console.log(pname+datefrom+dateto+part+"kkkkkkkkkkkk2222222222222222222222")
-
-   
-     // date:{$gt:date1, $lt:date}
-     //{date:{$gt:date1, $lt:date2}}
-  db.orders.find({"date":{$gt:datefrom, $lt:dateto},"initial":pname,"partyNames":part},function(err,doc){
-//console.log("iiiiiiiiiiiiiiiiiiiiiiiii99999999999999999999999999")
-        res.json(doc);
-        console.log(res)
-      })
-})
-app.get('/partyvendor:name1',function(req,res) {
-   var dates=req.params.name1;
-   var dates_array=dates.split(",");
-   var part=dates_array[0];
-    var pname=dates_array[1];
-     var vend=dates_array[2];
-    //console.log(pname+datefrom+dateto+"kkkkkkkkkkkk2222222222222222222222")
-
-   
-     // date:{$gt:date1, $lt:date}
-     //{date:{$gt:date1, $lt:date2}}
-  db.orders.find({"partyNames":part,"allocate":vend,"initial":pname},function(err,doc){
-//console.log("iiiiiiiiiiiiiiiiiiiiiiiii99999999999999999999999999")
-        res.json(doc);
-        console.log(res)
-      })
-})
-app.get('/getpartname:name1',function(req,res) {
-   var dates=req.params.name1;
-   var dates_array=dates.split(",");
-   var datefrom=dates_array[0];
-    var dateto=dates_array[1];
-     var part=dates_array[2];
-    console.log(part+datefrom+dateto+"kkkkkkkkkkkk2222222222222222222222")
-
-   
-     // date:{$gt:date1, $lt:date}
-     //{date:{$gt:date1, $lt:date2}}
-  db.orders.find({"date":{$gt:datefrom, $lt:dateto},"partyNames":part},function(err,doc){
-//console.log("iiiiiiiiiiiiiiiiiiiiiiiii99999999999999999999999999")
-        res.json(doc);
-        console.log(res)
-      })
-})
-app.get('/venddate:name1',function(req,res) {
-  console.log("ddddddddddd45454554454545454545455454545455555555555555555555")
-   var dates=req.params.name1;
-   var dates_array=dates.split(",");
-   var datefrom=dates_array[0];
-    var dateto=dates_array[1];
-     var vend=dates_array[2];
-    console.log(vend+datefrom+dateto+"kkkkkkkkkkkk2222222222222222222222")
-
-   
-     // date:{$gt:date1, $lt:date}
-     //{date:{$gt:date1, $lt:date2}}
-  db.orders.find({"date":{$gt:datefrom, $lt:dateto},"allocate":vend},function(err,doc){
-//console.log("iiiiiiiiiiiiiiiiiiiiiiiii99999999999999999999999999")
-        res.json(doc);
-        console.log(res)
-      })
-})
-
-app.get('/getord:name1',function(req,res)
-{
-   var name12=req.params.name1;
-    db.orders.find({"initial":name12},function(err,doc){
-        res.json(doc);
-        console.log(doc+"7777777777777777777777777")
-})
-})
-// app.get('/orders:name1',function(req,res) {
-//    var name12=req.params.name1;
-//   db.orders.find({"partyNames":name12},function(err,doc){
-// console.log("iiiiiiiiiiiiiiiiiiiiiiiii")
-//         res.json(doc);
-//         console.log(res)
-//       })
-// })
-//for item html get details
-app.get('/getitemtype',function(req,res)
-{
-    db.itemtype.find(function(err,doc){
-        res.json(doc);
-})
-})
-app.delete('/removeItem/:udelete',function(req,res)
-{
-   // console.log("i got the delete request");
-    var id=req.params.udelete;
-   
-    db.orders.remove({_id: mongojs.ObjectId(id)}, function(err, docs) {
-      res.json(docs)
-})
-})
-app.delete('/removeOrder',function(req,res)
-{
-   // console.log("i got the delete request");
-    var part=req.query.orderNO
-    //part=parseInt(part)
-    console.log(part+"zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz")
-   
-    db.orders.remove({ "orderNO" : part}, function(err, docs) {
-      res.json(docs)
-})
-})
-app.put('/changesta',function(req,res){
-  console.log("hhhhhhhhhhhhhhhhhhhhhhhhh2222222222222222")
-// var dates=req.params.nam;
-//    var dates_array=dates.split(",");
-//    var datefrom=dates_array[0];
-//     var dateto=dates_array[1];
-     // datefrom=req.body.datefrom
-     // dateto=req.body.dateto
-     
-  //console.log("entered into put request $scope.item1[i]._id!=null");
-       var id = req.body._id
-console.log(id+req.body.allocate+"jjjjjjjjjjjjjjj222222222222228888888")
-
-
-       //var inven=req.body.InvGroupName;
-       //console.log(inven+"vvvvvvvvvvvvvvvvvvvvvv");
-      //  var name=req.body.Name;
-      //  console.log(name+"1111111111111111111111111111111"){"_id":mongojs.ObjectId(id)};
-     db.orders.update({_id : mongojs.ObjectId(id)},{$set:{"allocate":req.body.allocate,"initial":req.body.initial }},function(err,doc)
-        {
-          // console.log(doc.name+"aaaaaaaaaaaaaaaaaaaaaaaa");
-         // console.log(doc); "SalesTax":req.body.salesTax,
-            res.json(doc);
-
-        });
-     // db.orderManage.update({_id : mongojs.ObjectId(id)},{$set:{"allocate":req.body.allocate,"initial":req.body.initial }},function(err,doc)
-     //    {
-     //      // console.log(doc.name+"aaaaaaaaaaaaaaaaaaaaaaaa");
-     //     // console.log(doc); "SalesTax":req.body.salesTax,
-     //        //res.json(doc);
-
-     //    });
-})
-app.put('/manageChange/:ssam',function(req,res){
-  console.log("11111111111111111111111112222222222222222")
-var dates=req.params.ssam; 
-var dates_array=dates.split(",");   
-   var fromid=dates_array[0];
-    var toid2=dates_array[1];
-    var allocate=dates_array[2];
-    var initial=dates_array[3];
- 
-console.log(fromid+toid2+allocate+initial+"jjjjjjjjjjjjjjj222222222222228888888")
-   delete (fromid)
-console.log(fromid+toid2+allocate+initial+"jjjjjjjjjjjjjjj222222222222228888888")
-
-       //var inven=req.body.InvGroupName;
-       //console.log(inven+"vvvvvvvvvvvvvvvvvvvvvv");
-      //  var name=req.body.Name;
-      //  console.log(name+"1111111111111111111111111111111"){"_id":mongojs.ObjectId(id)};
-     // db.orderManage.update({_id : mongojs.ObjectId(id)},{$set:{"allocate":req.body.allocate,"initial":req.body.initial }},function(err,doc)
-     //    {
-     //      // console.log(doc.name+"aaaaaaaaaaaaaaaaaaaaaaaa");
-     //     // console.log(doc); "SalesTax":req.body.salesTax,
-     //        res.json(doc);
-
-     //    });
-     db.orderManage.update({_id : mongojs.ObjectId(toid2)},{$set:{"allocate":allocate,"initial":initial }},function(err,doc)
-        {
-          // console.log(doc.name+"aaaaaaaaaaaaaaaaaaaaaaaa");
-         // console.log(doc); "SalesTax":req.body.salesTax,
-            res.json(doc);
-
-        });
-})
-app.put('/someChange',function(req,res){
-  console.log("xxxxxxxxxxxxxxxxxxxxxxxxx12222222222222222")
-
-       var id=req.body._id;
-       //console.log(inven+"vvvvvvvvvvvvvvvvvvvvvv");
-      //  var name=req.body.Name;
-      //  console.log(name+"1111111111111111111111111111111"){"_id":mongojs.ObjectId(id)};
-     db.orderManage.update({_id : mongojs.ObjectId(id)},{$set:{"allocate":req.body.allocate,"initial":req.body.initial }},function(err,doc)
-        {
-          // console.log(doc.name+"aaaaaaaaaaaaaaaaaaaaaaaa");
-         // console.log(doc); "SalesTax":req.body.salesTax,
-            res.json(doc);
-
-        });
-  
-})
-app.post('/sschange',function(req,res){
-  console.log("hhhhhhhhhhhhhhhhhhhhhhhhh4444444444444442222222222222222")
-// var dates=req.params.nam;
-//    var dates_array=dates.split(",");
-//    var datefrom=dates_array[0];
-//     var dateto=dates_array[1];
-     // datefrom=req.body.datefrom
-     // dateto=req.body.dateto
-     // var id = req.body._id
-     // _id = mongojs.ObjectId(id)
-     // console.log(_id+"llllllllllllllllll133333333333333333")
-  //console.log("entered into put request $scope.item1[i]._id!=null");
-//        var id = req.body._id
-// console.log(id+"jjjjjjjjjjjjjjj222222222222228888888")
- db.orderManage.insert(req.body,function(err,doc){
-//console.log("5gggggggggggggggggggggggg")
-        res.json(doc);
-        console.log(res)
-      })
-  
-       //var inven=req.body.InvGroupName;
-       //console.log(inven+"vvvvvvvvvvvvvvvvvvvvvv");
-      //  var name=req.body.Name;
-      //  console.log(name+"1111111111111111111111111111111"){"_id":mongojs.ObjectId(id)};
-     // db.orderManage.insert({_id : mongojs.ObjectId(id)},{$set:{"allocate":req.body.allocate,"initial":req.body.initial }},function(err,doc)
-     //    {
-     //      // console.log(doc.name+"aaaaaaaaaaaaaaaaaaaaaaaa");
-     //     // console.log(doc); "SalesTax":req.body.salesTax,
-     //        //res.json(doc);
-
-     //    });
-     // db.orders.insert({_id : mongojs.ObjectId(id)},{$set:{"allocate":req.body.allocate,"initial":req.body.initial }},function(err,doc)
-     //    {
-     //      // console.log(doc.name+"aaaaaaaaaaaaaaaaaaaaaaaa");
-     //     // console.log(doc); "SalesTax":req.body.salesTax,
-     //        res.json(doc);
-
-     //    });
-})
-app.post('/recieveChange',function(req,res){
-  console.log("hhhhhhhhhhhhhhhhhhhhhhhhh4444444444444442222222222222222")
-delete req.body._id
- db.orderManage.insert(req.body,function(err,doc){
-
-//console.log("5gggggggggggggggggggggggg")
-        res.json(doc);
-        console.log(res)
-      })
-  
-   
-})
-app.get('/rateDetails:name',function(req,res)
-{
-  console.log("lllllllllllllllllllllllllloooooooooooooooooooo")
-     db.orders.find({ "partyNames" : req.params.name},function(err,doc){
-     
-        res.json(doc);
-})
-})
-app.get('/ordNoFromOrders/:partyname',function(req,res){
-    //var compositeRef = req.query.compositeRef;
-    //var compositenum = req.query.compositenum;
-   pname=req.params.partyname
-    console.log(pname+"rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
-   
-    db.orders.find({"initial":"Completed","partyNames":pname},function(err,doc1){
-       // console.log(doc1.compositenum);
-        res.json(doc1);
-    })
-})
-
-app.put('/vendorSave/:thh',function(req,res){
-  console.log("mmmmmmmmmmmmmmmmmmmmmmmmm000000000000000042222222222222222")
-
-//  db.orders.insert(req.body,function(err,doc){
-// //console.log("5gggggggggggggggggggggggg")
-//         res.json(doc);
-//         console.log(res)
-//       })
-      //var id = req.body._id
-
-var str=req.params.thh;
-  
-     var str_array=str.split(",");
-    var id=str_array[0];
- 
-   var vendor=str_array[1];
-   var status=str_array[2];
-   console.log(id+vendor+"pppppppppppppppppppppppppppppp222222222222228888888")
-
-       //var inven=req.body.InvGroupName;
-       //console.log(inven+"vvvvvvvvvvvvvvvvvvvvvv");
-      //  var name=req.body.Name;
-      //  console.log(name+"1111111111111111111111111111111"){"_id":mongojs.ObjectId(id)};
-     db.orders.update({_id : mongojs.ObjectId(id)},{$set:{"allocate":vendor,"initial":status }},function(err,doc)
-        {
-          // console.log(doc.name+"aaaaaaaaaaaaaaaaaaaaaaaa");
-         // console.log(doc); "SalesTax":req.body.salesTax,
-            res.json(doc);
-
-        });
-  
-   
-})
-app.put('/initialSaveIssueVocher/:thh',function(req,res){
-  console.log("ppppppppppppppppppppp000000000000000042222222222222222")
-
-//  db.orders.insert(req.body,function(err,doc){
-// //console.log("5gggggggggggggggggggggggg")
-//         res.json(doc);
-//         console.log(res)
-//       })
-      //var id = req.body._id
-
-var str=req.params.thh;
-  
-     var str_array=str.split(",");
-   var id=str_array[0];
- 
-    var allocate=str_array[1];
-    //var status=str_array[2];
-   console.log(id+"pppppppppppppppppppppppppppppp222222222222228888888")
-
-       //var inven=req.body.InvGroupName;
-       //console.log(inven+"vvvvvvvvvvvvvvvvvvvvvv");
-      //  var name=req.body.Name;
-      //  console.log(name+"1111111111111111111111111111111"){"_id":mongojs.ObjectId(id)};
-     db.orders.update({_id : mongojs.ObjectId(id)},{$set:{"initial":"Allocated","allocate":allocate }},function(err,doc)
-        {
-          // console.log(doc.name+"aaaaaaaaaaaaaaaaaaaaaaaa");
-         // console.log(doc); "SalesTax":req.body.salesTax,
-            res.json(doc);
-
-        });
-  
-   
-})
-app.put('/initialSaveReceiptVocher/:thh',function(req,res){
-  console.log("ppppppppppppppppppppp000000000000000042222222222222222")
-
-//  db.orders.insert(req.body,function(err,doc){
-// //console.log("5gggggggggggggggggggggggg")
-//         res.json(doc);
-//         console.log(res)
-//       })
-      //var id = req.body._id
-
-var str=req.params.thh;
-  
-     var str_array=str.split(",");
-   var id=str_array[0];
- 
-    var allocate=str_array[1];
-    //var status=str_array[2];
-   console.log(id+"pppppppppppppppppppppppppppppp222222222222228888888")
-
-       //var inven=req.body.InvGroupName;
-       //console.log(inven+"vvvvvvvvvvvvvvvvvvvvvv");
-      //  var name=req.body.Name;
-      //  console.log(name+"1111111111111111111111111111111"){"_id":mongojs.ObjectId(id)};
-     db.orders.update({_id : mongojs.ObjectId(id)},{$set:{"initial":"Received","allocate":allocate }},function(err,doc)
-        {
-          // console.log(doc.name+"aaaaaaaaaaaaaaaaaaaaaaaa");
-         // console.log(doc); "SalesTax":req.body.salesTax,
-            res.json(doc);
-
-        });
-  
-   
-})
-
-
-app.get('/ordername:name1',function(req,res) {
-   var names=req.params.name1;
-   // var names_array=names.split(",");
-   // var pname=names_array[0];
-   // var d1=names_array[1];
-   // var d2=names_array[2];
-   console.log(names+"kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
-  //  if(names!=undefined)
-  // {   
-
-db.orders.find({"partyNames":names},function(err,doc){
-console.log("iiiiiiiiiiiiiiiiiiiiiiiii")
-        res.json(doc);
-        console.log(res)
-      })
-  // }
-//   else if(dfrom !=undefined && dto!=undefined){
-    
-//    db.ordermanage.find({"usedate":d1,"date":d2},function(err,doc){
-// console.log("iiiiiiiiiiiiiiiiiiiiiiiii")
-//         res.json(doc);
-//         console.log(res)
-//       })
-//   }
-// else{
-  
-// db.ordermanage.find({"initial":name12,"usedate":d1,"date":d2},function(err,doc){
-// console.log("iiiiiiiiiiiiiiiiiiiiiiiii")
-//         res.json(doc);
-//         console.log(res)
-//       })
-// }
-//   db.ordermanage.find({"initial":name12},function(err,doc){
-// console.log("iiiiiiiiiiiiiiiiiiiiiiiii")
-//         res.json(doc);
-//         console.log(res)
-//       })
-})
-app.get('/ordername:name1',function(req,res) {
-   var names=req.params.name1;
-   
-   
-    
-
-db.orders.find({"allocate":names},function(err,doc){
-console.log("iiiiiiiiiiiiiiiiiiiiiiiii")
-        res.json(doc);
-        console.log(res)
-      })
-
-})
-
-
-
-app.get('/ordertype',function(req,res) {
-  
-  db.ordeType.find(function(err,doc){
- 
-        res.json(doc);
-         
-      })
-})
-app.get('/getmanage',function(req,res) {
-  
-  db.orders.find(function(err,doc){
- 
-        res.json(doc);
-         
-      })
-})
-app.get('/detailsManage',function(req,res) {
-  
-  db.orderManage.find(function(err,doc){
- 
-        res.json(doc);
-         
-      })
-})
-// app.get('/managedetails',function(req,res) {
-//   console.log("")
-//   db.ordermanage.find(function(err,doc){
- 
-//         res.json(doc);
-         
-//       })
-// })
-app.get('/orderName',function(req,res) {
-  
-  db.ordeType.find(function(err,doc){
- 
-        res.json(doc);
-         
-      })
-})
-app.get('/dateBatchFind/:date',function(req,res)
-{
-  //  console.log("i got the date")
-    var str=req.params.date;
-    //console.log(str);
-    var str_array=str.split(",");
-    var fdate=str_array[0];
-  //  var frdate=new Date(fdate)
-    //console.log(frdate)
-    var tdate=str_array[1];
-    //var todate=new Date(tdate)
-    //console.log(todate);
-   
-    db.orders.find({date: { $gt:(fdate), $lt: (tdate) }}).sort({_id:-1},function(err,doc){
-     console.log(doc +"jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
-      res.json(doc);
-
-    })
-})
-app.get('/dateFind/:pdata',function(req,res){
-    console.log("vvvvvvvvvvvvvvvvvvvvvv");
-    var pstr=req.params.pdata;
-    var pstr_array=pstr.split(",");
-    // var partyname=pstr_array[0];
-    var date1=pstr_array[0];
-    var date2=pstr_array[1];
-      console.log(date1+" "+date2);
-      // db.transactiondetail.find({"partyname":partyname,"created_on": {"$gt": date1, "$lt": date2}},function(err,doc){
-        db.orders.find({date:{$gt:date1, $lt:date2}},function(err,doc){
-          console.log("dddddddddddddd");
-            res.json(doc);
-            console.log(doc);
-      })
-  })
-  app.put('/anydata/:thh',function(req,res){
-  console.log("ttttttttttttttttyyyyyyyyyyyyyyyyyyyyy233333333345555555")
-var str=req.params.thh;
-  
-     var str_array=str.split(",");
-    var date=str_array[0];
- 
-   var usedate=str_array[1];
-    
-
-    var saleNames=str_array[2]
-    var orderNo=str_array[3]
-    var partyNames=str_array[4]
-    var desc=str_array[5]
-     var size=str_array[6]
-    var gpcs=str_array[7]
-    gpcs = parseFloat(gpcs)
-   
-    var gwt=str_array[8]
-    gwt = parseFloat(gwt)
-    var iname=str_array[9]
-    var ntwt=str_array[10]
-    ntwt = parseFloat(ntwt)
-    var purity=str_array[11]
-    // var size=str_array[11]
-    var taxval1=str_array[12]
-    taxval1 = parseInt(taxval1);
-    var taxamt1=str_array[13]
-    var wt=str_array[14]
-
-      
-    var wastage=str_array[15] //
-     
-    
-    var stval=str_array[16] //
-     
-    
-    var uom=str_array[17] //
-    var id=str_array[18]
-  
-
-     var pctcal=str_array[19]
-  
-      var chgunt=str_array[20]
-    
-         var outofstateigst =str_array[21]
-          var mrp =str_array[22]     
-           var stchg =str_array[23] 
-            var stonecal =str_array[24] 
-             var  labamt=str_array[25] 
-              var  taxSelection=str_array[26] 
-               var  withinstatecgst=str_array[27] 
-                var  withinstatesgst=str_array[28] 
-                 var  final=str_array[29] 
-                  var  rate=str_array[30] 
-                   var  labval=str_array[31] 
-                    var  totalVal=str_array[32] 
-                    var  remarks=str_array[33]
-      
-   
-     db.orders.update({_id:mongojs.ObjectId(id)},{$set:{"orderNo":orderNo,"date":date,"usedate":usedate,
-     
-    "chgunt":chgunt,"usedate":usedate,"desc":desc,"gpcs":gpcs,"gwt":gwt,
-    "itemName":iname,"ntwt":ntwt,"partyNames":partyNames,"saleNames":saleNames,"size":size,"taxval":taxval1,"taxamt":taxamt1,"stwt":wt,"wastage":wastage,"stval":stval,
-
-      "outofstateigst":outofstateigst,"mrp":mrp,"stchg":stchg,"stonecal":stonecal,"labamt ":labamt , "purity":purity,"uom":uom,"pctcal":pctcal,
-      "taxSelection":taxSelection,"withinstatecgst":withinstatecgst,"withinstatesgst":withinstatesgst,"final":final,"rate":rate,"labval":labval,"totalVal":totalVal,"remarks":remarks
-       }},function(err,doc){
-                res.json(doc);
-
-        }); 
-     
-   // db.orders.update({_id:mongojs.ObjectId(id)},{$set:{"gwt":gswt,"orderNo":id}},function(err,doc){
-   //               res.json(doc);
-
-   //     });     
-});
-
-
-app.delete('/ordersdelete/:udelete',function(req,res)
-{
-    console.log("i got the delete request");
-    var id=req.params.udelete;
-    //console.log(id);
-    db.orders.remove({_id: mongojs.ObjectId(id)}, function(err, docs) {
-})
-})
-
-
-
-
-
-app.post('/storeNames',function(req,res) {
-//console.log("oooooooooooooooooo")
-  db.orders.insert(req.body,function(err,doc){
-console.log("iiiiiiiiiiiiiiiiiiiiiiiii")
-        res.json(doc);
-        console.log(res)
-      })
-})
-app.get('/dataorder:dorder',function(req,res)
-{
-  console.log("uuuuuuuuuuuuuuuuwwwwwwwwwwwwwwwwwwww");
-    var dord= req.params.dorder;
-   //var taxnamee=(taxxx);
-  
-   // db.transactiondetail.find({"barcode": tax1},function(err,doc){     
-     db.orders.find({"partyNames": dord},function(err,doc){     
-      
-        res.json(doc);
-})
-})
-
 app.get('/getPartyName:taxx',function(req,res)
 {
    // console.log("i received a get request from count");
@@ -997,7 +100,30 @@ app.get('/batchcount',function(req,res){
         res.json(doc);
         
      }))
+});
+
+//for getting tax for issue voucher
+app.get('/gettaxforissue:issuetax',function(req,res){
+  console.log("ddddddddddddddddddddddddddddddddddddddddddddddddd")
+  var issueName=req.params.issuetax;
+  console.log(issueName+"gggggggggggggggggggggggg");
+  db.tax.find({"taxname":issueName},function(err,doc){
+    console.log(doc+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
+    res.json(doc);
+  });
+});
+
+//for getting tax for receipt
+app.get('/gettaxforreceipt:receipttax',function(req,res){
+  console.log("receipt receipt receipt receipt");
+  var receiptName=req.params.receipttax;
+  console.log(receiptName+"rrrrrrrrrrrrrrrrr");
+  db.tax.find({'taxname':receiptName},function(err,doc){
+    console.log(doc+"llllllllllllllllllllll");
+    res.json(doc);
+  })
 })
+
 //for batch grey color incomplete
 app.get('/greycolor',function(req,res)
 {
@@ -1311,15 +437,6 @@ app.get('/uom',function(req,res)
         //console.log(doc);
         res.json(doc);
 })
-})
-app.get('/lab',function(req,res){
-     
-   // db.user.find(function(err,doc){
-    db.labcal.find({},function(err,doc){
-
-        
-        res.json(doc);
-    })
 })
 app.get('/labcal',function(req,res)
 {
@@ -3261,7 +2378,7 @@ app.get('/receipetCreation',function(req,res){
                             console.log(ledger)
                             //console.log("subscriber                                         call ")
                             console.log(ledger[0].accountIds);
-                            trDetailsInsertCall(documents[0].PaidAmount,ledger[0].accountIds,'Dr')
+                            trDetailsInsertCall(documents[0].PaidAmount,ledger[0].accountIds,'Cr')
                             //defaultBalanceSubscriber(ledger[0].accountIds);
                           })
 
@@ -3281,14 +2398,14 @@ app.get('/receipetCreation',function(req,res){
         if (Mode == "Cash") {
            console.log(" iam cash L011 ")
            console.log(" PaidAmount "+Amount)
-           trDetailsInsertCall(Amount,'L011','Cr',index)
+           trDetailsInsertCall(Amount,'L011','Dr',index)
         }else if (Mode == "Card") {
            console.log(" iam card PaidAmount");
-            trDetailsInsertCall(Amount,'Lc11','Cr',index)
+            trDetailsInsertCall(Amount,'Lc11','Dr',index)
        
 
         }else if (Mode == "Cheque"){
-            trDetailsInsertCall(Amount,'Lq11','Cr',index)
+            trDetailsInsertCall(Amount,'Lq11','Dr',index)
        
         }
         // body...
@@ -7211,7 +6328,7 @@ app.post('/user12/:data',function(req,res){
     //  console.log("here is the length "+str_array[i]);
       db.transactionDetail.update({_id:mongojs.ObjectId(str_array[i])},{$set:{"voucherNo":voucher }},function(err,doc)
         {
-        //res.json(doc);
+        res.json(doc);
         //console.log(doc)
        });
     }
@@ -7295,638 +6412,594 @@ app.get('/getLoginDetails',function(req,res)
 // }
 
 
-app.get('/trCollectionCreation/:data',function(req,res){ 
-    //console.log('inVoiceSeriesConfig '+inVoiceSeriesConfig);
-     configurationCall();   
-   // console.log("entered into new  trans data");
-//    function changeNumberType(voucher) {
-//     db.trDetails.find().forEach( function (x) {
-// x.amount = Number(x.amount);
-// db.trDetails.save(x);
-// });
-        // db.transactionInvoice.update({"TransactionClass":classType})
+// app.get('/trCollectionCreation/:data',function(req,res){ 
+//     //console.log('inVoiceSeriesConfig '+inVoiceSeriesConfig);
+//      configurationCall();   
+//    // console.log("entered into new  trans data");
+// //    function changeNumberType(voucher) {
+// //     db.trDetails.find().forEach( function (x) {
+// // x.amount = Number(x.amount);
+// // db.trDetails.save(x);
+// // });
+//         // db.transactionInvoice.update({"TransactionClass":classType})
                      
-        //  db.trDetails.update({voucherId:voucher}, { $set: {"TransactionNo": 1 }}, { multi: true })
-       // db.trHeaders.find({voucherId:128}).forEach( function(obj) { obj.amount = new parseFloat( obj.amount );db.trHeaders.save(obj); } );
-   //}
-    console.log("Discount Given Discount GivenDiscount getinventoryGroupValueNotation trCollectionCreation")
-   res.json("100");
-   var taxDuplicateCheck = [];
- var str=req.params.data;
-    //console.log(str);
-     var str_array=str.split(",");
-    //console.log( str_array.length);
-    var length = str_array.length;
-    //console.log(length);
-    var voucher = str_array[length - 1];
-    var salesIds=req.query.salesIds;
-    var userIds = req.query.userIds;
-    var trailRepeat = req.query.trail;
-     var billTypeForAccounts = req.query.Billtype;
-     console.log(" billTypeForAccounts "+req.query.Billtype)
-    var userIdData = null;
-    // for(var i =0;i<length ;i++){
-    //   console.log("str_array[i] "+str_array[i])
-    // }
+//         //  db.trDetails.update({voucherId:voucher}, { $set: {"TransactionNo": 1 }}, { multi: true })
+//        // db.trHeaders.find({voucherId:128}).forEach( function(obj) { obj.amount = new parseFloat( obj.amount );db.trHeaders.save(obj); } );
+//    //}
+//     console.log("Discount Given Discount GivenDiscount getinventoryGroupValueNotation trCollectionCreation")
+//    res.json("100");
+//    var taxDuplicateCheck = [];
+//  var str=req.params.data;
+//     //console.log(str);
+//      var str_array=str.split(",");
+//     //console.log( str_array.length);
+//     var length = str_array.length;
+//     //console.log(length);
+//     var voucher = str_array[length - 1];
+//     var salesIds=req.query.salesIds;
+//     var userIds = req.query.userIds;
+//     var trailRepeat = req.query.trail;
+//      var billTypeForAccounts = req.query.Billtype;
+//      console.log(" billTypeForAccounts "+req.query.Billtype)
+//     var userIdData = null;
+//     // for(var i =0;i<length ;i++){
+//     //   console.log("str_array[i] "+str_array[i])
+//     // }
 
-    //voucherId check
-    var voucherId = 0;
-    var voucherClass = null;
-    db.trHeaders.find({}).sort({_id:-1}).limit(1,function(err,data){
-        //res.json(doc);
-        console.log(data.length);
-        if (data.length == 0) {
-            voucherId = 1;
-        }else{
-               voucherId =  Number(data[0].voucherId) ; 
-               console.log(" voucher   voucher "+data[0].voucherId)
-               voucherId++;
-             }
-    })
+//     //voucherId check
+//     var voucherId = 0;
+//     var voucherClass = null;
+//     db.trHeaders.find({}).sort({_id:-1}).limit(1,function(err,data){
+//         //res.json(doc);
+//         console.log(data.length);
+//         if (data.length == 0) {
+//             voucherId = 1;
+//         }else{
+//                voucherId =  Number(data[0].voucherId) ; 
+//                console.log(" voucher   voucher "+data[0].voucherId)
+//                voucherId++;
+//              }
+//     })
     
-   // console.log("trailRepeat trailRepeat "+trailRepeat)
-    if (trailRepeat  == "yes") {
+//    // console.log("trailRepeat trailRepeat "+trailRepeat)
+//     if (trailRepeat  == "yes") {
 
 
-    //console.log("userIds.length userIds.length "+userIds.length);
-    if (userIds.length == 24) {
-      userIdData = userIds ;
-    }else{
-       userIdData = userIds[0]
-    }
-    //console.log()
-    var currentdate = null;
-    var currentYear = null;
-    var voucherType = null;
-    var  vocuherNumber =null;
-    var suffix = null;
-    var name = null;
-    var amountTotal = null;
-    var amountNet = null;
-     var concat = null;
-     var billtype = null;
-      var voucherRowNumber = 0;
-      var salesPerson = null;
-      var refId ;
-    findCall(req.query.salesIds);
-    function customerDetails(name) {
-      db.subscribers.find({subscriber:name},function (err,subscriber) {
-        console.log(subscriber)
-        console.log("subscriber                                         call ")
-        console.log(subscriber[0].ledgerID);
-          db.ledgeraccounts.find({"_id" : mongojs.ObjectId(subscriber[0].ledgerID)},function (err,ledger) {
-            console.log(ledger)
-            //console.log("subscriber                                         call ")
-            console.log(ledger[0].accountIds);
-            defaultBalanceSubscriber(ledger[0].accountIds);
-          })
+//     //console.log("userIds.length userIds.length "+userIds.length);
+//     if (userIds.length == 24) {
+//       userIdData = userIds ;
+//     }else{
+//        userIdData = userIds[0]
+//     }
+//     //console.log()
+//     var currentdate = null;
+//     var currentYear = null;
+//     var voucherType = null;
+//     var  vocuherNumber =null;
+//     var suffix = null;
+//     var name = null;
+//     var amountTotal = null;
+//     var amountNet = null;
+//      var concat = null;
+//      var billtype = null;
+//       var voucherRowNumber = 0;
+//       var salesPerson = null;
+//       var refId ;
+//     findCall(req.query.salesIds);
+//     function customerDetails(name) {
+//       db.subscribers.find({subscriber:name},function (err,subscriber) {
+//         console.log(subscriber)
+//         console.log("subscriber                                         call ")
+//         console.log(subscriber[0].ledgerID);
+//           db.ledgeraccounts.find({"_id" : mongojs.ObjectId(subscriber[0].ledgerID)},function (err,ledger) {
+//             console.log(ledger)
+//             //console.log("subscriber                                         call ")
+//             console.log(ledger[0].accountIds);
+//             defaultBalanceSubscriber(ledger[0].accountIds);
+//           })
 
-      })
-    }
+//       })
+//     }
     
-    function findCall(argument) {
-       db.saleInvoice.find({ "_id" : mongojs.ObjectId(argument)},function (err,res) {
-    console.log(res);
-    //res.json(res)
+//     function findCall(argument) {
+//        db.saleInvoice.find({ "_id" : mongojs.ObjectId(argument)},function (err,res) {
+//     console.log(res);
+//     //res.json(res)
      
-  currentdate =  res[0].date ;
-  billtype =  res[0].billtype ;
-  //"billtype" : "Cash"
-    currentdate = currentdate.slice(0, 10);
-     //console.log( currentdate);
+//   currentdate =  res[0].date ;
+//   billtype =  res[0].billtype ;
+//   //"billtype" : "Cash"
+//     currentdate = currentdate.slice(0, 10);
+//      //console.log( currentdate);
     
-      currentYear = res[0].date.slice(0, 4);
-    // console.log(currentYear);
-    // console.log(res[0].Transaction);
-     voucherType = res[0].Transaction;
+//       currentYear = res[0].date.slice(0, 4);
+//     // console.log(currentYear);
+//     // console.log(res[0].Transaction);
+//      voucherType = res[0].Transaction;
     
-     // console.log(res[0].invoiceValue);
-     //console.log(res[0].voucherNo);
-     vocuherNumber = res[0].voucherNo;
-     suffix = res[0].voucherNo.slice(0, 2);
-     name = res[0].partyname ;
-          if (res[0].adj == 'null') {
-        amountTotal = res[0].invoiceValue;
-     }else{
-        amountTotal = Decimal128.fromString(res[0].invoiceValue) + Decimal128.fromString(res[0].adj) ;
-     }
-     //Decimal128.fromString("636.45")
-     amountNet = res[0].netamt;
-     // console.log(suffix );
-     //console.log(res[0].partyname);
-     concat = "To "+res[0].partyname ;
-     //console.log(concat);
+//      // console.log(res[0].invoiceValue);
+//      //console.log(res[0].voucherNo);
+//      vocuherNumber = res[0].voucherNo;
+//      suffix = res[0].voucherNo.slice(0, 2);
+//      name = res[0].partyname ;
+//           if (res[0].adj == 'null') {
+//         amountTotal = res[0].invoiceValue;
+//      }else{
+//         amountTotal = Decimal128.fromString(res[0].invoiceValue) + Decimal128.fromString(res[0].adj) ;
+//      }
+//      //Decimal128.fromString("636.45")
+//      amountNet = res[0].netamt;
+//      // console.log(suffix );
+//      //console.log(res[0].partyname);
+//      concat = "To "+res[0].partyname ;
+//      //console.log(concat);
      
-     //to find voucherClass
-     db.transactionSeriesInvoice.find({ "TransactionType" :voucherType },function (err,resData) {
-            voucherClass =  resData[0].TransactionClass ;
-     })
+//      //to find voucherClass
+//      db.transactionSeriesInvoice.find({ "TransactionType" :voucherType },function (err,resData) {
+//             voucherClass =  resData[0].TransactionClass ;
+//      })
    
 
-     //taxCall(res[0].tax1);
-     //for not allowing urd purchase transactions
-     if (voucherType != "Urd Purchase") {
-             if (billtype == "Cash" ) {
+//      //taxCall(res[0].tax1);
+//      //for not allowing urd purchase transactions
+//      if (voucherType != "Urd Purchase") {
+//              if (billtype == "Cash" ) {
 
-                     if (voucherType == "RD Purchase") {
-                         gstCall("Cash Paid", amountTotal);
-                     }else{
-                            //  gstCall("Cash on hand", amountTotal);
-                          }
-                    defaultBalanceSubscriber(name);
-             }else{
-                     customerDetails(name)
+//                      if (voucherType == "RD Purchase") {
+//                          gstCall("Cash Paid", amountTotal);
+//                      }else{
+//                             //  gstCall("Cash on hand", amountTotal);
+//                           }
+//                     defaultBalanceSubscriber(name);
+//              }else{
+//                      customerDetails(name)
 
-                    //defaultBalanceSubscriber(name);
-                  }
+//                     //defaultBalanceSubscriber(name);
+//                   }
            
-               if (res[0].discount!=0 && res[0].discount!='' && res[0].discount!='NaN' && res[0].discount!= 'undefined') {
-                  console.log(" res[0].discount "+res[0].discount)
-                  gstCall("Discount Given", parseFloat (res[0].discount));
-               }
+//                if (res[0].discount!=0 && res[0].discount!='' && res[0].discount!='NaN' && res[0].discount!= 'undefined') {
+//                   console.log(" res[0].discount "+res[0].discount)
+//                   gstCall("Discount Given", parseFloat (res[0].discount));
+//                }
 
-             if (res[0].roundOffValue!=0 && res[0].roundOffValue!='' && res[0].roundOffValue!='NaN' && res[0].roundOffValue!= 'undefined') {
-                    console.log(" res[0].roundOffValue "+res[0].roundOffValue)
+//              if (res[0].roundOffValue!=0 && res[0].roundOffValue!='' && res[0].roundOffValue!='NaN' && res[0].roundOffValue!= 'undefined') {
+//                     console.log(" res[0].roundOffValue "+res[0].roundOffValue)
                  
-                    gstCall("Round off sales", parseFloat (res[0].roundOffValue));
-             }
-               if (res[0].cardCharges!=0 && res[0].cardCharges!='' && res[0].cardCharges!='NaN' && res[0].cardCharges!= 'undefined') {
-                 console.log(" res[0].cardCharges "+res[0].cardCharges)
-                  gstCall("Other charges collected", parseFloat (res[0].cardCharges));
-               }
-             groupDetails(vocuherNumber);
-             taxCaluclations(m=0);
-      }else{ // if (voucherType != "Urd Purchase") 
+//                     gstCall("Round off sales", parseFloat (res[0].roundOffValue));
+//              }
+//                if (res[0].cardCharges!=0 && res[0].cardCharges!='' && res[0].cardCharges!='NaN' && res[0].cardCharges!= 'undefined') {
+//                  console.log(" res[0].cardCharges "+res[0].cardCharges)
+//                   gstCall("Other charges collected", parseFloat (res[0].cardCharges));
+//                }
+//              groupDetails(vocuherNumber);
+//              taxCaluclations(m=0);
+//       }else{ // if (voucherType != "Urd Purchase") 
 
-            defaultBalanceSubscriber(name);
-             refId = "";
-             db.transactionDetail.find({ "_id" : mongojs.ObjectId(str_array[0])},function (err,request) {
-                            //    db.transactionDetail.find({ "_id" : mongojs.ObjectId(req.query.userIds)},function (err,request) {
-                           salesPerson =  request[0].salesPerson;
-                  gstInsertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,'Cr','L035') 
+//             defaultBalanceSubscriber(name);
+//              refId = "";
+//              db.transactionDetail.find({ "_id" : mongojs.ObjectId(str_array[0])},function (err,request) {
+//                             //    db.transactionDetail.find({ "_id" : mongojs.ObjectId(req.query.userIds)},function (err,request) {
+//                            salesPerson =  request[0].salesPerson;
+//                   gstInsertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,'Cr','L035') 
            
-             })
-            setTimeout(trHeader, 3000);
-      }
+//              })
+//             setTimeout(trHeader, 3000);
+//       }
 
-   })
-    }//finalCall
-  trailRepeat  = "false" ; 
-}//if trail
+//    })
+//     }//finalCall
+//   trailRepeat  = "false" ; 
+// }//if trail
  
   
 
         
            
-     // call (res[0].Transaction,)
-     function defaultBalanceSubscriber(party) {
-       // body...
-     console.log("defaultBalanceSubscriber call"+party)
+//      // call (res[0].Transaction,)
+//      function defaultBalanceSubscriber(party) {
+//        // body...
+//      console.log("defaultBalanceSubscriber call"+party)
 
-   //     db.subscribers.aggregate([
-   //    {$match:{"subscriber" : party }},
-   //           { "$lookup": { 
-   //                          "from": "ledgeraccounts", 
-   //                          "localField":   "accountName", 
-   //                          "foreignField": "subscriber", 
-   //                          "as": "ledger"
-   //                       }
-   //          },
-   //           {$unwind:"$ledger"},
-   //           //{$match:{"subscriber" : "Arun","ledger._id" :ObjectId("59e05d2296096c1c9c69babd")}},
-   //            { "$project" :{ "subscriber" :1,"ledger.groupID":1,cmpTo: { $cmp: [ "$ledgerID", "$ledger._id"] }}},
-   //            {$match:{"cmpTo" :0 }},
-   //             { "$lookup": { 
-   //                          "from": "subgroups", 
-   //                          "localField":  "SGID", 
-   //                          "foreignField": "ledger.groupID", 
-   //                          "as": "subgroup"
-   //                       }
-   //          },
-   //          // {$unwind:"$subgroup"},
-   //          //   { "$project" :{ "subscriber" :1,"subgroup.MGID":1,cmpTo1: { $cmp: [ "$subgroup.SGID", "$ledger.groupID"] }}},
-   //          //   {$match:{"cmpTo1" :0 }},
-   //          //                  { "$lookup": { 
-   //          //                 "from": "maingroups", 
-   //          //                 "localField":   "MGID", 
-   //          //                 "foreignField": "subgroup.MGID", 
-   //          //                 "as": "mggroup"
-   //          //              }
-   //          // },
-   //           // {$unwind:"$mggroup"},
-   //           //  { "$project" :{ "subscriber" :1,"subgroup.MGID":1,"mggroup.MGID":1,"subgroup.SGID":1,"ledger.groupID":1,"mggroup.DefaultBalance":1 ,cmpTo2: { $cmp: [ "$subgroup.MGID", "$mggroup.MGID"] }}},
-   //           //  {$match:{"cmpTo2" :0 }},
-   //           //  { "$project" :{ "mggroup.DefaultBalance" :1}}
-             
-              
-   //         ],function (err,result) {
-   //      //console.log(result[0].mggroup.DefaultBalance);
-   //       // body...
-   //      // insertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,'Dr');
-   //       // console.log("date         id     is   look       here insertCall ");
-   // // searchCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat)
-  
-   //     })
-        insertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,party,amountTotal,concat,'Dr');
+//         insertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,party,amountTotal,concat,'Dr');
         
 
-     }//defaultBalance
-       function insertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,DefaultBalance) {
-              if (voucherType == "Regular Sale" || voucherType == "Purchase Return" ||voucherType == "Approval Sale" ) {
-                DefaultBalance = 'Dr';
-              }else{
-                  DefaultBalance = 'Cr';
-              }
-              voucherRowNumber++;
-            db.trDetails.insert({voucherId:voucherId,voucherRowNo:voucherRowNumber,voucherDate: new Date(currentdate),
-           accountId:name,amount:Decimal128.fromString(amountTotal),transType:DefaultBalance},function (err,res) {
+//      }//defaultBalance
+//        function insertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,DefaultBalance) {
+//               // if (voucherType == "Regular Sale" || voucherType == "Purchase Return" ||voucherType == "Approval Sale" ) {
+//               //   DefaultBalance = 'Dr';
+//               // }else{
+//               //     DefaultBalance = 'Cr';
+//               // }
+//               voucherRowNumber++;
+//             db.trDetails.insert({voucherId:voucherId,voucherRowNo:voucherRowNumber,voucherDate: new Date(currentdate),
+//            accountId:name,amount:Decimal128.fromString(amountTotal),transType:DefaultBalance},function (err,res) {
            
-            })
-       };//insertCall
+//             })
+//        };//insertCall
 
 
-         function taxCaluclations(m) {
-         if (m<length) {
-              console.log("str_array[i] "+str_array[m]+" m "+m+" len "+length);
-              // m++;
-              // taxCaluclations(m);
-              if (m >= 0) {
-                   db.transactionDetail.find({ "_id" : mongojs.ObjectId(str_array[m])},function (err,request) {
-                            //    db.transactionDetail.find({ "_id" : mongojs.ObjectId(req.query.userIds)},function (err,request) {
-                           salesPerson =  request[0].salesPerson;
-                            //vocuherNumber = request[0].voucherNo;
-                            if (request[0].Transaction == "RD Purchase") {
-                              refId = request[0].RefId;
-                            }else{
-                              refId = "";
-                            }
-                            if(taxDuplicateCheck.indexOf(request[0].taxSelection) == -1) {
-                                taxDuplicateCheck.push(request[0].taxSelection);
-                                noRepeatedCall();
-                            }else{
-                                       m++;
-                                       taxCaluclations(m);
-                                       console.log(" nonon no  taxSelection "+request[0].taxSelection+" len ")
+//          function taxCaluclations(m) {
+//          if (m<length) {
+//               console.log("str_array[i] "+str_array[m]+" m "+m+" len "+length);
+//               // m++;
+//               // taxCaluclations(m);
+//               if (m >= 0) {
+//                    db.transactionDetail.find({ "_id" : mongojs.ObjectId(str_array[m])},function (err,request) {
+//                             //    db.transactionDetail.find({ "_id" : mongojs.ObjectId(req.query.userIds)},function (err,request) {
+//                            salesPerson =  request[0].salesPerson;
+//                             //vocuherNumber = request[0].voucherNo;
+//                             if (request[0].Transaction == "RD Purchase") {
+//                               refId = request[0].RefId;
+//                             }else{
+//                               refId = "";
+//                             }
+//                             if(taxDuplicateCheck.indexOf(request[0].taxSelection) == -1) {
+//                                 taxDuplicateCheck.push(request[0].taxSelection);
+//                                 noRepeatedCall();
+//                             }else{
+//                                        m++;
+//                                        taxCaluclations(m);
+//                                        console.log(" nonon no  taxSelection "+request[0].taxSelection+" len ")
                                        
-                                 }
-                            function noRepeatedCall() {
-                                  if (request[0].taxSelection != 'undefined') {
-                                       db.transactionDetail.find({ "taxSelection" : request[0].taxSelection,voucherNo:request[0].voucherNo },function (err,data) {
-                                           console.log(" taxSelection "+request[0].taxSelection+" len "+data.length);
+//                                  }
+//                             function noRepeatedCall() {
+//                                   if (request[0].taxSelection != 'undefined') {
+//                                        db.transactionDetail.find({ "taxSelection" : request[0].taxSelection,voucherNo:request[0].voucherNo },function (err,data) {
+//                                            console.log(" taxSelection "+request[0].taxSelection+" len "+data.length);
                                           
-                                    db.transactionDetail.aggregate([{$match:{ "taxSelection" : request[0].taxSelection,voucherNo:request[0].voucherNo}},
-                                            { "$lookup": {  "from": "tax",   "localField":   "taxname", "foreignField":  "taxSelection", "as": "taxCollection"}},
+//                                     db.transactionDetail.aggregate([{$match:{ "taxSelection" : request[0].taxSelection,voucherNo:request[0].voucherNo}},
+//                                             { "$lookup": {  "from": "tax",   "localField":   "taxname", "foreignField":  "taxSelection", "as": "taxCollection"}},
                   
-                                             { "$unwind": "$taxCollection" },
-                                              { "$redact": { 
-                                                  "$cond": [
-                                                      { "$eq": [ "$taxSelection", "$taxCollection.taxname" ] }, 
-                                                      "$$KEEP", 
-                                                      "$$PRUNE"
-                                                  ]
-                                              }},
-                                             //{$group:{_id :{taxSelection:"$taxSelection","purchaseId":"$taxCollection.purchaseId","salesId":"$taxCollection.salesId"} ,
-                                             //sgst:{$sum:"$withinstatesgst"},
-                                            //   cgst:{$sum:"$withinstatecgst"},igst:{$sum:"outofstateigst"}
-                                            {$group:{_id :{taxSelection:"$taxSelection","purchaseId":"$taxCollection.purchaseId","salesId":"$taxCollection.salesId",
-      "PurchaseAC":"$taxCollection.PurchaseAC","SaleAc":"$taxCollection.SaleAc","withinstate":"$taxCollection.withinstate" } ,
-   sgst:{$sum:"$withinstatesgst"},
-                                                   cgst:{$sum:"$withinstatecgst"},igst:{$sum:"$outofstateigst"}     
-                                               }} ],function (err,data1) {
-                                                       console.log(data1);
-                                                       //console.log("  enteretrweytwqywteqweyt "+data1[0]._id.withinstate)
-                                                    if (data1[0]._id.withinstate == "yes") {
-                                                        // console.log(" start  enteretrweytwqywteqweyt ")
-                                                        // console.log(data1);
-                                                        // console.log(data1[0]._id.salesId);
-                                                        // console.log(data1[1]._id.salesId);
-                                                        // console.log(data1[0].sgst);
-                                                        //  console.log(data1[0].cgst);
+//                                              { "$unwind": "$taxCollection" },
+//                                               { "$redact": { 
+//                                                   "$cond": [
+//                                                       { "$eq": [ "$taxSelection", "$taxCollection.taxname" ] }, 
+//                                                       "$$KEEP", 
+//                                                       "$$PRUNE"
+//                                                   ]
+//                                               }},
+//                                              //{$group:{_id :{taxSelection:"$taxSelection","purchaseId":"$taxCollection.purchaseId","salesId":"$taxCollection.salesId"} ,
+//                                              //sgst:{$sum:"$withinstatesgst"},
+//                                             //   cgst:{$sum:"$withinstatecgst"},igst:{$sum:"outofstateigst"}
+//                                             {$group:{_id :{taxSelection:"$taxSelection","purchaseId":"$taxCollection.purchaseId","salesId":"$taxCollection.salesId",
+//       "PurchaseAC":"$taxCollection.PurchaseAC","SaleAc":"$taxCollection.SaleAc","withinstate":"$taxCollection.withinstate" } ,
+//    sgst:{$sum:"$withinstatesgst"},
+//                                                    cgst:{$sum:"$withinstatecgst"},igst:{$sum:"$outofstateigst"}     
+//                                                }} ],function (err,data1) {
+//                                                        console.log(data1);
+//                                                        //console.log("  enteretrweytwqywteqweyt "+data1[0]._id.withinstate)
+//                                                     if (data1[0]._id.withinstate == "yes") {
+//                                                         // console.log(" start  enteretrweytwqywteqweyt ")
+//                                                         // console.log(data1);
+//                                                         // console.log(data1[0]._id.salesId);
+//                                                         // console.log(data1[1]._id.salesId);
+//                                                         // console.log(data1[0].sgst);
+//                                                         //  console.log(data1[0].cgst);
 
-                                                        // console.log(data1[0]._id.purchaseId);
-                                                        // console.log(data1[1]._id.purchaseId);
-                                                        if (voucherType != "RD Purchase") {
-                                                           // gstCall(data1[0]._id.salesId,data1[0].sgst);
-                                                           // gstCall(data1[1]._id.salesId,data1[1].cgst );
-                                                           gstInsertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,data1[0].sgst,concat,'Cr',data1[0]._id.salesId) 
+//                                                         // console.log(data1[0]._id.purchaseId);
+//                                                         // console.log(data1[1]._id.purchaseId);
+//                                                         if (voucherType != "RD Purchase") {
+//                                                            // gstCall(data1[0]._id.salesId,data1[0].sgst);
+//                                                            // gstCall(data1[1]._id.salesId,data1[1].cgst );
+//                                                            gstInsertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,data1[0].sgst,concat,'Cr',data1[0]._id.salesId) 
        
-                                                           gstInsertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,data1[1].cgst,concat,'Cr',data1[1]._id.salesId) 
+//                                                            gstInsertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,data1[1].cgst,concat,'Cr',data1[1]._id.salesId) 
        
-                                                        }else if(voucherType == "RD Purchase"){
-                                                           // gstCall(data1[0]._id.purchaseId,data1[0].sgst);
-                                                           // gstCall(data1[1]._id.purchaseId,data1[1].cgst);
-                                                           gstInsertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,data1[0].sgst,concat,'Dr',data1[0]._id.purchaseId) 
+//                                                         }else if(voucherType == "RD Purchase"){
+//                                                            // gstCall(data1[0]._id.purchaseId,data1[0].sgst);
+//                                                            // gstCall(data1[1]._id.purchaseId,data1[1].cgst);
+//                                                            gstInsertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,data1[0].sgst,concat,'Dr',data1[0]._id.purchaseId) 
        
-                                                           gstInsertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,data1[1].cgst,concat,'Dr',data1[1]._id.purchaseId) 
+//                                                            gstInsertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,data1[1].cgst,concat,'Dr',data1[1]._id.purchaseId) 
          
-                                                        }
-                                                    } else if(data1[0]._id.outofstate == "yes"){
+//                                                         }
+//                                                     } else if(data1[0]._id.outofstate == "yes"){
                                           
-                                                                if (voucherType != "RD Purchase") {
-                                                                       gstInsertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,data1[0].igst,concat,'Cr',data1[0]._id.salesId) 
+//                                                                 if (voucherType != "RD Purchase") {
+//                                                                        gstInsertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,data1[0].igst,concat,'Cr',data1[0]._id.salesId) 
        
-                                                                     //gstCall(data1[0]._id.salesId,data1[0].igst );
-                                                                }else if(voucherType == "RD Purchase"){
-                                                                       gstInsertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,data1[0].igst,concat,'Dr',data1[0]._id.purchaseId) 
+//                                                                      //gstCall(data1[0]._id.salesId,data1[0].igst );
+//                                                                 }else if(voucherType == "RD Purchase"){
+//                                                                        gstInsertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,data1[0].igst,concat,'Dr',data1[0]._id.purchaseId) 
        
-                                                                    // gstCall(data1[0]._id.purchaseId,data1[0].igst);
-                                                                }
+//                                                                     // gstCall(data1[0]._id.purchaseId,data1[0].igst);
+//                                                                 }
                                             
-                                                    }
+//                                                     }
 
-                                                        m++;
-                                                          taxCaluclations(m);
-                                               })//aggregate
+//                                                         m++;
+//                                                           taxCaluclations(m);
+//                                                })//aggregate
 
 
 
-                                       })//find
+//                                        })//find
                                       
-                                 };//taxSelection undefined
-                            }//noRepeatedCall
+//                                  };//taxSelection undefined
+//                             }//noRepeatedCall
                             
                           
-                  })//transactionDetail
+//                   })//transactionDetail
 
-              }// if (m == 0)
-         }//  if (m<length)
+//               }// if (m == 0)
+//          }//  if (m<length)
 
-    }//taxCaluclations
+//     }//taxCaluclations
     
       
-  function gstCall(gst,gstamount) {
-      console.log(" gst "+gst)
-       db.ledgeraccounts.find({"accountName" : gst },function (err,response) {
-           //gstInsertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,gstamount,narration,response[0].mggroup.DefaultBalance,response[0].accountName) 
-           gstInsertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,gstamount,concat,'Cr',response[0].accountIds) 
+//   function gstCall(gst,gstamount) {
+//       console.log(" gst "+gst)
+//        db.ledgeraccounts.find({"accountName" : gst },function (err,response) {
+//            //gstInsertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,gstamount,narration,response[0].mggroup.DefaultBalance,response[0].accountName) 
+//            gstInsertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,gstamount,concat,'Cr',response[0].accountIds) 
          
-       }) 
+//        }) 
  
-  }//gstCall
+//   }//gstCall
   
       
- function gstInsertCall  (currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,DefaultBalance,accountName) {
+//  function gstInsertCall  (currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,DefaultBalance,accountName) {
            
-            if (voucherType == "Regular Sale" || voucherType == "Purchase Return" ||voucherType == "Approval Sale" ) {
-                DefaultBalance = 'Cr';
-            }else{
-                DefaultBalance = 'Dr';
-            }
+//             if (voucherType == "Regular Sale" || voucherType == "Purchase Return" ||voucherType == "Approval Sale" ) {
+//                 DefaultBalance = 'Cr';
+//             }else{
+//                 DefaultBalance = 'Dr';
+//             }
    
-              voucherRowNumber++;
-              amountTotal = parseFloat(amountTotal).toFixed(2);
-             db.trDetails.insert({voucherId:voucherId,voucherRowNo:voucherRowNumber,voucherDate:new Date(currentdate),
-                 accountId:accountName,amount:Decimal128.fromString(amountTotal),transType:DefaultBalance},function (err,res) {
+//               voucherRowNumber++;
+//               amountTotal = parseFloat(amountTotal).toFixed(2);
+//              db.trDetails.insert({voucherId:voucherId,voucherRowNo:voucherRowNumber,voucherDate:new Date(currentdate),
+//                  accountId:accountName,amount:Decimal128.fromString(amountTotal),transType:DefaultBalance},function (err,res) {
            
-            })
-}//gstInsertCall
- function groupDetails(argument) {
-   // body...
-   console.log(" hjjjjjjjjjjjjjjjj hyyujjjjjjjjjj "+argument)
-    // $scope.TransactionPurchase = [{"TransactionType":"Regular Sale"},{"TransactionType":"Purchase Return"}, {"}, {"}, {"TransactionType":"Approval Sale"}]
-   if (voucherType == "Regular Sale" || voucherType == "Purchase Return" ||voucherType == "Approval Sale" ) {
-   // if(voucherType.toUpperCase().match(/SALE/g)  == "SALE"){
-    //alert("Sale ")
-    db.transactionDetail.aggregate([
-      {$match:{"voucherNo" :argument  }},
-       { "$lookup": { 
-                            "from": "inventoryGroupMaster", 
-                            "localField":   "SalesAcc", 
-                            "foreignField":  "AccNo", 
-                            "as": "inventorygroup"
-                         }
-            },
-             {$unwind:"$inventorygroup"},
-              {$unwind:"$inventorygroup.SalesAcc"},
+//             })
+// }//gstInsertCall
+//  function groupDetails(argument) {
+//    // body...
+//    console.log(" hjjjjjjjjjjjjjjjj hyyujjjjjjjjjj "+argument)
+//     // $scope.TransactionPurchase = [{"TransactionType":"Regular Sale"},{"TransactionType":"Purchase Return"}, {"}, {"}, {"TransactionType":"Approval Sale"}]
+//    if (voucherType == "Regular Sale" || voucherType == "Purchase Return" ||voucherType == "Approval Sale" ) {
+//    // if(voucherType.toUpperCase().match(/SALE/g)  == "SALE"){
+//     //alert("Sale ")
+//     db.transactionDetail.aggregate([
+//       {$match:{"voucherNo" :argument  }},
+//        { "$lookup": { 
+//                             "from": "inventoryGroupMaster", 
+//                             "localField":   "SalesAcc", 
+//                             "foreignField":  "AccNo", 
+//                             "as": "inventorygroup"
+//                          }
+//             },
+//              {$unwind:"$inventorygroup"},
+//               {$unwind:"$inventorygroup.SalesAcc"},
         
-            { "$project" :{ "AccNo":1,  "taxval":1,"inventorygroup.SalesAcc.AccNo" :1,cmpTo: { $cmp: [ "$inventorygroup.SalesAcc.AccNo", "$AccNo"] }}},
-           {$match:{"cmpTo" :0 }},
-            {$group:{_id:{name:"$AccNo",name1:"$inventorygroup.SalesAcc.AccNo"},"score" : {$sum : "$taxval"}}}
+//             { "$project" :{ "AccNo":1,  "taxval":1,"inventorygroup.SalesAcc.AccNo" :1,cmpTo: { $cmp: [ "$inventorygroup.SalesAcc.AccNo", "$AccNo"] }}},
+//            {$match:{"cmpTo" :0 }},
+//             {$group:{_id:{name:"$AccNo",name1:"$inventorygroup.SalesAcc.AccNo"},"score" : {$sum : "$taxval"}}}
         
              
               
-           ],function (err,res) {
+//            ],function (err,res) {
              
-             for (var j = res.length - 1; j >= 0; j--) {
-                 gstCall(res[j]._id.name,res[j].score)
-                 if ( j == 0) {
-                //console.log("trHeader j"+j);
-                 // trHeader()
-                  setTimeout(trHeader, 3000);
-                 }
-             }
+//              for (var j = res.length - 1; j >= 0; j--) {
+//                  gstCall(res[j]._id.name,res[j].score)
+//                  if ( j == 0) {
+//                 //console.log("trHeader j"+j);
+//                  // trHeader()
+//                   setTimeout(trHeader, 3000);
+//                  }
+//              }
              
            
-            })
-   // $scope.TransactionSales = [{"TransactionType":"Urd Purchase"},{"TransactionType":"RD Purchase"},{"TransactionType":"Sale Return"},{"TransactionType":"Receipt Voucher"},{"TransactionType":"Approval Return"}]//TransactionType == "Valuation"
+//             })
+//    // $scope.TransactionSales = [{"TransactionType":"Urd Purchase"},{"TransactionType":"RD Purchase"},{"TransactionType":"Sale Return"},{"TransactionType":"Receipt Voucher"},{"TransactionType":"Approval Return"}]//TransactionType == "Valuation"
    
-    }else if(voucherType == 'Urd Purchase' || voucherType == "RD Purchase" ||voucherType == "Sale Return" ||voucherType == "Receipt Voucher"){
-     //}else if(voucherType.toUpperCase().match(/PURCHASE/g) == "PURCHASE"){
+//     }else if(voucherType == 'Urd Purchase' || voucherType == "RD Purchase" ||voucherType == "Sale Return" ||voucherType == "Receipt Voucher"){
+//      //}else if(voucherType.toUpperCase().match(/PURCHASE/g) == "PURCHASE"){
      
-          db.transactionDetail.aggregate([
-      {$match:{"voucherNo" :argument  }},
-         { "$lookup": { 
-                            "from": "inventoryGroupMaster", 
-                            "localField":   "PurchaseAcc" , 
-                            "foreignField":  "AccNo", 
-                            "as": "inventorygroup"
-                         }
-            },
-             {$unwind:"$inventorygroup"}, 
+//           db.transactionDetail.aggregate([
+//       {$match:{"voucherNo" :argument  }},
+//          { "$lookup": { 
+//                             "from": "inventoryGroupMaster", 
+//                             "localField":   "PurchaseAcc" , 
+//                             "foreignField":  "AccNo", 
+//                             "as": "inventorygroup"
+//                          }
+//             },
+//              {$unwind:"$inventorygroup"}, 
             
-              {$unwind:"$inventorygroup.PurchaseAcc"},
+//               {$unwind:"$inventorygroup.PurchaseAcc"},
         
-            { "$project" :{ "AccNo":1,  "taxval":1,"inventorygroup.PurchaseAcc.AccNo" :1,cmpTo: { $cmp: [ "$inventorygroup.PurchaseAcc.AccNo", "$AccNo"] }}},
-           {$match:{"cmpTo" :0 }},
-            {$group:{_id:{name:"$AccNo",name1:"$inventorygroupPurchaseAcc.AccNo"},"score" : {$sum : "$taxval"}}}
+//             { "$project" :{ "AccNo":1,  "taxval":1,"inventorygroup.PurchaseAcc.AccNo" :1,cmpTo: { $cmp: [ "$inventorygroup.PurchaseAcc.AccNo", "$AccNo"] }}},
+//            {$match:{"cmpTo" :0 }},
+//             {$group:{_id:{name:"$AccNo",name1:"$inventorygroupPurchaseAcc.AccNo"},"score" : {$sum : "$taxval"}}}
              
               
-           ],function (err,res) {
+//            ],function (err,res) {
              
-             for (var j = res.length - 1; j >= 0; j--) {
-                 gstCall(res[j]._id.name,res[j].score)
-                 if ( j == 0) {
-                   console.log("trHeader j"+j);
-                  //trHeader()
-                  setTimeout(trHeader, 3000);
-                 }
-             }
+//              for (var j = res.length - 1; j >= 0; j--) {
+//                  gstCall(res[j]._id.name,res[j].score)
+//                  if ( j == 0) {
+//                    console.log("trHeader j"+j);
+//                   //trHeader()
+//                   setTimeout(trHeader, 3000);
+//                  }
+//              }
              
            
-            })
-    }
+//             })
+//     }
 
   
  
-}//groupcall
+// }//groupcall
 
 
- function trHeader() {
-   console.log("trHeader call1")
-     //db.trDetails.find({vocuherId:vocuherId},function(err,doc){
-       // res.json(doc);
-           console.log("voucherType voucherType voucherType voucherType voucherType "+salesPerson)
-          // console.log(doc);
-          db.trHeaders.insert({voucherId:voucherId,voucherClass:voucherClass,voucherType:voucherType,voucherDate:new Date(currentdate),prefix:currentYear,vocuherNumber:vocuherNumber,suffix:suffix,referenceNumber:refId,
-                amount:Decimal128.fromString(amountTotal),numberOfDetails:voucherRowNumber,userId:salesPerson,narration:'',remarks:''},function (err,res) {
+//  function trHeader() {
+//    console.log("trHeader call1")
+//      //db.trDetails.find({vocuherId:vocuherId},function(err,doc){
+//        // res.json(doc);
+//            console.log("voucherType voucherType voucherType voucherType voucherType "+salesPerson)
+//           // console.log(doc);
+//           db.trHeaders.insert({voucherId:voucherId,voucherClass:voucherClass,voucherType:voucherType,voucherDate:new Date(currentdate),prefix:currentYear,vocuherNumber:vocuherNumber,suffix:suffix,referenceNumber:refId,
+//                 amount:Decimal128.fromString(amountTotal),numberOfDetails:voucherRowNumber,userId:salesPerson,narration:'',remarks:''},function (err,res) {
                
-               // changeNumberType(voucherId)
-                // var billTypeForAccounts = req.query.Billtype;
-               // check
-                if (billTypeForAccounts == 'Cash') {
-                      if (voucherType != 'Urd Purchase') {
-                            voucherId =  voucherId+1;
-                            voucherRowNumber = 0;
+//                // changeNumberType(voucherId)
+//                 // var billTypeForAccounts = req.query.Billtype;
+//                // check
+//                 if (billTypeForAccounts == 'Cash') {
+//                       if (voucherType != 'Urd Purchase') {
+//                             voucherId =  voucherId+1;
+//                             voucherRowNumber = 0;
 
-                           if (voucherType == "Regular Sale" || voucherType == "Purchase Return" ||voucherType == "Approval Sale" ) {
-                                //DefaultBalance = 'Dr';
-                                insertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountNet,concat,'Dr');
-                                //gstCall("Cash on hand", amountTotal);
-                                receiptAndPaymentCallTrDetails(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountNet,concat,'Cr','L011')
+//                            if (voucherType == "Regular Sale" || voucherType == "Purchase Return" ||voucherType == "Approval Sale" ) {
+//                                 //DefaultBalance = 'Dr';
+//                                 insertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountNet,concat,'Cr');
+//                                 //gstCall("Cash on hand", amountTotal);
+//                                 receiptAndPaymentCallTrDetails(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountNet,concat,'Dr','L011')
                            
-                           }else{
-                                DefaultBalance = 'Cr';
-                                insertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,DefaultBalance);
-                               // gstCall("Cash on hand", amountTotal);
-                                receiptAndPaymentCallTrDetails(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,'Dr','L013')
-                           }
-                      }//urd purchase  
-                }//if (billTypeForAccounts == 'Cash') {};
+//                            }else{
+//                                 DefaultBalance = 'Cr';
+//                                 insertCall(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,DefaultBalance);
+//                                // gstCall("Cash on hand", amountTotal);
+//                                 receiptAndPaymentCallTrDetails(currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,'Dr','L013')
+//                            }
+//                       }//urd purchase  
+//                 }//if (billTypeForAccounts == 'Cash') {};
 
-          })//db.trHeaders
+//           })//db.trHeaders
       
    
- }//trHeader
+//  }//trHeader
 
-function receiptAndPaymentCallTrDetails  (currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,DefaultBalance,accountName) {
+// function receiptAndPaymentCallTrDetails  (currentdate,currentYear,voucherType,vocuherNumber,suffix,name,amountTotal,concat,DefaultBalance,accountName) {
            
-              voucherRowNumber++;
-             db.trDetails.insert({voucherId:voucherId,voucherRowNo:voucherRowNumber,voucherDate:new Date(currentdate),
-                 accountId:accountName,amount:Decimal128.fromString(amountTotal),transType:DefaultBalance},function (err,res) {
+//               voucherRowNumber++;
+//              db.trDetails.insert({voucherId:voucherId,voucherRowNo:voucherRowNumber,voucherDate:new Date(currentdate),
+//                  accountId:accountName,amount:Decimal128.fromString(amountTotal),transType:DefaultBalance},function (err,res) {
                   
-               if (voucherType == "Regular Sale" || voucherType == "Purchase Return" ||voucherType == "Approval Sale" ) {
-                    inVoiceCall('Receipts',inVoiceSeriesConfig) 
-               }else{
-                    inVoiceCall('Payment',inVoiceSeriesConfig) 
-              }
+//                if (voucherType == "Regular Sale" || voucherType == "Purchase Return" ||voucherType == "Approval Sale" ) {
+//                     inVoiceCall('Receipts',inVoiceSeriesConfig) 
+//                }else{
+//                     inVoiceCall('Payment',inVoiceSeriesConfig) 
+//               }
                   
-            })
-}//receiptAndPaymentCallTrDetails 
-function inVoiceCall(Transaction,voucherSeriesType) {
-   console.log("  inVoiceCall inVoiceCallinVoiceCall check ");
+//             })
+// }//receiptAndPaymentCallTrDetails 
+// function inVoiceCall(Transaction,voucherSeriesType) {
+//    console.log("  inVoiceCall inVoiceCallinVoiceCall check ");
    
-  var Transaction = Transaction;
+//   var Transaction = Transaction;
   
-  var voucherSeriesType =  voucherSeriesType;
-  var classType = null;
-  db.transactionSeriesInvoice.find({"TransactionType":Transaction},function(err,doc){
+//   var voucherSeriesType =  voucherSeriesType;
+//   var classType = null;
+//   db.transactionSeriesInvoice.find({"TransactionType":Transaction},function(err,doc){
     
-   // console.log(doc);
-    classType = doc[0].TransactionClass;
-  })
-  db.transactionInvoice.find({"TransactionType":Transaction},function(err,doc){
-        //
-    console.log(" record transactionInvoice "+doc.length);
-      if (doc.length == 0) {
-          console.log(" insert call ");
-          insertNewTransactionInvoice();
-      }else{
-              console.log(" update  call ");
-              insertUpdateTransactionInvoice();
-           }
-  })//transactionInvoice
-  function insertNewTransactionInvoice() {
-     // console.log(" insertNewTransactionInvoice call ");
-      db.transactionSeriesInvoice.find({"TransactionType":Transaction},function(err,doc){
+//    // console.log(doc);
+//     classType = doc[0].TransactionClass;
+//   })
+//   db.transactionInvoice.find({"TransactionType":Transaction},function(err,doc){
+//         //
+//     console.log(" record transactionInvoice "+doc.length);
+//       if (doc.length == 0) {
+//           console.log(" insert call ");
+//           insertNewTransactionInvoice();
+//       }else{
+//               console.log(" update  call ");
+//               insertUpdateTransactionInvoice();
+//            }
+//   })//transactionInvoice
+//   function insertNewTransactionInvoice() {
+//      // console.log(" insertNewTransactionInvoice call ");
+//       db.transactionSeriesInvoice.find({"TransactionType":Transaction},function(err,doc){
     
-            // console.log(doc);
-            if (voucherSeriesType == "StartingTransactionClassNo" ) {
-                    var voucherSeries =  doc[0].StartingTransactionClassNo ;
-                    db.transactionInvoice.find({"TransactionClass":classType},function(err,doc1){
-                        if (doc1.length == 0) {
-                         // var TransactionNoCheck = 
-                          voucherSeries =  doc[0].StartingTransactionClassNo ;
+//             // console.log(doc);
+//             if (voucherSeriesType == "StartingTransactionClassNo" ) {
+//                     var voucherSeries =  doc[0].StartingTransactionClassNo ;
+//                     db.transactionInvoice.find({"TransactionClass":classType},function(err,doc1){
+//                         if (doc1.length == 0) {
+//                          // var TransactionNoCheck = 
+//                           voucherSeries =  doc[0].StartingTransactionClassNo ;
                 
-                        }else{
-                          voucherSeries = Number(doc1[0].TransactionNo) +1;
-                        }
-                      //console.log(doc[0].TransactionPrefix+doc[0].TransactionNo);
-                      //console.log(" if multi  check udate call "+doc1[0].TransactionNo);
-                      db.transactionInvoice.update({"TransactionClass":classType},  { $inc: {"TransactionNo": 1 }}, { multi: true })
+//                         }else{
+//                           voucherSeries = Number(doc1[0].TransactionNo) +1;
+//                         }
+//                       //console.log(doc[0].TransactionPrefix+doc[0].TransactionNo);
+//                       //console.log(" if multi  check udate call "+doc1[0].TransactionNo);
+//                       db.transactionInvoice.update({"TransactionClass":classType},  { $inc: {"TransactionNo": 1 }}, { multi: true })
                            
-                      db.transactionInvoice.insert({"TransactionType":Transaction, "TransactionPrefix" : doc[0].TransactionPrefix,
-                          "TransactionClass" :  doc[0].TransactionClass,"TransactionNo" : Number(voucherSeries)},function(err,doc){
-                           //console.log(" transactionInvoice call ");
-                            console.log(doc.TransactionPrefix+doc.TransactionNo);
-                             receiptAndPaymentCallTrHeaders(doc.TransactionPrefix+doc.TransactionNo,doc.TransactionType,doc.TransactionClass,doc.TransactionPrefix)
-                             //res.json(doc.TransactionPrefix+doc.TransactionNo);
-                        })
-                    })
+//                       db.transactionInvoice.insert({"TransactionType":Transaction, "TransactionPrefix" : doc[0].TransactionPrefix,
+//                           "TransactionClass" :  doc[0].TransactionClass,"TransactionNo" : Number(voucherSeries)},function(err,doc){
+//                            //console.log(" transactionInvoice call ");
+//                             console.log(doc.TransactionPrefix+doc.TransactionNo);
+//                              receiptAndPaymentCallTrHeaders(doc.TransactionPrefix+doc.TransactionNo,doc.TransactionType,doc.TransactionClass,doc.TransactionPrefix)
+//                              //res.json(doc.TransactionPrefix+doc.TransactionNo);
+//                         })
+//                     })
           
-            }else{
-                    var voucherSeries =  doc[0].StartingTransactionTypeNo ;
-                      db.transactionInvoice.insert({"TransactionType":Transaction, "TransactionPrefix" : doc[0].TransactionPrefix,
-                          "TransactionClass" :  doc[0].TransactionClass,"TransactionNo" : Number(voucherSeries)},function(err,doc){
-                           //console.log(" transactionInvoice call ");
-                          console.log(doc.TransactionPrefix+doc.TransactionNo);
-                          // res.json(doc.TransactionPrefix+doc.TransactionNo);
-                           receiptAndPaymentCallTrHeaders(doc.TransactionPrefix+doc.TransactionNo,doc.TransactionType,doc.TransactionClass,doc.TransactionPrefix)
+//             }else{
+//                     var voucherSeries =  doc[0].StartingTransactionTypeNo ;
+//                       db.transactionInvoice.insert({"TransactionType":Transaction, "TransactionPrefix" : doc[0].TransactionPrefix,
+//                           "TransactionClass" :  doc[0].TransactionClass,"TransactionNo" : Number(voucherSeries)},function(err,doc){
+//                            //console.log(" transactionInvoice call ");
+//                           console.log(doc.TransactionPrefix+doc.TransactionNo);
+//                           // res.json(doc.TransactionPrefix+doc.TransactionNo);
+//                            receiptAndPaymentCallTrHeaders(doc.TransactionPrefix+doc.TransactionNo,doc.TransactionType,doc.TransactionClass,doc.TransactionPrefix)
 
-                        })
+//                         })
 
-                 }
+//                  }
           
-      })
-  }//insertNewTransactionInvoice
-   function insertUpdateTransactionInvoice() {
-      console.log("insertUpdateTransactionInvoice");
+//       })
+//   }//insertNewTransactionInvoice
+//    function insertUpdateTransactionInvoice() {
+//       console.log("insertUpdateTransactionInvoice");
 
-      if (voucherSeriesType == "StartingTransactionClassNo" ) {
+//       if (voucherSeriesType == "StartingTransactionClassNo" ) {
               
-                    //var voucherSeries =  doc[0].StartingTransactionClassNo ;
+//                     //var voucherSeries =  doc[0].StartingTransactionClassNo ;
           
-               db.transactionInvoice.update({"TransactionClass":classType},  { $inc: {"TransactionNo": 1 }}, { multi: true },function(err,doc){
+//                db.transactionInvoice.update({"TransactionClass":classType},  { $inc: {"TransactionNo": 1 }}, { multi: true },function(err,doc){
                     
-                    db.transactionInvoice.find({"TransactionType":Transaction},function(err,doc){
+//                     db.transactionInvoice.find({"TransactionType":Transaction},function(err,doc){
                     
-                      console.log(doc[0].TransactionPrefix+doc[0].TransactionNo);
-                      console.log(" if multi "+classType);
-                     //  res.json(doc[0].TransactionPrefix+doc[0].TransactionNo);
-                      receiptAndPaymentCallTrHeaders(doc[0].TransactionPrefix+doc[0].TransactionNo,doc[0].TransactionType,doc[0].TransactionClass,doc[0].TransactionPrefix)
+//                       console.log(doc[0].TransactionPrefix+doc[0].TransactionNo);
+//                       console.log(" if multi "+classType);
+//                      //  res.json(doc[0].TransactionPrefix+doc[0].TransactionNo);
+//                       receiptAndPaymentCallTrHeaders(doc[0].TransactionPrefix+doc[0].TransactionNo,doc[0].TransactionType,doc[0].TransactionClass,doc[0].TransactionPrefix)
                              
-                    })
-                     // console.log(doc.TransactionPrefix+doc.TransactionNo);
-                })
-      }else{
-              db.transactionInvoice.update({"TransactionType":Transaction},  { $inc: {"TransactionNo": 1 }},function(err,doc){
+//                     })
+//                      // console.log(doc.TransactionPrefix+doc.TransactionNo);
+//                 })
+//       }else{
+//               db.transactionInvoice.update({"TransactionType":Transaction},  { $inc: {"TransactionNo": 1 }},function(err,doc){
                     
-                    db.transactionInvoice.find({"TransactionType":Transaction},function(err,doc){
+//                     db.transactionInvoice.find({"TransactionType":Transaction},function(err,doc){
                     
-                      console.log(doc[0].TransactionPrefix+doc[0].TransactionNo);
-                      console.log("else one "+classType);
-                      // res.json(doc[0].TransactionPrefix+doc[0].TransactionNo);
-                      receiptAndPaymentCallTrHeaders(doc[0].TransactionPrefix+doc[0].TransactionNo,doc[0].TransactionType,doc[0].TransactionClass,doc[0].TransactionPrefix)
+//                       console.log(doc[0].TransactionPrefix+doc[0].TransactionNo);
+//                       console.log("else one "+classType);
+//                       // res.json(doc[0].TransactionPrefix+doc[0].TransactionNo);
+//                       receiptAndPaymentCallTrHeaders(doc[0].TransactionPrefix+doc[0].TransactionNo,doc[0].TransactionType,doc[0].TransactionClass,doc[0].TransactionPrefix)
                              
-                    })
-                     // console.log(doc.TransactionPrefix+doc.TransactionNo);
-                })
-           }
+//                     })
+//                      // console.log(doc.TransactionPrefix+doc.TransactionNo);
+//                 })
+//            }
      
       
-   }//insertUpdateTransactionInvoice
-//});
-}//inVoiceCall
+//    }//insertUpdateTransactionInvoice
+// //});
+// }//inVoiceCall
 
- function receiptAndPaymentCallTrHeaders(vocuherNumber,voucherType,voucherClass,suffix) {
+//  function receiptAndPaymentCallTrHeaders(vocuherNumber,voucherType,voucherClass,suffix) {
                            
-   db.trHeaders.insert({voucherId:voucherId,voucherClass:voucherClass,voucherType:voucherType,voucherDate:new Date(currentdate),prefix:currentYear,vocuherNumber:vocuherNumber,suffix:suffix,referenceNumber:refId,
-                amount: Decimal128.fromString(amountNet),numberOfDetails:voucherRowNumber,userId:salesPerson,narration:'',remarks:''},function (err,res) {
-               // changeNumberType(voucherId)
-               })
- }//receiptAndPaymentCall
+//    db.trHeaders.insert({voucherId:voucherId,voucherClass:voucherClass,voucherType:voucherType,voucherDate:new Date(currentdate),prefix:currentYear,vocuherNumber:vocuherNumber,suffix:suffix,referenceNumber:refId,
+//                 amount: Decimal128.fromString(amountNet),numberOfDetails:voucherRowNumber,userId:salesPerson,narration:'',remarks:''},function (err,res) {
+//                // changeNumberType(voucherId)
+//                })
+//  }//receiptAndPaymentCall
 
 
-});//trCollectionCreation
+// });//trCollectionCreation
 //}
 //checkcall()
 
@@ -8733,9 +7806,11 @@ app.use(express.static(__dirname + '/subscriber_images'));
 
 // routes ==================================================
 require('./app/routes')(app); // pass our application into our routes
+require('./apiCalls/financialAccounts')(app); // pass our application into our routes
+
 require('./public/inventoryDbs/defaultCollections')(app);
-app.listen(8008); 
-console.log("server running on port 8008");
+app.listen(9010); 
+console.log("server running on port 9010");
 //var MongoClient = require('mongodb').MongoClient;
 
 

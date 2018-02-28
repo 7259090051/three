@@ -148,9 +148,10 @@
                 ManageSubscriberService.countLedgerAccount()
                      .then(function(count){
                         console.log(count)
+                        onClickSave();
                         //alert(" count is  "+count)
                      })
-                onClickSave();
+                
             } else if(identifier == "KYC"){
                 onClickKYC();
             } else if(identifier == "Back"){
@@ -268,13 +269,13 @@
             if(ctrl.isNewClicked){
                 ManageSubscriberService.addSubscriber(subscriber)
                 .then(function(response){
-                    console.log(response);
-                    console.log(response.data);
-                    console.log(response.data.length);
+                    // console.log(response);
+                    // console.log(response.data);
+                    // console.log(response.data.length);
 
-                    console.log(response.data[response.data.length - 1]);
-                    console.log(response.data[response.data.length - 1]._id);
-                    //ManageSubscriberService.updateSubscriber(response.data[response.data.length - 1]._id)
+                    // console.log(response.data[response.data.length - 1]);
+                    // console.log(response.data[response.data.length - 1]._id);
+                    // //ManageSubscriberService.updateSubscriber(response.data[response.data.length - 1]._id)
 
                
                     //alert(" got data ")

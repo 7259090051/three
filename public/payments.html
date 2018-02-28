@@ -414,7 +414,7 @@ thead tr th {
                 </a>
               </li>
                <li>
-                <a href="list.html">
+                <a href="List.html">
                   List
                 </a>
               </li>
@@ -454,7 +454,7 @@ thead tr th {
                 </li>
 
                <li>
-                <a href="item.html">
+                <a href="Item.html">
                   Item
                 </a>
               </li>
@@ -579,7 +579,7 @@ thead tr th {
                   <!-- <form class="col-sm-1"> -->
                   <div class="row">
                   <div class="col-sm-4" id="party">
-                  partyname:<input list="partyname" ng-model="partyname" ng-change="getVouchers(partyname)">
+                  PartyName:<input list="partyname" ng-model="partyname" ng-change="getVouchers(partyname)">
                   <datalist id="partyname" >
                   <select id="myid"   >
                   <!-- <option></option> -->
@@ -645,7 +645,7 @@ thead tr th {
   </div>
   <div>
   <!-- <span style="font-size:20px;color:black;margin-left:200px;width:20px">Net:</span> -->
-    NetReceviable:<input type="Numbers" id="input1" ng-model="selectedAmount" placeholder="amount" style="font-size:20px;">
+    NetPayable:<input type="Numbers" id="input1" ng-model="selectedAmount" placeholder="amount" style="font-size:20px;">
   <button class="btn btn-primary-info" style="margin-left:620px;margin-top:10px" ng-click="rePrinting();">Reprint Voucher</button>
 </div>
 </div>
@@ -732,17 +732,17 @@ thead tr th {
 <!-- <div class="col-md-2"> -->
 </div>
 <!-- <br> -->
-  <button class="btn btn-primary" style="width:70px;margin-left:100px;" ng-model="delete" ng-click="removeSelectedRows($index)"
+  <button class="btn btn-info" style="margin-left:400px;" ng-model="delete" ng-click="removeSelectedRows($index)"
   >Delete</button>
   
-  <button class="btn btn-danger" style="width:70px;margin-left:150px;" ng-click="clear()">Cancel</button>
+  <!-- <button class="btn btn-danger" style="width:70px;margin-left:150px;" ng-click="clear()">Cancel</button> -->
   
   <!-- <a href = "receiptpdf.html"><button class="btn btn-success" style="width:70px;margin-left:130px;" ng-click="save()">Save</button></a> -->
-  <button class="btn btn-success" style="width:70px;margin-left:130px;" ng-click="save()">Save</button>
+  <!-- <button class="btn btn-success" style="width:70px;margin-left:130px;" ng-click="save()">Save</button> -->
   
   <!-- </div> -->
   
-<button id="add_new" class="btn btn-primary" style="margin-left:230px" ng-click="newRow()">Add New</button>
+<button id="add_new" class="btn btn-primary" style="margin-left:50px" ng-click="newRow()">Add New</button>
 <br>
     <div class="row" style="color:black">
   <div class="col-sm-12" style="margin-left:10px">
@@ -753,6 +753,12 @@ thead tr th {
     <span style="font-size:20px;color:black;margin-left:200px;width:20px">Total:</span>
     <input type="Numbers" id="input1" ng-model="totals"  style="font-size:20px;">
         </div>
+        <br>
+        <div>
+            <button class="btn btn-danger" style="margin-left:400px;" ng-click="clear()">Cancel</button>
+            <button class="btn btn-success" style="margin-left:50px;" ng-click="save()">Save</button>
+        </div>
+
     </div>
 
 </div>
