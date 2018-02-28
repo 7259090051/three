@@ -145,7 +145,13 @@
             } else if(identifier == "Clear"){
                 onClearClicked();
             } else if(identifier == "Save"){
-                onClickSave();
+                ManageSubscriberService.countLedgerAccount()
+                     .then(function(count){
+                        console.log(count)
+                        onClickSave();
+                        //alert(" count is  "+count)
+                     })
+                
             } else if(identifier == "KYC"){
                 onClickKYC();
             } else if(identifier == "Back"){
@@ -241,7 +247,7 @@
                 ctrl.showKYCBtn = false;
             }
         }
-
+        console.log(" manage active ");
         /*
         PRIVATE METHODS
          */
@@ -264,6 +270,16 @@
             if(ctrl.isNewClicked){
                 ManageSubscriberService.addSubscriber(subscriber)
                 .then(function(response){
+                    // console.log(response);
+                    // console.log(response.data);
+                    // console.log(response.data.length);
+
+                    // console.log(response.data[response.data.length - 1]);
+                    // console.log(response.data[response.data.length - 1]._id);
+                    // //ManageSubscriberService.updateSubscriber(response.data[response.data.length - 1]._id)
+
+               
+                    //alert(" got data ")
                     rowData = getRowDataFromArray(response);
                     ctrl.gridOptions.api.setRowData(rowData);
                     toastr.success('Party details save successfully', 'Success');
@@ -345,7 +361,7 @@
            var onClickClose = function(){
              // alert("subscribe name back "+nameDetails);
             
-             window.location = "mainpage.html";
+             window.location = "Transaction.html";
              //window.sessionStorage.setItem("name",nameDetails);
         }
 

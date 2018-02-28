@@ -354,10 +354,18 @@ margin-top: -12px;
 
 
 <body style="background-color:FFE4B5;" ng-controller="AppCtrl">
+<<<<<<< HEAD:public/Tax Configuration.html
   <div class='menujohanes'>
         <ul class='dark_menu'>
           
 <li >
+=======
+  <div class='menujohanes'  style="position:sticky;top:0;z-index:1;">
+        
+       <ul class='dark_menu' >
+          
+<li  >
+>>>>>>> c48bfd0e80c9b43602e5680e3278aa853ad3d82f:public/Tax Configuration.html
             <a>
               Transaction &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                
@@ -369,7 +377,11 @@ margin-top: -12px;
                 </a>
               </li>
                <li>
+<<<<<<< HEAD:public/Tax Configuration.html
                 <a href="list.html">
+=======
+                <a href="List.html">
+>>>>>>> c48bfd0e80c9b43602e5680e3278aa853ad3d82f:public/Tax Configuration.html
                   List
                 </a>
               </li>
@@ -409,7 +421,11 @@ margin-top: -12px;
                 </li>
 
                <li>
+<<<<<<< HEAD:public/Tax Configuration.html
                 <a href="item.html">
+=======
+                <a href="Item.html">
+>>>>>>> c48bfd0e80c9b43602e5680e3278aa853ad3d82f:public/Tax Configuration.html
                   Item
                 </a>
               </li>
@@ -449,7 +465,11 @@ margin-top: -12px;
           </li>
           <li >
             <a href="Tax Configuration.html">
+<<<<<<< HEAD:public/Tax Configuration.html
               Tax configuration
+=======
+              Tax Configuration
+>>>>>>> c48bfd0e80c9b43602e5680e3278aa853ad3d82f:public/Tax Configuration.html
             </a>
             <!-- <ul>
                 
@@ -458,8 +478,13 @@ margin-top: -12px;
                 <a href="indextaxation.html">
                   Tax Structure
                 </a>
+<<<<<<< HEAD:public/Tax Configuration.html
               </li>
               <li>
+=======
+              </li> -->
+              <!-- <li>
+>>>>>>> c48bfd0e80c9b43602e5680e3278aa853ad3d82f:public/Tax Configuration.html
                 <a href="taxation.html">
                   Tax Name
                 </a>
@@ -471,6 +496,42 @@ margin-top: -12px;
             
         
           </li>
+<<<<<<< HEAD:public/Tax Configuration.html
+=======
+          <li >
+              <a href="dailyRates.html">
+              Daily Rates 
+            </a>
+            </li>
+           <li >
+            <a href='#'>
+              Accounts &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </a>
+            <ul>
+               <li>
+                <a href="receipts.html">
+                
+                  Receipt
+                </a>
+              </li>
+                
+
+               <li>
+                <a href="payments.html">
+                  
+                  Payment
+                </a>
+              </li>
+              <!-- <li>
+                <a href="GroupWise.html">
+                  Group Wise
+                </a>
+              </li> -->
+             
+              
+            </ul>
+          </li>
+>>>>>>> c48bfd0e80c9b43602e5680e3278aa853ad3d82f:public/Tax Configuration.html
           <li  id="name1">
             <a>
              {{usernamedetails}}
@@ -488,12 +549,19 @@ margin-top: -12px;
           
         </ul>
 
+<<<<<<< HEAD:public/Tax Configuration.html
         <!-- <form action='/search' id='search' method='get'>
           <input name='q' placeholder='Search Somethings..' size='40' type='text'/>
         </form> -->
         
       </div>
      <!--  <div ng-cloak>
+=======
+        
+        
+      </div> 
+         <!--  <div ng-cloak>
+>>>>>>> c48bfd0e80c9b43602e5680e3278aa853ad3d82f:public/Tax Configuration.html
         
       </div> -->
    <!-- <div class="btn-group btn-group-justified">
@@ -629,14 +697,14 @@ margin-top: -12px;
 
       </select></td>   -->
 
-      <td style="width: 20%;"><select class="form-control" ng-model="pur1.PurchaseAC"  >
+      <td style="width: 20%;"><select class="form-control" ng-model="pur1.PurchaseAC" ng-change="ledgerAccontInt(pur1.PurchaseAC,$index,'PurchaseAC')" >
       <!--   <option ng-repeat= "salesAC in salesAC">{{salesAC._id}}</option> -->
         <option ng-repeat = "pur in purchase">
-        {{pur.sortOrder}}</option>
+        {{pur.accountName}}</option>
       </select></td>
-    <td style="width: 20%;"><select class="form-control" ng-model="pur1.SaleAc"  >
+    <td style="width: 20%;"><select class="form-control" ng-model="pur1.SaleAc" ng-change="ledgerAccontInt(pur1.SaleAc,$index,'SaleAc')" >
         <option ng-repeat = "pur in purchase">
-        {{pur.sortOrder}}</option>
+        {{pur.accountName}}</option>
        <!--  <option ng-repeat = "purchase in purchase">
         {{purchase._id}}</option> -->
         

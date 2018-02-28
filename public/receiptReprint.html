@@ -1,27 +1,36 @@
 <!DOCTYPE>
 <html ng-app="myApp">
 <head>
-
- <title>Stock Verfication</title>
-
+ <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<!-- <script src="stockdetailscntrl.js"></script> -->
- </head> 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 
- <style type="text/css">
- .center {
-    margin:auto;
-    width: 20%;
-    
-    
+    <title>ReceiptPdf</title>  
+
+
+   <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.20/pdfmake.min.js'></script>
+    //     <script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.20/vfs_fonts.js'></script>
+    //     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script> -->
+
+    <!-- <p id="to-pdf">HTML content...</p> -->
+<!-- </body>id="thrid" -->
+  <script type="text/javascript">
+// function exportPDF()
+// {
+//   //alert(pdf function call)
+// var pdf = new jsPDF('p','pt','a4');
+// pdf.addHTML(document.body,function() {
+//      pdf.save('Receipt.pdf');
+// });
+// }
+// </script>
+<style>
+#d1{
+  margin-left:20px;
+  width:40px;
 }
-   .selectpic {
-   /* margin:auto;*/
-    width: 230%;
-    
-    
-}
-      ul.dark_menu {
+
+  ul.dark_menu {
 list-style: none;
 padding: 5px 1px;
 font-family: 'Segoe UI Light', 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
@@ -30,11 +39,14 @@ font-size: 16px;
 letter-spacing: 0.01em;
 font-smooth: always;
 color: #000000;
-line-height: 15px;
+line-height: 10px;
 margin: auto;
-/*width: 1018px;*/
-position: relative;
+
+/*position: relative;*/
+
 background: #2B5797;
+
+ 
 }/* Blog johanes djogzs.blogspot.com */
 ul.dark_menu:after {
 content: "";
@@ -43,10 +55,12 @@ display: block;
 overflow: hidden;
 visibility: hidden;
 width: 0;
-height: 0;}
+height: 0;
+position: sticky;}
 ul.dark_menu li {
 float: left;
 position: relative;
+/*position: sticky;*/
 margin: 1px;}
 /* Blog johanes djogzs.blogspot.com */
 ul.dark_menu li a, ul.dark_menu li a:link {
@@ -59,6 +73,7 @@ padding: 8px 26px;
 -o-transition: all 0.2s ease;
 -ms-transition: all 0.2s ease;
 transition: all 0.2s ease;
+/*position: sticky;*/
 }/* Blog johanes djogzs.blogspot.com */
 ul.dark_menu li a:hover {
 color: #fafafa;
@@ -152,6 +167,7 @@ border: 1px solid #fff;
 -moz-transition: all 0.5s ease-in-out;
 margin-bottom: -1px;
 position: absolute;
+
 top: 0px;
 right:27px;}
 /*#main4, #main5, #main6 {
@@ -177,136 +193,18 @@ li#sub:hover ul{
 display: block;
 }
 #table-wrapper {
-  position:relative;
+ /* position:relative;*/
+ position: sticky;
 }
-#tscroll {
-  height:90%;
-  overflow:auto;  
-  margin-top:5%;
-}
-
-/*thead, tbody, tr, td, th { display: block; }
-
-        tr:after {
-            content: ' ';
-            display: block;
-            visibility: hidden;
-            clear: both;
-
-        }*/
-        /*tr {
-          width: 100%;
-        }*/
-
-        /*thead th {
-            height: 60px;
-              width: 33%;
-
-            float: left;
-
-            
-        }*/
-
-     /*   tbody {
-            height: 270px;
-            overflow-y: auto;
-        }
-
-        tbody td {
-
-            width: 33%;
-
-            float: left;
-        }*/
-
-/*.table {
-    /
-    border-collapse: collapse;
-    border-spacing: 0;
-    width: 100%;
-    height: 100%;
-}*/
-#tax > thead, tbody {
-  
-    text-align: left;
-    padding: 0px;
-  }
-  #tax > tbody {
-  height: 80%;
-}
-#buttonwidth{
-  width:80px;
-}
-#widthadjust{
-  width: 10%;
-}
-li#name1 {
-    right: -400px;
-    font-size: 27px;
-    font-style: italic;
-} 
-#his{
- margin-left:1150px;
-  margin-top:-90px;
-  color:blue;
-  position:fixed;
-}
- #space{
-  width:15%;
- }
- .panel.panel-default
-{
-  height: 80%;
-  width: 100%;
-  border-style: solid;
-  border-color: black;
-}
-
-        th, td {
-    width: 10px;
-    border: none;
-    text-align: left;
-    padding: 8px;
-    overflow: hidden;
-}
-
-#tscroll {
-  height:90%;
-  overflow:auto;
-   margin-top: 5%;
-   }
-#table-wrapper {
-  position:relative;
-
-}
-
-
-#table-wrapper table thead th .text {
-  position:absolute;   
-  top:-5%;
- height:10%;
-  
-
- }
-
-
-
- </style>
-
- <body  style="background-color:FFE4B5" ng-controller="stockDetailsCntrl" >
-
-<<<<<<< HEAD
- <div class='menujohanes' style="position:sticky;top:0;z-index: 1;">
-        <ul class='dark_menu'>
-          
-<li >
-=======
-<div class='menujohanes'  style="position:sticky;top:0;z-index:1;">
+</style>
+</head>
+<body ng-controller="billreprintCntrl">
+  <!-- {{name}} -->
+<div class='menujohanes'  style="position:sticky;top:0;z-index:1;" >
         
        <ul class='dark_menu' >
           
 <li  >
->>>>>>> c48bfd0e80c9b43602e5680e3278aa853ad3d82f
             <a>
               Transaction &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                
@@ -318,11 +216,7 @@ li#name1 {
                 </a>
               </li>
                <li>
-<<<<<<< HEAD
-                <a href="list.html">
-=======
                 <a href="List.html">
->>>>>>> c48bfd0e80c9b43602e5680e3278aa853ad3d82f
                   List
                 </a>
               </li>
@@ -362,11 +256,7 @@ li#name1 {
                 </li>
 
                <li>
-<<<<<<< HEAD
-                <a href="item.html">
-=======
                 <a href="Item.html">
->>>>>>> c48bfd0e80c9b43602e5680e3278aa853ad3d82f
                   Item
                 </a>
               </li>
@@ -405,37 +295,16 @@ li#name1 {
             </ul>
           </li>
           <li >
-<<<<<<< HEAD
-            <a href='Tax Configuration.html'>
-              Tax Configuration
-            </a>
-           <!--  <a href='#'>
-              Taxation
-            </a>
-            <ul>
-=======
             <a href="Tax Configuration.html">
               Tax Configuration
             </a>
             <!-- <ul>
->>>>>>> c48bfd0e80c9b43602e5680e3278aa853ad3d82f
                 
 
                <li>
                 <a href="indextaxation.html">
                   Tax Structure
                 </a>
-<<<<<<< HEAD
-              </li>
-              <li>
-                <a href="taxation.html">
-                  Tax Name
-                </a>
-              </li>
-             
-              
-            </ul> -->
-=======
               </li> -->
               <!-- <li>
                 <a href="taxation.html">
@@ -445,13 +314,10 @@ li#name1 {
              
               
             <!-- </ul> -->
->>>>>>> c48bfd0e80c9b43602e5680e3278aa853ad3d82f
           </li>
             
         
           </li>
-<<<<<<< HEAD
-=======
           <li >
               <a href="dailyRates.html">
               Daily Rates 
@@ -485,9 +351,8 @@ li#name1 {
               
             </ul>
           </li>
->>>>>>> c48bfd0e80c9b43602e5680e3278aa853ad3d82f
-          <li  id="name1">
-            <a>
+          <li  id="name1" >
+            <a >
              {{usernamedetails}}
                
             </a>
@@ -503,160 +368,150 @@ li#name1 {
           
         </ul>
 
-<<<<<<< HEAD
-        <!-- <form action='/search' id='search' method='get'>
-          <input name='q' placeholder='Search Somethings..' size='40' type='text'/>
-        </form> -->
-        
-      </div>
-     <!--  <div ng-cloak>
-=======
         
         
       </div> 
-           <!--  <div ng-cloak>
->>>>>>> c48bfd0e80c9b43602e5680e3278aa853ad3d82f
-        
-      </div> -->
-   <!-- <div class="btn-group btn-group-justified">
-   <a href="index.html" ><button type="button" class="btn btn-primary">Main</button></a>
-  <a href="list.html" > <button type="button" class="btn btn-primary">List</button></a>
-  
-</div> --> 
- <div  class="center" ng-cloak>
-  <h3 >Stock Verification</h3>
-    <!-- <a href="index1.html" class="btn btn-primary active">Main</a>
-    <a href="list.html" class="btn btn-primary">List</a> -->
-   
-  </div> <br><br><br>
-
-  <div class="col-sm-2">
-Group: <select ng-model="item.InvGroupName" ng-change="clearData()" ng-init="item.InvGroupName='Gold Ornaments'">
-       <option ng-repeat="pure in inventorygroupmaster1" >{{pure.InvGroupName}}</option>
-       </select>
-  
-  </div> 
-  <div class="col-sm-2">
-
-   Category: <select ng-model="item.SaleCategory" ng-change="clearData()"  ng-init="item.SaleCategory=' Baby Kada'">
-      <option ng-repeat="TypeName in salescategorymaster1 | orderBy : 'SaleCategoryType'" > {{TypeName.SaleCategoryType}}</option>
-    </select>
-    </div>
-
-  
+  <div class=row id="thrid">
+  <article>
+  <div id="myDIV" style="margin-left:150px;margin-top:35px;" >
+  <header >
+    <h4 ng-cloak>{{ShopName}}</h4>
+    <p ng-cloak>{{Landmark }}<br>{{Street}}<br>{{Place}}<br>{{Phone}}{{Mobile}} <br>{{email}}</p>
+    </p>
+  </header>
+</div>
+</article>
+<hr>
+<h3 align="center" ng-cloak>Receipt</h3>
+<div class="row">
+  <!-- {{names}} -->
+<!-- <div class="col-sm-10" >
+<p ng-cloak>Party Name:{{partyname}} <br>
+Party License:{{partyLicense}}<br>
+Party PAN:{{partyPAN}}<br>
+Party Address:{{city}}<br>
+City:{{city}}</p>
  
-  
-<div class="col-sm-3">
- code:<input type="text" ng-model="item.barcode"  >
-   </div>
-  
-<div class="col-sm-4">
-    <button ng-click = "groupAndCategory(item.barcode);" class="btn btn-primary"  >List</button>
-    <button ng-click="resetCall(sortedBarcodeDataItems)" class="btn btn-primary" id="save" >Reset</button>
-    <!-- <a href='mainpage.html'><button type="button" class="btn btn-danger"   ng-cloak>Close</button></a> -->
+</div> -->
+<div ng-cloak style="margin-left:900px;margin-right:100px;color:black">Bill No:{{reprintBillNo}}
+  <br>
+  <!-- <p>Invoice No:B1393<br> -->
+   <p>Invoice No:{{respectiveVoucherno}}<br>
+  Date:{{reprintdate | date:"dd-MM-yyyy" }}</p>
+</div>
+<hr>
+</div>
 
-    </div>
+<div class="col-sm-8" style="margin-left:135px;background-color: white;" ng-cloak  >
 
+
+  <table class="table" style="background-color: white;" id="maintable" ng-cloak >
+      
+                  <thead>
+                    <tr>
+                      <th id="d1">Mode</th>
+                      <th id="d1">Bank</th>
+                      <th id="d1">ChequeNo</th>
+                      <th id="d1"> Date</th>
+                      <th id="d1">CardNo</th>
+                      <th id="d1"> CardType</th>
+                      <th id="d1">ApprovalNo</th>
+                      <th id="d1">Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody  >
+            <tr ng-repeat="x in resdata" >  
+         <td id="d1">{{x.Mode}}</td>
+         <td id="d1">{{x.Bank}}</td>
+         <td id="d1">{{x.ChequeNo}}</td>
+         <td  id="d1">{{x.Date | date:"dd-MM-yyyy"}}</td>
+         <td id="d1">{{x.CardNo}}</td>
+         <td id="d1">{{x.CardType}}</td>
+         <td  id="d1">{{x.ApprovalNo}}</td>
+         <td id="d1">{{x.Amount.$numberDecimal}}</td>
+       </tr>
+       </tbody>
+       <tfoot>
+        <tr>
+          <td id="d1"><b>Amount</b></td>
+          <td id="d1">{{}}</td>
+          <td id="d1">{{}}</td>
+          <td id="d1">{{}}</td>
+          <td id="d1">{{}}</td>
+          <td id="d1">{{}}</td>
+          <td id="d1">{{}}</td>
+          <td id="d1"><b>{{totalAmts.$numberDecimal}}</b></td>
+        </tr>
+        </tfoot>
+         </table>
+
+</div>
+</div>
+<br>
+<h4 style="margin-left:135px;"ng-cloak><font color="black">Receipt Amount In Words:{{wor}}{{"only"}}</h4>
 
 <br>
-    <br>
+<br>
+<table>
+ <tr> 
+ <!-- <p> -->
+  <td style="padding:0 450px 0 130px;margin-left:135px;"><b>Party Signature</b></td>
+  <td style="margin-right:100px;"><b>For  {{ShopName}}</b></td>
+<!-- </p> -->
+</tr>
+</table>
+<!-- <div style="margin-top:50px;margin-left:900px;">
+<button class="btn btn-primary"  onclick="exportPDF()">Print</button>
+</div> -->
+
+<!-- id="cmd" -->
+
+
+</body
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+     
+    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>
+   // <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script> -->
+        <!-- <body> -->
+        <script type="text/javascript">
+//     $(document).ready(function(){
+//         var specialElementHandlers = {
+//             '#editor': function (element,renderer) {
+//                 return true;
+//             }
+//         };
+//         $('#cmd').click(function () {
+//           alert("pdf");
+//             var doc = new jsPDF( "landscape","pt","a4");
+//             // doc.autoTable(columns, rows);
+//             var dt = new Date();
+//     var day = dt.getDate();
+//     var month = dt.getMonth() + 1;
+//     var year = dt.getFullYear();
+//     // var hour = dt.getHours();
+//     // var mins = dt.getMinutes();
+//     var postfix = day + "." + month + "." + year;
+//      // var data_type = 'data:GroupWise.pdf';
+//             var source = $('#thrid').html();
+//             var specialElementHandlers = {
+//                 '#bypassme': function (element, renderer) {
+//                     return true;
+//                 }
+                
+//             };
+//             doc.fromHTML(source, 0, 0, {
+//                               width: '100%',
+//                 'elementHandlers': specialElementHandlers
+//               // }
+//             });
+//              doc.save('History-'+postfix+'.pdf');
+//         });
+//     });
+// </script> 
+<script type="text/javascript" src="controller/receipt.js"></script>   
+      <script type="text/javascript" src="Services/ControllerService.js"></script>
+ <!-- </script> -->
  
-  <div class="col-sm-6">
-
- <div class="panel panel-default" >
-
-  <div id="table-wrapper">
-  <div id="tscroll">
-   
-  
-  <table class ="table no-border" >
-    <thead>
-          <tr  >
-           <th><span class="text">Code</span></th>
-          <th><span class="text">Item</span></th>
-      <th id="space"><span class="text">Pieces</span></th>
-            <th ><span class="text">Scale Wt</span></th>
-              <th id="space"><span class="text">Value</span></th>
-         
-           </tr >
-
-           <tr ng-repeat="items in displayBarcoded"> 
-             <td>{{items.refid}}</td>
-             <td>{{items.itemName}}</td>
-             <td id="space">{{items.gpcs}}</td>
-             <td>{{items.gwt | number:3}}</td>
-             <td id="space">{{items.taxval | number:2}}</td>
-           </tr>
-     </thead>
-   </table>
- </div>
-</div>
- </div>
-</div>
-
-
-
-  <div class="col-sm-6">
- <div class="panel panel-default">
-  <div id="table-wrapper">
-  <div id="tscroll">
-  <table class="table no-border" id="barcode">
-
-
-    <thead>
-          <tr >
-           <th><span class="text">Code</span></th>
-          <th><span class="text">Item</span></th>
-      <th><span class="text">Pieces</span></th>
-            <th ><span class="text">Scale Wt</span></th>
-              <th><span class="text">Value</span></th>
-         
-           </tr>
-           <tr ng-repeat="items in sortedBarcodeDataItems"> 
-             <td>{{items.refid }}</td>
-             <td>{{items.itemName }}</td>
-             <td id="space">{{items.gpcs}}</td>
-             <td>{{items.gwt | number:3}}</td>
-             <td id="space">{{items.taxval | number:2}}</td>
-           </tr>
-     </thead>
-   </table>
- </div>
-</div>
-</div>
-</div>
-
-  <!-- <div class="row"> -->
-  <div class="col-sm-1">
-ItemsListed:{{itemsListedTotal}}
-  </div> 
-  <div class="col-sm-2">
- ItemsFound:{{itemsFound| number:0}}
-  
-    </div>
-      <div class="col-sm-2"> 
-      FoundScaleWt:{{foundScaleWt | number:3}}
-  </div >
-
-   <div class="col-sm-2">
-     FoundPieces: {{foundPieces | number:0}}
-    </div>
-    <div class="col-sm-2">
-     TotalScaleWt: {{totalScaleWt | number:3}}
-    </div>
-    <div class="col-sm-2">
-     TotalScale: {{totalScale | number:0}}
-    </div>
-      
-      <!-- <div class="col-sm-1">
-
-  
-    </div> -->
-  <!-- </div> -->
-   
-    </body>
-      
- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
-<script type="text/javascript" src="controller/stockverification.js"></script> 
-
- </html>
+ <!-- </script>   -->
+</html>

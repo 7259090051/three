@@ -3,15 +3,38 @@ myApp.controller('loginCntrl',['$scope','$http','$rootScope',
 function($scope,$http,$rootScope){
 	//alert("login call")
 	var validation = 0;	
+	var dailyRateCall = false;
 	var name = null;
 	var desgination = null;
+	$http.get('/getinventorygroupvaluenotationlast').success(function(response){
+		console.log(response[0].date);
+		//compareDate = new Date();
+		// var lastDate  = new Date(((new Date(response[0].date).toISOString().slice(0, 23))+"-05:30")).toISOString();
+     	var lastDate  = response[0].date;
+		 var currentDate  = new Date(((new Date().toISOString().slice(0, 23))+"-05:30")).toISOString();
+     
+		console.log(currentDate+" "+lastDate);
+		 // console.log($scope.bit1.date2)
+   //   console.log(Date.parse($scope.bit1.date2) )
+   		currentDate = currentDate.slice(0,10);
+   		lastDate = lastDate.slice(0,10);
+   		console.log(currentDate+" "+lastDate);
+
+      if (Date.parse(currentDate) != Date.parse(lastDate )) {
+            //alert("Invalid Date Range!\nFrom Date cannot be after To Date!")
+            dailyRateCall = false;
+        }else{
+        	//alert(" ok proceed ")
+        	dailyRateCall = true;
+        }
+	})
 	$scope.loginCall = function(){
 		$scope.failure = false;
 		
 		$http.get('/getLoginDetails',{params:{"password":$scope.password,"username":$scope.username}}).success(function(response){
-			console.log(response[0].name);
-			console.log(response[0].desgination);
-			console.log(response.length);
+			// console.log(response[0].name);
+			// console.log(response[0].desgination);
+			// console.log(response.length);
 			// $rootScope.name = response[0].name;
 			// console.log($rootScope.name)
 			
@@ -47,8 +70,10 @@ function($scope,$http,$rootScope){
 		}
 	}
 	$scope.loginValidateCall = function(){
-		if(validation == 1){
+		 window.sessionStorage.setItem("username",name);
+		 window.sessionStorage.setItem("desgination",desgination);
 				
+<<<<<<< HEAD
 				//console.log($rootScope.name)
 				 window.sessionStorage.setItem("username",name);
 				 window.sessionStorage.setItem("desgination",desgination);
@@ -58,6 +83,19 @@ function($scope,$http,$rootScope){
 				//alert("Please check Details again")
 				$scope.failure = true;
 			}
+=======
+		if(validation == 1 && dailyRateCall == false){
+				// alert("Please check Details Daily again")
+				$scope.myloginlink = "dailyRates.html";
+				
+		}else if (validation == 1 && dailyRateCall == true){
+				// alert("Please check Details Ttt again")
+				$scope.myloginlink = "Transaction.html";
+				
+		}else{
+			$scope.failure = true;
+		}
+>>>>>>> c48bfd0e80c9b43602e5680e3278aa853ad3d82f
 
 	}
 
